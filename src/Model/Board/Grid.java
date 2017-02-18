@@ -1,4 +1,4 @@
-package Board;
+package Model.Board;
 
 /**
  * Created by Eriwyr on 18/02/2017.

@@ -1,4 +1,4 @@
-package Board;
+package Model.Board;
 
 /**
  * Created by Eriwyr on 18/02/2017.
@@ -14,7 +14,7 @@ public class Cell {
     public void setEmpty(Boolean empty) {
         this.empty = empty;
     }
-    
+
     public Boolean isEmpty() {
         return empty;
     }

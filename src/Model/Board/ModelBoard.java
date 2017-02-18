@@ -1,6 +1,6 @@
-package Board;
+package Model.Board;
 
-import Piece.Piece;
+import Model.Piece.Piece;
 
 import java.util.List;
 import java.util.Observable;

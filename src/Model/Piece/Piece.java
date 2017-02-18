@@ -1,4 +1,4 @@
-package Piece;
+package Model.Piece;
 import java.util.List;
 
 /**
@@ -7,5 +7,4 @@ import java.util.List;
 public class Piece {
     protected List<Position> shape;
     protected Position center;
-
 }
