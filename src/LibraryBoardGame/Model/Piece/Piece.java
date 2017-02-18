@@ -1,4 +1,4 @@
-package Model.Piece;
+package LibraryBoardGame.Model.Piece;
 import java.util.List;
 
 /**
@@ -26,5 +26,9 @@ public class Piece {
             ok =true;
         }
         return ok;
+    }
+
+    public List<Position> getShape() {
+        return shape;
     }
 }

@@ -1,4 +1,4 @@
-package ViewController;
+package LibraryBoardGame.ViewController;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

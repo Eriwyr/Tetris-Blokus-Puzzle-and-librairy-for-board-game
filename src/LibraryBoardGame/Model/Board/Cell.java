@@ -1,4 +1,4 @@
-package Model.Board;
+package LibraryBoardGame.Model.Board;
 
 /**
  * Created by Eriwyr on 18/02/2017.
