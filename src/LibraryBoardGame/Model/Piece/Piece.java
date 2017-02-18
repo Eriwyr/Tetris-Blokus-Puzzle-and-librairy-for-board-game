@@ -8,9 +8,9 @@ public class Piece {
     protected List<Position> shape;
     protected Position center;
 
-    public Piece(List<Position> shape, Position center) {
+    public Piece(List<Position> shape) {
         this.shape = shape;
-        this.center = center;
+        //this.center = center;
     }
 
     public void addBox(Position p){

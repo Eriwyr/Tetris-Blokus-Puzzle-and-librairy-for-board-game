@@ -3,6 +3,7 @@ package LibraryBoardGame.Model.Board;
 import LibraryBoardGame.Model.Piece.Piece;
 import LibraryBoardGame.Model.Piece.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -21,31 +22,46 @@ public class ModelBoard extends Observable{
         this.pieces = pieces;
     }
 
+    public ModelBoard(int x, int y){
+        this.grid = new Grid(x,y);
+        pieces = new ArrayList<Piece>();
+    }
     public void movePiece(Piece piece, Direction direction) {
         switch (direction) {
             case Left:
                 for (Position position : piece.getShape()) {
                     position.setX(position.getX() - 1);
                 }
+                setChanged();
+                notifyObservers();
+
                 break;
 
             case Right:
                 for (Position position : piece.getShape()) {
                     position.setX(position.getX() + 1);
                 }
+                setChanged();
+                notifyObservers();
                 break;
 
             case Up:
                 for (Position position : piece.getShape()) {
                     position.setY(position.getY() - 1);
                 }
+                setChanged();
+                notifyObservers();
                 break;
 
             case Down:
                 for (Position position : piece.getShape()) {
                     position.setY(position.getY() + 1);
                 }
+                setChanged();
+                notifyObservers();
                 break;
+
+
 
         }
     }
@@ -54,6 +70,8 @@ public class ModelBoard extends Observable{
         for (Position position:positions){
             grid.getCellXY(position).setEmpty(true);
         }
+        setChanged();
+        notifyObservers();
 
     }
 
@@ -61,6 +79,19 @@ public class ModelBoard extends Observable{
         for (Position position: piece.getShape()){
             grid.getCellXY(position).setEmpty(true);
         }
+        setChanged();
+        notifyObservers();
+}
+
+    public List<Piece> getPieces(){
+        return pieces;
+    }
+
+    public void addPiece(Piece piece){
+        pieces.add(piece);
+        setChanged();
+        notifyObservers();
+
     }
 
 }
