@@ -31,6 +31,7 @@ public class ModelBoard extends Observable{
             case Left:
                 for (Position position : piece.getShape()) {
                     position.setX(position.getX() - 1);
+                    //grid.getCellXY(position).setEmpty(true);
                 }
                 setChanged();
                 notifyObservers();
@@ -40,6 +41,7 @@ public class ModelBoard extends Observable{
             case Right:
                 for (Position position : piece.getShape()) {
                     position.setX(position.getX() + 1);
+                    //grid.getCellXY(position).setEmpty(true);
                 }
                 setChanged();
                 notifyObservers();
@@ -48,6 +50,7 @@ public class ModelBoard extends Observable{
             case Up:
                 for (Position position : piece.getShape()) {
                     position.setY(position.getY() - 1);
+                    //grid.getCellXY(position).setEmpty(true);
                 }
                 setChanged();
                 notifyObservers();
@@ -56,6 +59,7 @@ public class ModelBoard extends Observable{
             case Down:
                 for (Position position : piece.getShape()) {
                     position.setY(position.getY() + 1);
+                    //
                 }
                 setChanged();
                 notifyObservers();

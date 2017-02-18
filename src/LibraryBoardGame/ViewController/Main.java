@@ -62,6 +62,7 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
                 model.addPiece(piece);
+                model.movePiece(piece, ModelBoard.Direction.Right);
             }
 
         });
