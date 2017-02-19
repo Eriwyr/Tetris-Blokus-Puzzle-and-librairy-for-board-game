@@ -6,15 +6,19 @@ import LibraryBoardGame.Model.Piece.Position;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import javax.swing.border.Border;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -30,6 +34,11 @@ public class Main extends Application {
         // permet de placer les diffrents boutons dans une grille
         GridPane gPane = new GridPane();
 
+        ToolBar toolbar = new ToolBar();
+        HBox statusbar = new HBox();
+        borderP.setTop(toolbar);
+        borderP.setBottom(statusbar);
+        borderP.setCenter(gPane);
 
         model = new ModelBoard(10,10);
         List<Position> pos;
