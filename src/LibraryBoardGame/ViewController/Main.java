@@ -2,6 +2,7 @@ package LibraryBoardGame.ViewController;
 
 import LibraryBoardGame.Model.Board.ModelBoard;
 import LibraryBoardGame.Model.Piece.Piece;
+import LibraryBoardGame.Model.Piece.PieceFactory;
 import LibraryBoardGame.Model.Piece.Position;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -32,17 +33,15 @@ public class Main extends Application {
 
 
         model = new ModelBoard(10,10);
-        List<Position> pos;
-        pos = new ArrayList<Position>();
-        pos.add(new Position(0,0));
-        pos.add(new Position(1,0));
-        Piece piece = new Piece(pos);
+
+        PieceFactory pieceFactory = new PieceFactory();
+        Piece piece = pieceFactory.getPiece("tetris");
         model.addObserver(new Observer() {
 
             @Override
             public void update(Observable o, Object arg) {
                 for (Piece piece: model.getPieces()){
-                    for (Position position: piece.getShape()                     ) {
+                    for (Position position: piece.getShape()) {
                         System.out.println("oIQSHD");
                         Rectangle r = new Rectangle();
                         r.setX(position.getX()*30);
@@ -73,6 +72,21 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        launch(args);
+
+        // launch(args);
+        ModelBoard model = new ModelBoard(10,10);
+        System.out.println("avant");
+        model.getGrid().Display();
+        PieceFactory pieceFactory = new PieceFactory();
+        Piece piece = pieceFactory.getPiece("tetris");
+
+        model.addPieceOnBoard(piece);
+        System.out.println("après ");
+        model.getGrid().Display();
+
+        System.out.println();
+        model.movePiece(piece, ModelBoard.Direction.Down);
+        model.getGrid().Display();
+
     }
 }

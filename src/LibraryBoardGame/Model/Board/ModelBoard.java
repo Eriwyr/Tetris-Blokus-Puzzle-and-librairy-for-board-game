@@ -22,11 +22,17 @@ public class ModelBoard extends Observable{
         this.pieces = pieces;
     }
 
+    public Grid getGrid() {
+        return grid;
+    }
+
     public ModelBoard(int x, int y){
         this.grid = new Grid(x,y);
         pieces = new ArrayList<Piece>();
     }
+
     public void movePiece(Piece piece, Direction direction) {
+        removePiece(piece);
         switch (direction) {
             case Left:
                 for (Position position : piece.getShape()) {
@@ -64,20 +70,13 @@ public class ModelBoard extends Observable{
                 setChanged();
                 notifyObservers();
                 break;
-
-
-
         }
+
+        addPieceOnBoard(piece);
+
     }
 
-    public void emptyCell(List<Position> positions){
-        for (Position position:positions){
-            grid.getCellXY(position).setEmpty(true);
-        }
-        setChanged();
-        notifyObservers();
-
-    }
+    
 
     public void removePiece(Piece piece){
         for (Position position: piece.getShape()){
@@ -97,5 +96,14 @@ public class ModelBoard extends Observable{
         notifyObservers();
 
     }
+
+    public void addPieceOnBoard(Piece piece) {
+        for (Position position :piece.getShape()) {
+            grid.setCellXY(position, false);
+        }
+        setChanged();
+        notifyObservers();
+    }
+
 
 }
