@@ -43,8 +43,9 @@ public class Main extends Application {
 
         model = new ModelBoard(10,10);
 
-        PieceFactory pieceFactory = new PieceFactory();
-        Piece piece = pieceFactory.getPiece("tetris");
+       // PieceFactory pieceFactory = new PieceFactory();
+        //Piece piece = pieceFactory.getPiece("tetris");
+      //  Piece piece = new Piece()
         model.addObserver(new Observer() {
 
             @Override
@@ -86,7 +87,7 @@ public class Main extends Application {
         ModelBoard model = new ModelBoard(10,10);
         System.out.println("avant");
         model.getGrid().Display();
-        PieceFactory pieceFactory = new PieceFactory();
+      /*  PieceFactory pieceFactory = new PieceFactory();
         Piece piece = pieceFactory.getPiece("tetris");
 
         model.addPieceOnBoard(piece);
@@ -94,8 +95,12 @@ public class Main extends Application {
         model.getGrid().Display();
 
         System.out.println();
-        model.movePiece(piece, ModelBoard.Direction.Down);
+        model.rotatePiece(piece, 1);
         model.getGrid().Display();
+
+        System.out.println();
+        model.rotatePiece(piece, 1);
+        model.getGrid().Display(); */
 
     }
 }

@@ -13,6 +13,11 @@ public class Piece {
         //this.center = center;
     }
 
+    public Piece(List<Position> shape, Position center) {
+        this.shape = shape;
+        this.center = center;
+    }
+
     public void addBox(Position p){
         //TODO add correct verification
         shape.add(p);
@@ -26,6 +31,10 @@ public class Piece {
             ok =true;
         }
         return ok;
+    }
+
+    public Position getCenter() {
+        return center;
     }
 
     public List<Position> getShape() {

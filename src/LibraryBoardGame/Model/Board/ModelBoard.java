@@ -17,6 +17,7 @@ public class ModelBoard extends Observable{
     public enum Direction{
         Left, Right, Up, Down;
     }
+
     public ModelBoard(Grid grid, List<Piece> pieces) {
         this.grid = grid;
         this.pieces = pieces;
@@ -76,7 +77,7 @@ public class ModelBoard extends Observable{
 
     }
 
-    
+
 
     public void removePiece(Piece piece){
         for (Position position: piece.getShape()){
@@ -104,6 +105,51 @@ public class ModelBoard extends Observable{
         setChanged();
         notifyObservers();
     }
+/*
+    public void rotatePiece(Piece piece, int rotation) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
+        removePiece(piece);
+        int temp =0;
+        int removeCenterX;
+        int removeCenterY;
+        if (rotation == 1) {
+            for (Position position : piece.getShape()) {
+                System.out.println("old position :"+ position.getX()+ " "+ position.getY());
 
 
+              //  removeCenterX = position.getX() - piece.getCenter().getX();
+             //   removeCenterY = position.getY() - piece.getCenter().getY();
+
+                // extchange
+
+                //temp = removeCenterY;
+                temp =  position.getY() - piece.getCenter().getY();
+                removeCenterY = position.getX() - piece.getCenter().getX();;
+                removeCenterX = temp;
+
+                System.out.println("extchange : "+removeCenterX + " "+ removeCenterY );
+                //add centers
+                removeCenterX = removeCenterX+piece.getCenter().getX();
+
+                removeCenterY = removeCenterY+piece.getCenter().getY();
+                System.out.println("added center  : "+removeCenterX + " "+ removeCenterY );
+
+
+
+                position.setX(removeCenterX);
+                position.setY(removeCenterY);
+                System.out.println("new position :"+ position.getX()+ " "+ position.getY());
+
+            }
+
+        } else {
+
+        }
+
+
+
+
+        addPieceOnBoard(piece);
+
+    }
+    */
 }
