@@ -50,8 +50,7 @@ public class ModelBoard extends Observable{
                     position.setX(position.getX() - 1);
                     //grid.getCellXY(position).setEmpty(true);
                 }
-                setChanged();
-                notifyObservers();
+
 
                 break;
 
@@ -60,8 +59,7 @@ public class ModelBoard extends Observable{
                     position.setX(position.getX() + 1);
                     //grid.getCellXY(position).setEmpty(true);
                 }
-                setChanged();
-                notifyObservers();
+
                 break;
 
             case Up:
@@ -69,8 +67,7 @@ public class ModelBoard extends Observable{
                     position.setY(position.getY() - 1);
                     //grid.getCellXY(position).setEmpty(true);
                 }
-                setChanged();
-                notifyObservers();
+
                 break;
 
             case Down:
@@ -78,11 +75,11 @@ public class ModelBoard extends Observable{
                     position.setY(position.getY() + 1);
                     //
                 }
-                setChanged();
-                notifyObservers();
+
                 break;
         }
-
+        setChanged();
+        notifyObservers();
         addPieceOnBoard(piece);
 
     }
