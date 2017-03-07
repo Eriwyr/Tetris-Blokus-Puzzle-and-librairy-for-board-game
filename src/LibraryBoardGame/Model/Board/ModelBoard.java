@@ -30,6 +30,16 @@ public class ModelBoard extends Observable{
     public ModelBoard(int x, int y){
         this.grid = new Grid(x,y);
         pieces = new ArrayList<Piece>();
+
+        List<Position> shape2 = new ArrayList<Position>();
+        Piece piece2 = new Piece(shape2);
+
+        shape2.add(new Position(5, 5));
+        shape2.add(new Position(5, 6));
+        shape2.add(new Position(5, 7));
+
+        pieces.add(piece2);
+
     }
 
     public void movePiece(Piece piece, Direction direction) {
@@ -83,8 +93,8 @@ public class ModelBoard extends Observable{
         for (Position position: piece.getShape()){
             grid.getCellXY(position).setEmpty(true);
         }
-        setChanged();
-        notifyObservers();
+       /* setChanged();
+        notifyObservers();*/
 }
 
     public List<Piece> getPieces(){
@@ -102,8 +112,10 @@ public class ModelBoard extends Observable{
         for (Position position :piece.getShape()) {
             grid.setCellXY(position, false);
         }
+        /*
         setChanged();
         notifyObservers();
+        */
     }
 /*
     public void rotatePiece(Piece piece, int rotation) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
