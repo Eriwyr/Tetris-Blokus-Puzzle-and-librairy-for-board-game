@@ -161,8 +161,12 @@ public class Main extends Application {
                         System.out.println("ancien X Y = "+X+" "+Y);
                         */
 
+
+
                         pieceView.getShapeView().get(y).setX( piece.getShape().get(y).getX());
                         pieceView.getShapeView().get(y).setY( piece.getShape().get(y).getY());
+
+
 /*
                         int  Xbis= (int)pieceView.getShapeView().get(y).getX();
                         int Ybis = (int)pieceView.getShapeView().get(y).getY();
@@ -176,7 +180,7 @@ public class Main extends Application {
 
 
 */
-                       // gPane.getChildren().remove(pieceView.getShapeView().get(y));
+                        gPane.getChildren().remove(pieceView.getShapeView().get(y));
 
 
 
@@ -187,7 +191,7 @@ public class Main extends Application {
                         System.out.println("position children  int : "+(int)pieceView.getShapeView().get(y).getX()+ " "+(int)pieceView.getShapeView().get(y).getY());
 */
 
-                      //  gPane.add(pieceView.getShapeView().get(y), (int)pieceView.getShapeView().get(y).getX(), (int)pieceView.getShapeView().get(y).getY());
+                        gPane.add(pieceView.getShapeView().get(y), (int)pieceView.getShapeView().get(y).getX(), (int)pieceView.getShapeView().get(y).getY());
 
                         // for (Rectangle rectangle : pieceView.getShapeView()) {
                         // gPane.clearConstraints(rectangle);
