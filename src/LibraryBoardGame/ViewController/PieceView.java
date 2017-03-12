@@ -37,7 +37,6 @@ public class PieceView {
 
     public void Display() {
         for (Rectangle rectangle: shapeView) {
-            System.out.println("x : "+rectangle.getX()+" Y : "+rectangle.getY());
         }
     }
     /*
