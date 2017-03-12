@@ -14,7 +14,7 @@ public class Grid {
     }
 
     public Grid(int x, int y){
-        System.out.println("contructor ");
+       // System.out.println("contructor ");
         this.tabCell = new Cell[x][y];
         //System.out.println("type : "+ this.tabCell[0][0].getClass());
 
@@ -22,7 +22,7 @@ public class Grid {
             for (int j = 0; j<y; j++) {
                 tabCell[i][j] = new Cell(true);
                 //tabCell[i][j].setEmpty(true);
-                System.out.println("type : "+ this.tabCell[i][j].getClass());
+                //System.out.println("type : "+ this.tabCell[i][j].getClass());
             }
         }
     }

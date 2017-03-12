@@ -1,4 +1,7 @@
 package LibraryBoardGame.Model.Piece;
+import javafx.geometry.Pos;
+import sun.jvm.hotspot.runtime.posix.POSIXSignals;
+
 import java.util.List;
 
 /**
@@ -11,6 +14,11 @@ public class Piece {
     public Piece(List<Position> shape) {
         this.shape = shape;
         //this.center = center;
+    }
+
+    public Piece(List<Position> shape, Position center) {
+        this.shape = shape;
+        this.center = center;
     }
 
     public void addBox(Position p){
@@ -28,7 +36,17 @@ public class Piece {
         return ok;
     }
 
+    public Position getCenter() {
+        return center;
+    }
+
     public List<Position> getShape() {
         return shape;
     }
+
+    public void Display() {
+        for (Position position : shape) {
+        }
+    }
+
 }
