@@ -46,7 +46,13 @@ public class ModelBoard extends Observable{
         removePiece(piece);
         switch (direction) {
             case Left:
+            //    list nouvelPositions : piece.Calculesaposition
+
+
+
+
                 for (Position position : piece.getShape()) {
+
                     position.setX(position.getX() - 1);
                     //grid.getCellXY(position).setEmpty(true);
                 }
