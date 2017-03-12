@@ -49,7 +49,6 @@ public class Piece {
 
     public void Display() {
         for (Position position : shape) {
-            System.out.println("X : "+position.getX()+" Y : "+position.getY());
         }
     }
 
