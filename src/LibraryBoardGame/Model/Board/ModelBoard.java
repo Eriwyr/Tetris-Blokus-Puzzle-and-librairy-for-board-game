@@ -51,20 +51,24 @@ public class ModelBoard extends Observable{
             try {
                 if(!grid.getCellXY(position).isEmpty()){
                     available = false;
+                    System.out.println(position.getX()+" "+position.getY()+" is not empty");
                     break;
                 }
             }
             catch(ArrayIndexOutOfBoundsException e){
+                System.out.println(position.getX()+" "+position.getY()+" is out of bound");
                 available = false;
             }
         }
 
         if(available){
             piece.setShape(anticipatePos);
+            System.out.println("all good");
         }
 
         setChanged();
         notifyObservers();
+
         addPieceOnBoard(piece);
 
     }
