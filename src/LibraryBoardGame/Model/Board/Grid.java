@@ -8,12 +8,17 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
  */
 public class Grid {
     private Cell[][] tabCell;
+    private int sizeX;
+    private int sizeY;
+
 
     public Grid(Cell[][] grid) {
         this.tabCell = grid;
     }
 
     public Grid(int x, int y){
+        sizeX=x;
+        sizeY=y;
        // System.out.println("contructor ");
         this.tabCell = new Cell[x][y];
         //System.out.println("type : "+ this.tabCell[0][0].getClass());
@@ -33,6 +38,14 @@ public class Grid {
 
     public Cell getCellXY(Position position){
         return tabCell[position.getX()][position.getY()];
+    }
+
+    public int getSizeX() {
+        return sizeX;
+    }
+
+    public int getSizeY() {
+        return sizeY;
     }
 
     public void Display() {

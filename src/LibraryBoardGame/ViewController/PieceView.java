@@ -17,7 +17,12 @@ public class PieceView {
     //private Piece piece;
     // private Position center;
 
-    List<Rectangle> shapeView;
+    protected List<Rectangle> shapeView;
+
+    public PieceView() {
+        shapeView = new ArrayList<Rectangle>();
+
+    }
 
     public PieceView(Piece piece) {
         shapeView = new ArrayList<Rectangle>();

@@ -21,6 +21,11 @@ public class ModelBoard extends Observable{
         this.pieces = pieces;
     }
 
+    public ModelBoard() {
+        grid = new Grid(10, 10);
+        pieces = new ArrayList<Piece>();
+    }
+
     public Grid getGrid() {
         return grid;
     }
@@ -106,9 +111,22 @@ public class ModelBoard extends Observable{
         notifyObservers();
         */
     }
-/*
+
+    public void emptyCell(Position position, Piece piece) {
+        grid.setCellXY(position, false);
+        for (Position cell : piece.getShape()) {
+            if (position.getX() == cell.getX() && position.getY() == cell.getY()) {
+                piece.getShape().remove(position);
+            }
+        }
+        setChanged();
+        notifyObservers();
+
+
+    }
+
     public void rotatePiece(Piece piece, int rotation) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
-        removePiece(piece);
+    /*    removePiece(piece);
         int temp =0;
         int removeCenterX;
         int removeCenterY;
@@ -150,7 +168,7 @@ public class ModelBoard extends Observable{
 
 
         addPieceOnBoard(piece);
-
+*/
     }
-    */
+
 }
