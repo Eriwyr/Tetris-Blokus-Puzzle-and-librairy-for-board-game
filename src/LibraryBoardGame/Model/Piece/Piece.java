@@ -58,8 +58,8 @@ public class Piece {
         switch (direction) {
             case Left:
                 for (Position position : shape) {
-                    position.setX(position.getX() - 1);
-                    anticipatePosition.add(position);
+
+                    anticipatePosition.add(new Position(position.getX() - 1, position.getY()));
                 }
 
 
@@ -67,24 +67,24 @@ public class Piece {
 
             case Right:
                 for (Position position : shape) {
-                    position.setX(position.getX() + 1);
-                    anticipatePosition.add(position);
+
+                    anticipatePosition.add(new Position(position.getX() + 1, position.getY()));
                 }
 
                 break;
 
             case Up:
                 for (Position position : shape) {
-                    position.setY(position.getY() - 1);
-                    anticipatePosition.add(position);
+
+                    anticipatePosition.add(new Position(position.getX(), position.getY() - 1));
                 }
 
                 break;
 
             case Down:
                 for (Position position : shape) {
-                    position.setY(position.getY() + 1);
-                    anticipatePosition.add(position);
+
+                    anticipatePosition.add(new Position(position.getX(), position.getY() + 1));
                 }
 
                 break;

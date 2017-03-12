@@ -68,7 +68,10 @@ public class ModelBoard extends Observable{
 
         setChanged();
         notifyObservers();
-
+        System.out.println("Positions sent to notify : ");
+        for (Position position : piece.getShape()){
+            System.out.println(position.getX()+" "+position.getY());
+        }
         addPieceOnBoard(piece);
 
     }
