@@ -1,7 +1,9 @@
 package LibraryBoardGame.Model.Board;
 
+import LibraryBoardGame.Model.Direction;
 import LibraryBoardGame.Model.Piece.Piece;
 import LibraryBoardGame.Model.Piece.Position;
+import javafx.geometry.Pos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +15,6 @@ import java.util.Observable;
 public class ModelBoard extends Observable{
     private Grid grid;
     private List<Piece> pieces;
-
-    public enum Direction{
-        Left, Right, Up, Down;
-    }
 
     public ModelBoard(Grid grid, List<Piece> pieces) {
         this.grid = grid;
@@ -44,40 +42,27 @@ public class ModelBoard extends Observable{
 
     public void movePiece(Piece piece, Direction direction) {
         removePiece(piece);
-        switch (direction) {
-            case Left:
-                for (Position position : piece.getShape()) {
-                    position.setX(position.getX() - 1);
-                    //grid.getCellXY(position).setEmpty(true);
+        boolean available = true;
+        List<Position> anticipatePos;
+
+        anticipatePos = piece.anticipationCalc(direction);
+
+        for (Position position: anticipatePos){
+            try {
+                if(!grid.getCellXY(position).isEmpty()){
+                    available = false;
+                    break;
                 }
-
-
-                break;
-
-            case Right:
-                for (Position position : piece.getShape()) {
-                    position.setX(position.getX() + 1);
-                    //grid.getCellXY(position).setEmpty(true);
-                }
-
-                break;
-
-            case Up:
-                for (Position position : piece.getShape()) {
-                    position.setY(position.getY() - 1);
-                    //grid.getCellXY(position).setEmpty(true);
-                }
-
-                break;
-
-            case Down:
-                for (Position position : piece.getShape()) {
-                    position.setY(position.getY() + 1);
-                    //
-                }
-
-                break;
+            }
+            catch(ArrayIndexOutOfBoundsException e){
+                available = false;
+            }
         }
+
+        if(available){
+            piece.setShape(anticipatePos);
+        }
+
         setChanged();
         notifyObservers();
         addPieceOnBoard(piece);

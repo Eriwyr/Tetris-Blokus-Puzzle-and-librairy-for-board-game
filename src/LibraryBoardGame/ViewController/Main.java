@@ -1,6 +1,7 @@
 package LibraryBoardGame.ViewController;
 
 import LibraryBoardGame.Model.Board.ModelBoard;
+import LibraryBoardGame.Model.Direction;
 import LibraryBoardGame.Model.Piece.Piece;
 import LibraryBoardGame.Model.Piece.PieceFactory;
 import LibraryBoardGame.Model.Piece.Position;
@@ -264,7 +265,7 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent event) {
               //  model.addPiece(piece);
-                model.movePiece(model.getPieces().get(0), ModelBoard.Direction.Right);
+                model.movePiece(model.getPieces().get(0), Direction.Right);
             }
 
         });
