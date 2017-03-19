@@ -49,7 +49,9 @@ public class Piece {
 
     public void Display() {
         for (Position position : shape) {
+            System.out.println(position.getX()+" "+position.getY());
         }
+        System.out.println();
     }
 
     public List<Position> anticipationCalc(Direction direction){
@@ -96,4 +98,5 @@ public class Piece {
     public void setShape(List<Position> shape) {
         this.shape = shape;
     }
+
 }
