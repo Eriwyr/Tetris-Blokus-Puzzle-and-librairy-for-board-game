@@ -1,3 +1,4 @@
+import LibraryBoardGame.Model.Direction;
 import LibraryBoardGame.Model.Piece.Piece;
 import LibraryBoardGame.ViewController.PieceView;
 import Tetris.TetrisModel;
@@ -7,6 +8,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -19,9 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+
 
 public class Main extends Application {
 
@@ -65,6 +65,7 @@ public class Main extends Application {
                         else {
 
                             tetrisModel.addingNewFallingPiece();
+                            tetrisModel.removeLine();
 
                             // tetrisModel.removeLine();
 
@@ -84,6 +85,7 @@ public class Main extends Application {
             }
         }
     }));
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -113,7 +115,17 @@ public class Main extends Application {
 
 
         borderP.setCenter(gPane);
-
+        gPane.setFocusTraversable(true);
+        gPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                System.out.println("key press");
+                switch (event.getCode()) {
+                    case LEFT: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Left);
+                    case RIGHT: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Right);
+                }
+            }
+        });
 
         switch (game) {
             case "Tetris":
@@ -206,11 +218,11 @@ public class Main extends Application {
                     }
                 });
 
-
                 borderP.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
                     @Override
                     public void handle(MouseEvent event) {
+
                         //  model.addPiece(piece);
 
                         //tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Right);
