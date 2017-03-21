@@ -31,11 +31,27 @@ public class Main extends Application {
     private String game;
 
 
-    private Timeline colonyTimer = new Timeline(new KeyFrame(Duration.millis(1000), new EventHandler<ActionEvent>() {
+    private Timeline colonyTimer = new Timeline(new KeyFrame(Duration.millis(500), new EventHandler<ActionEvent>() {
 
         @Override
         public void handle(ActionEvent event) {
             if(!endgame) {
+
+                try {
+                    System.out.println("disply première piece ");
+                    tetrisModel.getPieces().get(0).Display();
+                } catch(Exception e) {
+                    System.out.println("par de première peice à afficher");
+                }
+
+                try {
+                    System.out.println("disply deuxième  piece ");
+                    tetrisModel.getPieces().get(1).Display();;
+                } catch (Exception e) {
+                    System.out.println("par de deuxième peice à afficher");
+                }
+
+               tetrisModel.getBoard().getGrid().Display();
                 switch (game) {
                     case "Tetris" :
 
@@ -132,15 +148,27 @@ public class Main extends Application {
                                     Piece piece = tetrisModel.getPieces().get(i);
 
 
-                                    for (int y = 0; y < pieceView.getShapeView().size(); y++) {
+                                    for (int y = 0; y < piece.getShape().size(); y++) {
 
                                         // System.out.println("square "+y+" : "+pieceView.getShapeView().get(y).getX()+" " + pieceView.getShapeView().get(y).getY());
-                                        gPane.getChildren().remove(pieceView.getShapeView().get(y));
+                                        try {
+                                            gPane.getChildren().remove(pieceView.getShapeView().get(y));
 
-                                        pieceView.getShapeView().get(y).setX(piece.getShape().get(y).getX());
-                                        pieceView.getShapeView().get(y).setY(piece.getShape().get(y).getY());
+                                            pieceView.getShapeView().get(y).setX(piece.getShape().get(y).getX());
+                                            pieceView.getShapeView().get(y).setY(piece.getShape().get(y).getY());
+
+
+
+                                        } catch (Exception e) {
+
+                                            pieceView.addCellToPieceView(piece.getShape().get(y).getX(), piece.getShape().get(y).getY());
+                                        }
 
                                         gPane.add(pieceView.getShapeView().get(y), (int) pieceView.getShapeView().get(y).getX(), (int) pieceView.getShapeView().get(y).getY());
+
+
+
+
 
                                     }
 

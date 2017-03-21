@@ -46,36 +46,31 @@ public class ModelBoard extends Observable{
     }
 
     public int movePiece(Piece piece, Direction direction) {
+        int returnValue =0;
         removePiece(piece);
-        System.out.println("Piece entering move : ");
-        piece.Display();
+
        /* removePiece(piece);*/
         boolean available = true;
         List<Position> anticipatePos;
 
         anticipatePos = piece.anticipationCalc(direction);
-        System.out.println("anticipated position : ");
 
-        for (Position position : anticipatePos) {
-            System.out.println(position.getX()+" "+position.getY());
-        }
         for (Position position: anticipatePos){
             try {
                 if(!grid.getCellXY(position).isEmpty()){
-                    System.out.println("available = flase fropm is empy");
                     available = false;
+                    returnValue = 1;
                     break;
                 }
             }
             catch(ArrayIndexOutOfBoundsException e){
-                System.out.println("available = flase from catch");
                 available = false;
-                return 1;
+                returnValue = 1;
             }
         }
 
         if(available){
-            System.out.println("setting");
+
             piece.setShape(anticipatePos);
         }
 
@@ -85,7 +80,8 @@ public class ModelBoard extends Observable{
         System.out.println("notifying from move piece");
         notifyObservers();*/
         addPieceOnBoard(piece);
-        return 0;
+
+        return returnValue;
 
     }
 
@@ -113,7 +109,22 @@ public class ModelBoard extends Observable{
             grid.setCellXY(position, false);
         }
         addPiece(piece);
-        System.out.println("notifying from addPiece");
+        setChanged();
+        notifyObservers();
+
+    }
+
+
+    public void AuthorizedAddPieceOnBoard(Piece piece) {
+        for (Position position : piece.getShape()) {
+            if (grid.getCellXY(position).isEmpty()) return ;
+        }
+
+        for (Position position :piece.getShape()) {
+
+            grid.setCellXY(position, false);
+        }
+        addPiece(piece);
         setChanged();
         notifyObservers();
 
@@ -178,5 +189,6 @@ public class ModelBoard extends Observable{
         addPieceOnBoard(piece);
 */
     }
+
 
 }

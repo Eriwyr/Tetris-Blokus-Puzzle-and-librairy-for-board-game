@@ -101,33 +101,38 @@ public class TetrisModel extends Observable {
     }
 
     public void addingNewFallingPiece() {
-        Piece piece = existingPieces.get(1);
+        Piece piece  = new Piece(existingPieces.get(1).getShape());
+
        try {
-           pieces.set(0, piece);
+           /*pieces.set(0, piece);*/
+
+           pieces.get(0).setShape(piece.getShape());
+
        }catch (Exception e) {
-           pieces.add(piece);
+           pieces.add(0, new Piece(piece.getShape()));
        }
-        board.addPiece(piece);
-        board.addPieceOnBoard(piece);
+
+        board.AuthorizedAddPieceOnBoard(piece);
         setPieceFalling(true);
     }
 
-    public void fallingPiece(){
+     public void fallingPiece(){
         if (board.movePiece(pieces.get(0), Direction.Down) == 1) {
             pieceFalling = false;
             if(pieces.size() == 1) {
                 System.out.println("adding a piece");
-                pieces.add(1, pieces.get(0));
+                pieces.add(1, new Piece(pieces.get(0).getShape()));
             } else {
                 /*try {*/
                     for (Position position : pieces.get(0).getShape()){
-                        pieces.get(1).getShape().add(position);
+                        pieces.get(1).getShape().add(new Position(position.getX(), position.getY()));
                     }
                /* } catch {
 
                 }*/
 
             }
+
 
         }
     }
