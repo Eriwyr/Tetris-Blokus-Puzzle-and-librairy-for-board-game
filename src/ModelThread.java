@@ -27,10 +27,9 @@ public class ModelThread implements Runnable {
         System.out.println("running");
         System.out.println(" \" "+game+" \" ");
         if(!endgame) {
-            System.out.println("not endgame");
             switch (game) {
                 case "Tetris" :
-
+                    tetrisModel.getBoard().getGrid().Display();
                     if (tetrisModel.isPieceFalling()) {
                         System.out.println("sizes : "+tetrisModel.getPieces().size()+ " "+pieceViews.size());
 
@@ -41,7 +40,7 @@ public class ModelThread implements Runnable {
 
                         tetrisModel.addingNewFallingPiece();
 
-                        // tetrisModel.removeLine();
+                        tetrisModel.removeLine();
 
                     }
 

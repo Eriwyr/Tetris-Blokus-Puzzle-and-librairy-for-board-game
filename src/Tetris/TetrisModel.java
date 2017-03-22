@@ -161,7 +161,7 @@ public class TetrisModel extends Observable {
                     try {
                         board.emptyCell(new Position(a, i), pieces.get(1));
                     } catch (Exception e) {
-                        System.out.println("Error");
+                        get;
                     }
 
                 }
