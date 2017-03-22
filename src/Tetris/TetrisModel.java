@@ -109,6 +109,7 @@ public class TetrisModel extends Observable {
            pieces.get(0).setShape(piece.getShape());
 
        }catch (Exception e) {
+           System.out.println("catch TetriModel adding new falling piece ");
            pieces.add(0, new Piece(piece.getShape()));
        }
 
@@ -152,20 +153,32 @@ public class TetrisModel extends Observable {
                 }
 
             }
-            System.out.println("ligne : "+i+" nb case :"+count);
             if (count == sizeX) {
                 indexLine = i;
                 System.out.println("line found");
 
-                for (int a = 0; a<sizeX; a ++) {
-                    try {
-                        board.emptyCell(new Position(a, i), pieces.get(1));
-                    } catch (Exception e) {
+                System.out.println("Will remove "+sizeX+"positions");
 
-                    }
+                /* Creating list of position to remove a whole line*/
+                List<Position> list = new ArrayList<Position>();
+
+
+                for (int a = 0; a<sizeX; a ++) {
+                    list.add(new Position(a, i));
+
+
 
                 }
 
+                /*Dysplay new list */
+                for (Position position : list) {
+                    System.out.print(position.getX()+" "+position.getY()+"; ");
+                }
+
+
+                board.emptyMultipleCells(list, pieces.get(1));
+
+                /*
                 for (Position cell : pieces.get(1).getShape()) {
                     if(cell.getY()>indexLine) {
                         board.getGrid().setCellXY(new Position(cell.getX(), cell.getY()), true);
@@ -176,7 +189,8 @@ public class TetrisModel extends Observable {
                     }
 
 
-                }
+                }*/
+
             }
         }
 

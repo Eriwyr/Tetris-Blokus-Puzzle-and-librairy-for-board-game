@@ -6,6 +6,7 @@ import LibraryBoardGame.Model.Piece.Position;
 import javafx.geometry.Pos;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
@@ -22,7 +23,7 @@ public class ModelBoard extends Observable{
     }
 
     public ModelBoard() {
-        grid = new Grid(12, 10);
+        grid = new Grid(6, 12);
         pieces = new ArrayList<Piece>();
     }
 
@@ -64,6 +65,7 @@ public class ModelBoard extends Observable{
                 }
             }
             catch(ArrayIndexOutOfBoundsException e){
+                System.out.println("Catch in ModelBoard movepiece");
                 available = false;
                 returnValue = 1;
             }
@@ -129,24 +131,49 @@ public class ModelBoard extends Observable{
 
     }
 
-    public void emptyCell(Position position, Piece piece) {
-        grid.getCellXY(position).setEmpty(true);
-        for (Position cell : piece.getShape()) {
-            if (position.getX() == cell.getX() && position.getY() == cell.getY()) {
-                System.out.println("remove : X : "+ position.getX() + " Y : " + position.getY());
-                piece.removePosition(position);
+
+    public void emptyMultipleCells(List<Position> list, Piece piece) {
+
+        for (Position position : list) {
+            grid.getCellXY(position).setEmpty(true);
+
+            for (Iterator<Position> iterator = piece.getShape().iterator(); iterator.hasNext();) {
+                Position cell = iterator.next();
+                if (cell.getY() == position.getY() && cell.getX() == position.getX()) {
+                    System.out.println("removing Position : "+position.getX()+" "+position.getY());
+                    // Remove the current element from the iterator and the list.
+                    iterator.remove();
+                }
             }
         }
-        System.out.println("piece after removing one position");
-        piece.Display();
+
+
+
+        System.out.println("notifying from emptyMultipleCells");
         setChanged();
-        System.out.println("notifying from empty");
         notifyObservers();
 
+    }
+    public void emptyCell(Position position, Piece piece) {
+        System.out.println("position to remove : "+position.getX()+" " +position.getY());
 
+        for (Iterator<Position> iterator = piece.getShape().iterator(); iterator.hasNext();) {
+            Position cell = iterator.next();
+            if (cell.getY() == position.getY() && cell.getX() == position.getX()) {
+                System.out.println("removing Position : "+position.getX()+" "+position.getY());
+                // Remove the current element from the iterator and the list.
+                iterator.remove();
+            }
+        }
 
+        System.out.println("notifying from empty");
+        setChanged();
+        notifyObservers();
 
     }
+
+
+
 
     public void rotatePiece(Piece piece, int rotation) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
     /*    removePiece(piece);
