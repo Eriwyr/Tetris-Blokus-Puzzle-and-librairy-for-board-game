@@ -74,11 +74,11 @@ public class ModelBoard extends Observable{
             piece.setShape(anticipatePos);
         }
 
-      /*  setChanged();
-        System.out.println("Piece outing move : ");
+        setChanged();
+      /*  System.out.println("Piece outing move : ");
         piece.Display();
         System.out.println("notifying from move piece");
-        notifyObservers();*/
+        */notifyObservers();
         addPieceOnBoard(piece);
 
         return returnValue;

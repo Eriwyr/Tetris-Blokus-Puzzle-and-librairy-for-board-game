@@ -123,13 +123,9 @@ public class TetrisModel extends Observable {
                 System.out.println("adding a piece");
                 pieces.add(1, new Piece(pieces.get(0).getShape()));
             } else {
-                /*try {*/
                     for (Position position : pieces.get(0).getShape()){
                         pieces.get(1).getShape().add(new Position(position.getX(), position.getY()));
                     }
-               /* } catch {
-
-                }*/
 
             }
 
