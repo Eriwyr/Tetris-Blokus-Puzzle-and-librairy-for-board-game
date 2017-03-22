@@ -138,28 +138,48 @@ public class TetrisModel extends Observable {
     }
 
     public void removeLine(){
-        boolean fullLine;
         int sizeX = board.getGrid().getSizeX();
+        int sizeY = board.getGrid().getSizeY();
         int count;
-        for (int i = 0; i<board.getGrid().getSizeY(); i++) {
-            fullLine = false;
+        int indexLine;
+
+        for (int i = 0; i<sizeY; i++) {
             count=0;
             for (int j = 0; j<sizeX; j++) {
-                count++;
+                if(!board.getGrid().getCellXY(new Position(j,i)).isEmpty()){
+
+                    count++;
+                }
+
             }
+            System.out.println("ligne : "+i+" nb case :"+count);
             if (count == sizeX) {
+                indexLine = i;
+                System.out.println("line found");
+
                 for (int a = 0; a<sizeX; a ++) {
                     try {
                         board.emptyCell(new Position(a, i), pieces.get(1));
                     } catch (Exception e) {
-
+                        System.out.println("Error");
                     }
 
                 }
+
+                for (Position cell : pieces.get(1).getShape()) {
+                    if(cell.getY()>indexLine) {
+                        board.getGrid().setCellXY(new Position(cell.getX(), cell.getY()), true);
+                        pieces.get(1).getShape().remove(cell);
+                        cell.setY(cell.getY()+1);
+                        board.getGrid().setCellXY(new Position(cell.getX(), cell.getY()), false);
+                        pieces.get(1).getShape().add(cell);
+                    }
+
+
+                }
             }
-            else if (count == 0)
-            break;
         }
+
     }
 
     public void newPiece(){

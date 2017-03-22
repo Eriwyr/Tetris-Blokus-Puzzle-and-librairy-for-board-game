@@ -1,3 +1,4 @@
+import LibraryBoardGame.Model.Direction;
 import LibraryBoardGame.Model.Piece.Piece;
 import LibraryBoardGame.ViewController.PieceView;
 import Tetris.TetrisModel;
@@ -8,6 +9,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -35,55 +37,6 @@ public class GameController extends Application {
     private Boolean endgame;
     private String game;
 
-    private Timeline colonyTimer = new Timeline(new KeyFrame(Duration.millis(500), new EventHandler<ActionEvent>() {
-
-        @Override
-        public void handle(ActionEvent event) {
-          /*  if (!endgame) {
-
-                try {
-                    System.out.println("disply première piece ");
-                    tetrisModel.getPieces().get(0).Display();
-                } catch (Exception e) {
-                    System.out.println("par de première peice à afficher");
-                }
-
-                try {
-                    System.out.println("disply deuxième  piece ");
-                    tetrisModel.getPieces().get(1).Display();
-                    ;
-                } catch (Exception e) {
-                    System.out.println("par de deuxième peice à afficher");
-                }
-
-                tetrisModel.getBoard().getGrid().Display();
-                switch (game) {
-                    case "Tetris":
-
-                        if (tetrisModel.isPieceFalling()) {
-
-
-                            //tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Down);
-                            tetrisModel.fallingPiece();
-                        } else {
-
-                            tetrisModel.addingNewFallingPiece();
-
-                            // tetrisModel.removeLine();
-
-
-                        }
-
-                        break;
-                    default:
-                        break;
-                }
-
-            } else {
-                System.out.println("Simulation finished ");
-            }
-        */}
-    }));
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -96,7 +49,7 @@ public class GameController extends Application {
         /*  gPane.setHgap(6);
         gPane.setVgap(6);*/
 
-        for (int a = 0; a < 10; a++) {
+        for (int a = 0; a < 12; a++) {
             for (int b = 0; b < 10; b++) {
                 Rectangle rectangle = new Rectangle(a, b, 30, 30);
                 rectangle.setFill(Color.YELLOW);
@@ -220,7 +173,17 @@ public class GameController extends Application {
                     }
                 });
 
-
+                gPane.setFocusTraversable(true);
+                gPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        System.out.println("key press");
+                        switch (event.getCode()) {
+                            case LEFT: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Left);
+                            case RIGHT: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Right);
+                        }
+                    }
+                });
                 borderP.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
                     @Override
@@ -231,9 +194,6 @@ public class GameController extends Application {
                 });
 
                 primaryStage.setTitle("Library");
-                colonyTimer.setCycleCount(Timeline.INDEFINITE);
-                colonyTimer.play();
-
                 primaryStage.setScene(new Scene(borderP, 1024, 768));
                 primaryStage.show();
 
@@ -251,7 +211,7 @@ public class GameController extends Application {
 
         ScheduledExecutorService execute = Executors.newSingleThreadScheduledExecutor();
         //Execute MonRunnable toutes les secondes
-        execute.scheduleAtFixedRate(new  ModelThread(tetrisModel, endgame, game, pieceViews), 0, 70, TimeUnit.MILLISECONDS);
+        execute.scheduleAtFixedRate(new  ModelThread(tetrisModel, endgame, game, pieceViews), 0, 300, TimeUnit.MILLISECONDS);
     }
 
 }

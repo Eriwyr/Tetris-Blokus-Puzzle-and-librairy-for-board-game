@@ -22,7 +22,7 @@ public class ModelBoard extends Observable{
     }
 
     public ModelBoard() {
-        grid = new Grid(10, 10);
+        grid = new Grid(12, 10);
         pieces = new ArrayList<Piece>();
     }
 
@@ -70,7 +70,6 @@ public class ModelBoard extends Observable{
         }
 
         if(available){
-
             piece.setShape(anticipatePos);
         }
 
@@ -131,15 +130,20 @@ public class ModelBoard extends Observable{
     }
 
     public void emptyCell(Position position, Piece piece) {
-        grid.setCellXY(position, false);
+        grid.getCellXY(position).setEmpty(true);
         for (Position cell : piece.getShape()) {
             if (position.getX() == cell.getX() && position.getY() == cell.getY()) {
-                piece.getShape().remove(position);
+                System.out.println("remove : X : "+ position.getX() + " Y : " + position.getY());
+                piece.removePosition(position);
             }
         }
+        System.out.println("piece after removing one position");
+        piece.Display();
         setChanged();
         System.out.println("notifying from empty");
         notifyObservers();
+
+
 
 
     }
