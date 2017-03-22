@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -53,7 +54,7 @@ public class GameController extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        game = "Tetris";
+        game = "null";
 
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Tetris and Blokus");
@@ -178,6 +179,7 @@ public class GameController extends Application {
                         }
                     }
                 });
+
                 borderP.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
                     @Override
@@ -188,13 +190,23 @@ public class GameController extends Application {
                 });
 
 
-                primaryStage.show();
+
 
 
                 break;
             default:
                 break;
         }
+
+        button_tetris.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                ///////SET LEVEL OF ANTS
+                game = "Tetris";
+
+                System.out.println("button clicked");
+            }
+        });
+        primaryStage.show();
         /*
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new ModelThread(tetrisModel, endgame, game, pieceViews));

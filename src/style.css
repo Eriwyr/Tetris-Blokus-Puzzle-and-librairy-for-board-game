@@ -1,6 +1,6 @@
 #menu{
 
-	-fx-background-image: url("img/menu.png");
+	/*-fx-background-image: url("img/menu.png");*/
 	/*-fx-background-color:red;*/
 }
 
@@ -12,8 +12,4 @@
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 25px;
-}
-
-#tetrisBtn:pressed{
-	fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0
 }
