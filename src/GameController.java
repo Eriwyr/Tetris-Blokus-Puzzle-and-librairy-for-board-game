@@ -1,5 +1,6 @@
 import LibraryBoardGame.Model.Direction;
 import LibraryBoardGame.Model.Piece.Piece;
+import LibraryBoardGame.Model.Piece.Position;
 import LibraryBoardGame.ViewController.PieceView;
 import Tetris.TetrisModel;
 import javafx.animation.KeyFrame;
@@ -8,6 +9,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -18,14 +20,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by maxencebernier on 22/03/2017.
@@ -49,15 +51,7 @@ public class GameController extends Application {
         /*  gPane.setHgap(6);
         gPane.setVgap(6);*/
 
-        for (int a = 0; a < 12; a++) {
-            for (int b = 0; b < 10; b++) {
-                Rectangle rectangle = new Rectangle(a, b, 30, 30);
-                rectangle.setFill(Color.YELLOW);
-
-                gPane.add(rectangle, a, b);
-
-            }
-        }
+        initializeGrid(gPane);
 
         //ToolBar toolbar = new ToolBar();
         //HBox statusbar = new HBox();
@@ -84,88 +78,47 @@ public class GameController extends Application {
 
                     @Override
                     public void update(Observable o, Object arg) {
+                        System.out.println("updating");
                         switch (game) {
                             case "Tetris":
-                                /*
-                                System.out.println("pieceView size " + pieceViews.size());
-                                System.out.println("pieces in model : " + tetrisModel.getPieces().size());
-*/
+
+
                                 for (int i = 0; i < tetrisModel.getPieces().size(); i++) {
                                     try {
                                         PieceView pieceViewTry = pieceViews.get(i);
                                     } catch (Exception e) {
+                                        System.out.println("cache in GameController update");
                                         pieceViews.add(i, new PieceView(tetrisModel.getPieces().get(i)));
                                     }
-                                    PieceView pieceView = pieceViews.get(i);
 
+                                    PieceView pieceView = pieceViews.get(i);
                                     Piece piece = tetrisModel.getPieces().get(i);
 
                                     new Thread(new Runnable() {
                                         @Override public void run() {
                                             Platform.runLater(new Runnable() {
                                                 @Override public void run() {
-
-                                                    /* Old version for debug*/
-                                                    /*
-                                                    for (int y = 0; y < pieceView.getShapeView().size(); y++) {
-
-
-                                                        gPane.getChildren().remove(pieceView.getShapeView().get(y));
-
-                                                        pieceView.getShapeView().get(y).setX(piece.getShape().get(y).getX());
-                                                        pieceView.getShapeView().get(y).setY(piece.getShape().get(y).getY());
-
-                                                        gPane.add(pieceView.getShapeView().get(y), (int) pieceView.getShapeView().get(y).getX(), (int) pieceView.getShapeView().get(y).getY());
-
-
-                                                    }*/
-
-
-                                                    for (int y = 0; y < piece.getShape().size(); y++) {
-
-                                                        // System.out.println("square "+y+" : "+pieceView.getShapeView().get(y).getX()+" " + pieceView.getShapeView().get(y).getY());
-                                                        try {
-                                                            gPane.getChildren().remove(pieceView.getShapeView().get(y));
-
-                                                            pieceView.getShapeView().get(y).setX(piece.getShape().get(y).getX());
-                                                            pieceView.getShapeView().get(y).setY(piece.getShape().get(y).getY());
-
-
-                                                        } catch (Exception e) {
-
-                                                            pieceView.addCellToPieceView(piece.getShape().get(y).getX(), piece.getShape().get(y).getY());
-                                                        }
-
-                                                        gPane.add(pieceView.getShapeView().get(y), (int) pieceView.getShapeView().get(y).getX(), (int) pieceView.getShapeView().get(y).getY());
+                                                    /*new version*/
+                                                    initializeGrid(gPane);
+                                                    pieceViews.clear();
+                                                    for (Piece piece : tetrisModel.getPieces()) {
+                                                        pieceViews.add(new PieceView(piece));
                                                     }
+
+                                                    for (PieceView pieceView : pieceViews) {
+                                                        for (Rectangle rectangle : pieceView.getShapeView()) {
+                                                            gPane.add(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
+
+                                                        }
+                                                    }
+
+
                                                 }
                                             });
                                         }
                                     }).start();
                                 }
 
-                                /*
-
-
-                                for(int h = 0; h<pieceViews.size(); h++) {
-
-                                    PieceView pieceView = pieceViews.get(h);
-                                    Piece piece = tetrisModel.getPieces().get(h);
-
-                                    for (int y = 0; y<pieceView.getShapeView().size(); y++) {
-
-                                        // System.out.println("square "+y+" : "+pieceView.getShapeView().get(y).getX()+" " + pieceView.getShapeView().get(y).getY());
-                                        gPane.getChildren().remove(pieceView.getShapeView().get(y));
-
-                                        pieceView.getShapeView().get(y).setX( piece.getShape().get(y).getX());
-                                        pieceView.getShapeView().get(y).setY( piece.getShape().get(y).getY());
-
-                                        gPane.add(pieceView.getShapeView().get(y), (int)pieceView.getShapeView().get(y).getX(), (int)pieceView.getShapeView().get(y).getY());
-
-
-                                    }
-                                }
-*/
                                 break;
                             default:
                                 break;
@@ -211,9 +164,32 @@ public class GameController extends Application {
 
         ScheduledExecutorService execute = Executors.newSingleThreadScheduledExecutor();
         //Execute MonRunnable toutes les secondes
-        execute.scheduleAtFixedRate(new  ModelThread(tetrisModel, endgame, game, pieceViews), 0, 300, TimeUnit.MILLISECONDS);
+        execute.scheduleAtFixedRate(new  ModelThread(tetrisModel, endgame, game, pieceViews), 0, 600, TimeUnit.MILLISECONDS);
     }
 
+
+    public void initializeGrid(GridPane gPane){
+        try{
+            Node node = gPane.getChildren().get(0);
+            gPane.getChildren().clear();
+            gPane.getChildren().add(0,node);
+
+        } catch(Exception e) {
+
+
+        }
+        for (int a = 0; a < 6; a++) {
+            for (int b = 0; b < 12; b++) {
+
+
+                Rectangle rectangle = new Rectangle(a, b, 30, 30);
+                rectangle.setFill(Color.YELLOW);
+
+                gPane.add(rectangle, a, b);
+
+            }
+        }
+    }
 }
 
 

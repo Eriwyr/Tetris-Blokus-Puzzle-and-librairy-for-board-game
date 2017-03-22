@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import sun.jvm.hotspot.runtime.posix.POSIXSignals;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -100,11 +101,33 @@ public class Piece {
     }
 
     public void removePosition(Position position) {
+
+
+        List<String> list = new ArrayList<>();
+
+
+// This is a clever way to create the iterator and call iterator.hasNext() like
+// you would do in a while-loop. It would be the same as doing:
+//     Iterator<String> iterator = list.iterator();
+//     while (iterator.hasNext()) {
+        for (Iterator<Position> iterator = shape.iterator(); iterator.hasNext();) {
+            Position cell = iterator.next();
+            if (cell.getY() == position.getY() && cell.getX() == position.getX()) {
+                System.out.println("removing Position : "+position.getX()+" "+position.getY());
+                // Remove the current element from the iterator and the list.
+                iterator.remove();
+            }
+        }
+
+        /*
+        System.out.println("removing Position ");
         for (Position cell : shape ){
             if (cell.getY() == position.getY() && cell.getX() == position.getX()) {
                 shape.remove(cell);
             }
         }
+        */
+        System.out.println("end of removePosition ");
     }
 
 }
