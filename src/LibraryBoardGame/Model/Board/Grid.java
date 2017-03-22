@@ -8,19 +8,24 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
  */
 public class Grid {
     private Cell[][] tabCell;
+    private int sizeX;
+    private int sizeY;
+
 
     public Grid(Cell[][] grid) {
         this.tabCell = grid;
     }
 
     public Grid(int x, int y){
+        sizeX=x;
+        sizeY=y;
        // System.out.println("contructor ");
         this.tabCell = new Cell[x][y];
         //System.out.println("type : "+ this.tabCell[0][0].getClass());
 
-        for( int i = 0; i <x; i++) {
-            for (int j = 0; j<y; j++) {
-                tabCell[i][j] = new Cell(true);
+        for( int i = 0; i <y; i++) {
+            for (int j = 0; j<x; j++) {
+                tabCell[j][i] = new Cell(true);
                 //tabCell[i][j].setEmpty(true);
                 //System.out.println("type : "+ this.tabCell[i][j].getClass());
             }
@@ -29,16 +34,25 @@ public class Grid {
 
     public void setCellXY(Position position, Boolean bool) {
         tabCell[position.getX()][position.getY()].setEmpty(bool);
+        System.out.println("position set to false");
     }
 
     public Cell getCellXY(Position position){
         return tabCell[position.getX()][position.getY()];
     }
 
+    public int getSizeX() {
+        return sizeX;
+    }
+
+    public int getSizeY() {
+        return sizeY;
+    }
+
     public void Display() {
         for( int i = 0; i <10; i++) {
-            for (int j = 0; j<10; j++) {
-                if (tabCell[i][j].isEmpty()) System.out.print(". ");
+            for (int j = 0; j<12; j++) {
+                if (tabCell[j][i].isEmpty()) System.out.print(". ");
                 else System.out.print("x ");
             }
             System.out.println();

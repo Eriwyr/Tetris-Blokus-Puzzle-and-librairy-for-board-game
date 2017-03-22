@@ -49,7 +49,9 @@ public class Piece {
 
     public void Display() {
         for (Position position : shape) {
+            System.out.println(position.getX()+" "+position.getY());
         }
+        System.out.println();
     }
 
     public List<Position> anticipationCalc(Direction direction){
@@ -57,8 +59,8 @@ public class Piece {
 
         switch (direction) {
             case Left:
+                System.out.println("LLLLEEEEFFFFTTTTT");
                 for (Position position : shape) {
-
                     anticipatePosition.add(new Position(position.getX() - 1, position.getY()));
                 }
 
@@ -96,4 +98,13 @@ public class Piece {
     public void setShape(List<Position> shape) {
         this.shape = shape;
     }
+
+    public void removePosition(Position position) {
+        for (Position cell : shape ){
+            if (cell.getY() == position.getY() && cell.getX() == position.getX()) {
+                shape.remove(cell);
+            }
+        }
+    }
+
 }

@@ -17,7 +17,12 @@ public class PieceView {
     //private Piece piece;
     // private Position center;
 
-    List<Rectangle> shapeView;
+    protected List<Rectangle> shapeView;
+
+    public PieceView() {
+        shapeView = new ArrayList<Rectangle>();
+
+    }
 
     public PieceView(Piece piece) {
         shapeView = new ArrayList<Rectangle>();
@@ -51,6 +56,12 @@ public class PieceView {
         }
         */
 
+        public void addCellToPieceView (int x, int y ) {
+            Rectangle rectangle = new Rectangle(x, y, 30, 30) ;
+            rectangle.setFill(Color.RED);
+
+            shapeView.add(rectangle);
+        }
     }
 
 
