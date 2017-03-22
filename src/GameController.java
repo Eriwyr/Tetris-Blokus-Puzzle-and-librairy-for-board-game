@@ -8,16 +8,21 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -36,11 +41,45 @@ public class GameController extends Application {
     static List<PieceView> pieceViews;
     private Boolean endgame;
     private String game;
+    private Scene scene_menu;
+    private Button button_tetris;
+    private Button button_blokus;
+    private Stage primaryStage;
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         game = "Tetris";
+
+        this.primaryStage = primaryStage;
+        primaryStage.setTitle("Tetris and Blokus");
+        primaryStage.setWidth(1024);
+        primaryStage.setHeight(768);
+        primaryStage.setResizable(false);
+
+        BorderPane root = new BorderPane();
+
+        Scene scene_menu = new Scene(root, 1024, 768);
+        scene_menu.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+        root.setId("menu");
+        root.applyCss();
+       // primaryStage.setBackground(new Background(myBI));
+
+
+        HBox hbox = new HBox();
+
+        //hbox.setPadding(new Insets(15, 12, 15, 12));
+        hbox.setAlignment(Pos.CENTER);
+        this.button_tetris = new Button("Tetris");
+        this.button_tetris.setId("tetrisBtn");
+        this.button_tetris.applyCss();
+        hbox.getChildren().add(button_tetris);
+        //root.getChildren().add(hbox);
+        root.setCenter(hbox);
+
+
+        primaryStage.setScene(scene_menu);
+        //primaryStage.setScene(new Scene(borderP, 1024, 768));
         BorderPane borderP = new BorderPane();
 
         // permet de placer les diffrents boutons dans une grille
@@ -193,8 +232,7 @@ public class GameController extends Application {
                     }
                 });
 
-                primaryStage.setTitle("Library");
-                primaryStage.setScene(new Scene(borderP, 1024, 768));
+
                 primaryStage.show();
 
 

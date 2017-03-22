@@ -1,8 +1,6 @@
 package LibraryBoardGame.Model.Piece;
 import LibraryBoardGame.Model.Board.ModelBoard;
 import LibraryBoardGame.Model.Direction;
-import javafx.geometry.Pos;
-import sun.jvm.hotspot.runtime.posix.POSIXSignals;
 
 import java.util.ArrayList;
 import java.util.List;
