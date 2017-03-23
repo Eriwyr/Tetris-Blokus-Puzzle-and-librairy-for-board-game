@@ -34,7 +34,6 @@ public class Grid {
 
     public void setCellXY(Position position, Boolean bool) {
         tabCell[position.getX()][position.getY()].setEmpty(bool);
-        System.out.println("position set to false");
     }
 
     public Cell getCellXY(Position position){

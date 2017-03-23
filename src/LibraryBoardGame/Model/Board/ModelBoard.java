@@ -140,7 +140,6 @@ public class ModelBoard extends Observable{
             for (Iterator<Position> iterator = piece.getShape().iterator(); iterator.hasNext();) {
                 Position cell = iterator.next();
                 if (cell.getY() == position.getY() && cell.getX() == position.getX()) {
-                    System.out.println("removing Position : "+position.getX()+" "+position.getY());
                     // Remove the current element from the iterator and the list.
                     iterator.remove();
                 }
@@ -155,7 +154,6 @@ public class ModelBoard extends Observable{
 
     }
     public void emptyCell(Position position, Piece piece) {
-        System.out.println("position to remove : "+position.getX()+" " +position.getY());
 
         for (Iterator<Position> iterator = piece.getShape().iterator(); iterator.hasNext();) {
             Position cell = iterator.next();

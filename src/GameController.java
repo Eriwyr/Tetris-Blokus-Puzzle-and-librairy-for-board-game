@@ -2,6 +2,8 @@ import LibraryBoardGame.Model.Direction;
 import LibraryBoardGame.Model.Piece.Piece;
 import LibraryBoardGame.Model.Piece.Position;
 import LibraryBoardGame.ViewController.PieceView;
+import LibraryBoardGame.ViewController.PieceViewFactory;
+import Tetris.PieceViewTetris;
 import Tetris.TetrisModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -45,7 +47,7 @@ public class GameController extends Application {
     private GridPane gPane;
     private BorderPane borderP;
     private TetrisModel tetrisModel;
-    static List<PieceView> pieceViews;
+    private List<PieceView> pieceViews;
     private Boolean endgame;
     /*private String game;*/
     private Scene scene_menu;
@@ -173,30 +175,26 @@ public class GameController extends Application {
                                     try {
                                         PieceView pieceViewTry = pieceViews.get(i);
                                     } catch (Exception e) {
-                                        System.out.println("cache in GameController update");
-                                        pieceViews.add(i, new PieceView(tetrisModel.getPieces().get(i)));
+                                        pieceViews.add(i, factory.getPieceViewTetris(tetrisModel.getPieces().get(i)));
                                     }
-
-                                    PieceView pieceView = pieceViews.get(i);
-                                    Piece piece = tetrisModel.getPieces().get(i);
 
                                     new Thread(new Runnable() {
                                         @Override public void run() {
                                             Platform.runLater(new Runnable() {
                                                 @Override public void run() {
+
                                                     /*new version*/
                                                     initializeGrid(gPane);
                                                     pieceViews.clear();
                                                     for (Piece piece : tetrisModel.getPieces()) {
-                                                        pieceViews.add(new PieceView(piece));
+                                                        pieceViews.add(factory.getPieceViewTetris(piece));
                                                     }
 
                                                     for (PieceView pieceView : pieceViews) {
-                                                        for (Rectangle rectangle : pieceView.getShapeView()) {
-                                                            gPane.add(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
-
-                                                        }
-                                                    }
+                                                       for (Rectangle rectangle : pieceView.getShapeView()) {
+                                                           gPane.add(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
+                                                       }
+                                                   }
                                                 }
                                             });
                                         }

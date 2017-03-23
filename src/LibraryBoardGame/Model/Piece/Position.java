@@ -6,10 +6,19 @@ package LibraryBoardGame.Model.Piece;
 public class Position {
     private int x;
     private int y;
+    private int idCouleur;
 
     public Position(int x, int y) {
+        this.idCouleur = 0;
         this.x = x;
         this.y = y;
+    }
+
+
+    public Position(int x, int y, int idColor) {
+        this.x = x;
+        this.y = y;
+        this.idCouleur = idColor;
     }
 
     public int getX() {
@@ -31,5 +40,9 @@ public class Position {
     public void setXY(int x, int y){
         this.x = x;
         this.y = y;
+    }
+
+    public int getIdCouleur() {
+        return idCouleur;
     }
 }
