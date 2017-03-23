@@ -1,6 +1,6 @@
 #menu{
 
-	/*-fx-background-image: url("img/menu.png");*/
+	-fx-background-image: url("img/menu.png");
 	/*-fx-background-color:red;*/
 }
 
@@ -13,3 +13,14 @@
     -fx-font-weight: bold;
     -fx-font-size: 25px;
 }
+
+#blokusBtn{
+	-fx-background-color: #03C9A9;
+	-fx-pref-height: 100px;
+    -fx-pref-width: 800px;
+    -fx-background-radius:0px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 25px;
+}
+

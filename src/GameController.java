@@ -42,10 +42,12 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public class GameController extends Application {
 
+    private GridPane gPane;
+    private BorderPane borderP;
     private TetrisModel tetrisModel;
     static List<PieceView> pieceViews;
     private Boolean endgame;
-    private String game;
+    /*private String game;*/
     private Scene scene_menu;
     private Button button_tetris;
     private Button button_blokus;
@@ -54,7 +56,7 @@ public class GameController extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        game = "null";
+        //game = "null";
 
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Tetris and Blokus");
@@ -71,24 +73,29 @@ public class GameController extends Application {
        // primaryStage.setBackground(new Background(myBI));
 
 
-        HBox hbox = new HBox();
+        VBox vbox = new VBox(100);
 
-        //hbox.setPadding(new Insets(15, 12, 15, 12));
-        hbox.setAlignment(Pos.CENTER);
+        //vbox.setPadding(new Insets(15, 12, 15, 12));
+        vbox.setAlignment(Pos.CENTER);
         this.button_tetris = new Button("Tetris");
         this.button_tetris.setId("tetrisBtn");
         this.button_tetris.applyCss();
-        hbox.getChildren().add(button_tetris);
-        //root.getChildren().add(hbox);
-        root.setCenter(hbox);
+
+
+        this.button_blokus = new Button("Blokus");
+        this.button_blokus.setId("blokusBtn");
+        this.button_blokus.applyCss();
+        vbox.getChildren().addAll(button_tetris, button_blokus);
+
+        root.setCenter(vbox);
 
 
         primaryStage.setScene(scene_menu);
         //primaryStage.setScene(new Scene(borderP, 1024, 768));
-        BorderPane borderP = new BorderPane();
+         borderP = new BorderPane();
 
         // permet de placer les diffrents boutons dans une grille
-        GridPane gPane = new GridPane();
+         gPane = new GridPane();
         // gPane.setGridLinesVisible(true);
         /*  gPane.setHgap(6);
         gPane.setVgap(6);*/
@@ -104,7 +111,44 @@ public class GameController extends Application {
         borderP.setCenter(gPane);
 
 
-        switch (game) {
+        button_tetris.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+
+
+                startSimulation("Tetris");
+                ///////SET LEVEL OF ANTS
+                /*game = "Tetris";*/
+
+                System.out.println("button clicked");
+            }
+        });
+        primaryStage.show();
+
+
+    }
+
+
+    public void initializeGrid(GridPane gPane){
+        try{
+            Node node = gPane.getChildren().get(0);
+            gPane.getChildren().clear();
+            gPane.getChildren().add(0,node);
+
+        } catch(Exception e) {
+
+
+        }
+        for (int a = 0; a < 6; a++) {
+            for (int b = 0; b < 12; b++) {
+                Rectangle rectangle = new Rectangle(a, b, 30, 30);
+                rectangle.setFill(Color.YELLOW);
+                gPane.add(rectangle, a, b);
+            }
+        }
+    }
+
+    public void startSimulation(String gameName) {
+        switch (gameName) {
             case "Tetris":
                 tetrisModel = new TetrisModel();
                 endgame = false;
@@ -121,7 +165,7 @@ public class GameController extends Application {
                     @Override
                     public void update(Observable o, Object arg) {
                         System.out.println("updating");
-                        switch (game) {
+                        switch (gameName) {
                             case "Tetris":
 
 
@@ -153,14 +197,11 @@ public class GameController extends Application {
 
                                                         }
                                                     }
-
-
                                                 }
                                             });
                                         }
                                     }).start();
                                 }
-
                                 break;
                             default:
                                 break;
@@ -198,49 +239,9 @@ public class GameController extends Application {
                 break;
         }
 
-        button_tetris.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                ///////SET LEVEL OF ANTS
-                game = "Tetris";
-
-                System.out.println("button clicked");
-            }
-        });
-        primaryStage.show();
-        /*
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new ModelThread(tetrisModel, endgame, game, pieceViews));
-        ScheduledExecutorService execute = Executors.newSingleThreadScheduledExecutor();
-        */
-
-
         ScheduledExecutorService execute = Executors.newSingleThreadScheduledExecutor();
         //Execute MonRunnable toutes les secondes
-        execute.scheduleAtFixedRate(new  ModelThread(tetrisModel, endgame, game, pieceViews), 0, 600, TimeUnit.MILLISECONDS);
-    }
-
-
-    public void initializeGrid(GridPane gPane){
-        try{
-            Node node = gPane.getChildren().get(0);
-            gPane.getChildren().clear();
-            gPane.getChildren().add(0,node);
-
-        } catch(Exception e) {
-
-
-        }
-        for (int a = 0; a < 6; a++) {
-            for (int b = 0; b < 12; b++) {
-
-
-                Rectangle rectangle = new Rectangle(a, b, 30, 30);
-                rectangle.setFill(Color.YELLOW);
-
-                gPane.add(rectangle, a, b);
-
-            }
-        }
+        execute.scheduleAtFixedRate(new  ModelThread(tetrisModel, endgame, gameName, pieceViews), 0, 600, TimeUnit.MILLISECONDS);
     }
 }
 
