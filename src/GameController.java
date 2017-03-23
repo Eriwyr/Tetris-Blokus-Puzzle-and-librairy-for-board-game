@@ -23,6 +23,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -51,15 +54,15 @@ public class GameController extends Application {
     private Boolean endgame;
     /*private String game;*/
     private Scene scene_menu;
-    private Scene scene_tetris;
+   /* private Scene scene_tetris;*/
     private Button button_tetris;
     private Button button_blokus;
     private Stage primaryStage;
     private Group tetris_group;
+    private Text text;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //game = "null";
 
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Tetris and Blokus");
@@ -94,45 +97,23 @@ public class GameController extends Application {
 
 
         //primaryStage.setScene(new Scene(borderP, 1024, 768));
-         borderP = new BorderPane();
-
-        // permet de placer les diffrents boutons dans une grille
-         gPane = new GridPane();
-
-
-        // gPane.setGridLinesVisible(true);
-        /*  gPane.setHgap(6);
-        gPane.setVgap(6);*/
-
-        initializeGrid(gPane);
-
-        //ToolBar toolbar = new ToolBar();
-        //HBox statusbar = new HBox();
-        /* borderP.setTop(toolbar);
-        borderP.setBottom(statusbar);*/
-
-
-        borderP.setCenter(gPane);
-        tetris_group = new Group();
-        tetris_group.getChildren().add(borderP);
-
-        scene_tetris = new Scene(tetris_group, 1024, 768);
-
 
         primaryStage.setScene(scene_menu);
 
 
         button_tetris.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-
-
                 startSimulation("Tetris");
-                ///////SET LEVEL OF ANTS
-                /*game = "Tetris";*/
-
-                System.out.println("button clicked");
             }
         });
+
+        button_blokus.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                startSimulation("Blockus");
+            }
+        });
+
+
         primaryStage.show();
 
 
@@ -158,9 +139,45 @@ public class GameController extends Application {
         }
     }
 
+
+    public Scene settingSceneTetris() {
+        borderP = new BorderPane();
+
+        // permet de placer les diffrents boutons dans une grille
+        gPane = new GridPane();
+
+
+        // gPane.setGridLinesVisible(true);
+        /*  gPane.setHgap(6);
+        gPane.setVgap(6);*/
+
+        initializeGrid(gPane);
+
+        //ToolBar toolbar = new ToolBar();
+        //HBox statusbar = new HBox();
+        /* borderP.setTop(toolbar);
+        borderP.setBottom(statusbar);*/
+        text = new Text();
+        text.setFont(new Font(20));
+        text.setWrappingWidth(4000);
+        text.setTextAlignment(TextAlignment.JUSTIFY);
+        text.setText("The quick brown fox jumps over the lazy dog");
+
+        borderP.setCenter(gPane);
+        borderP.setRight(text);
+        tetris_group = new Group();
+        tetris_group.getChildren().add(borderP);
+
+        Scene scene_tetris = new Scene(tetris_group, 1024, 768);
+
+        return scene_tetris;
+
+    }
+
     public void startSimulation(String gameName) {
         switch (gameName) {
             case "Tetris":
+                Scene scene_tetris = settingSceneTetris();
                 primaryStage.setScene(scene_tetris);
                 tetrisModel = new TetrisModel();
                 endgame = false;
@@ -168,19 +185,18 @@ public class GameController extends Application {
                 pieceViews = new ArrayList<PieceView>();
 
                 // PieceFactory pieceFactory = new PieceFactory();
-                //Piece piece = pieceFactory.getPiece("tetris");
-                //  Piece piece = new Piece()
+                // Piece piece = pieceFactory.getPiece("tetris");
+                // Piece piece = new Piece()
 
 
                 tetrisModel.getBoard().addObserver(new Observer() {
 
                     @Override
                     public void update(Observable o, Object arg) {
-                        System.out.println("updating");
                         switch (gameName) {
                             case "Tetris":
 
-
+                                text.setText("tetris");
                                 for (int i = 0; i < tetrisModel.getPieces().size(); i++) {
                                     try {
                                         PieceView pieceViewTry = pieceViews.get(i);
@@ -224,7 +240,13 @@ public class GameController extends Application {
                         System.out.println("key press");
                         switch (event.getCode()) {
                             case LEFT: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Left);
+                                break;
                             case RIGHT: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Right);
+                                break;
+                            case DOWN: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Down);
+                                break;
+                            default:
+                                break;
                         }
                     }
                 });
@@ -237,18 +259,12 @@ public class GameController extends Application {
                         //tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Right);
                     }
                 });
-
-
-
-
-
                 break;
             default:
                 break;
         }
 
         ScheduledExecutorService execute = Executors.newSingleThreadScheduledExecutor();
-        //Execute MonRunnable toutes les secondes
         execute.scheduleAtFixedRate(new  ModelThread(tetrisModel, endgame, gameName, pieceViews), 0, 600, TimeUnit.MILLISECONDS);
     }
 }
