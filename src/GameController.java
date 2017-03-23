@@ -154,7 +154,7 @@ public class GameController extends Application {
             case "Tetris":
                 tetrisModel = new TetrisModel();
                 endgame = false;
-
+                PieceViewFactory factory = new PieceViewFactory();
                 pieceViews = new ArrayList<PieceView>();
 
                 // PieceFactory pieceFactory = new PieceFactory();
