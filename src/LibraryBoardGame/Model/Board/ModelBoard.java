@@ -86,6 +86,18 @@ public class ModelBoard extends Observable{
 
     }
 
+    public void moveOneCell(Position position, Direction direction) {
+        Position anticipatedPosition = position.anticipatePosition(direction);
+     //   if(grid.getCellXY(anticipatedPosition).isEmpty()) {
+            grid.setCellXY(anticipatedPosition, true);
+            position.setX(anticipatedPosition.getX());
+            position.setY(anticipatedPosition.getY());
+            grid.setCellXY(position, false);
+      //  }
+
+        setChanged();
+        notifyObservers();
+    }
 
 
     public void removePiece(Piece piece){

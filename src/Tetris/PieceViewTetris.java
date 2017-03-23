@@ -51,6 +51,9 @@ public class PieceViewTetris extends PieceView{
                 case 6 :
                     rectangle.setFill(Color.PEACHPUFF);
                     break;
+                case 100 :
+                    rectangle.setFill(Color.TRANSPARENT);
+                    break;
                 default:
                     rectangle.setFill(Color.BLACK);
                     break;

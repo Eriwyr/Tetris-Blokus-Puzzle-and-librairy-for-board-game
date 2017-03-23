@@ -51,10 +51,11 @@ public class GameController extends Application {
     private Boolean endgame;
     /*private String game;*/
     private Scene scene_menu;
+    private Scene scene_tetris;
     private Button button_tetris;
     private Button button_blokus;
     private Stage primaryStage;
-
+    private Group tetris_group;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -92,12 +93,13 @@ public class GameController extends Application {
         root.setCenter(vbox);
 
 
-        primaryStage.setScene(scene_menu);
         //primaryStage.setScene(new Scene(borderP, 1024, 768));
          borderP = new BorderPane();
 
         // permet de placer les diffrents boutons dans une grille
          gPane = new GridPane();
+
+
         // gPane.setGridLinesVisible(true);
         /*  gPane.setHgap(6);
         gPane.setVgap(6);*/
@@ -111,6 +113,13 @@ public class GameController extends Application {
 
 
         borderP.setCenter(gPane);
+        tetris_group = new Group();
+        tetris_group.getChildren().add(borderP);
+
+        scene_tetris = new Scene(tetris_group, 1024, 768);
+
+
+        primaryStage.setScene(scene_menu);
 
 
         button_tetris.setOnAction(new EventHandler<ActionEvent>() {
@@ -143,7 +152,7 @@ public class GameController extends Application {
         for (int a = 0; a < 6; a++) {
             for (int b = 0; b < 12; b++) {
                 Rectangle rectangle = new Rectangle(a, b, 30, 30);
-                rectangle.setFill(Color.YELLOW);
+                rectangle.setFill(Color.LIGHTBLUE);
                 gPane.add(rectangle, a, b);
             }
         }
@@ -152,6 +161,7 @@ public class GameController extends Application {
     public void startSimulation(String gameName) {
         switch (gameName) {
             case "Tetris":
+                primaryStage.setScene(scene_tetris);
                 tetrisModel = new TetrisModel();
                 endgame = false;
                 PieceViewFactory factory = new PieceViewFactory();

@@ -30,48 +30,59 @@ public class TetrisModel extends Observable {
         existingPieces = new ArrayList<Piece>();
 
         List positions1 = new ArrayList<Position>();
-        positions1.add(new Position(0, 0, 0));
+        Position squareCenter = new Position(0, 0, 0);
+        positions1.add(squareCenter);
         positions1.add(new Position(0, 1, 0));
         positions1.add(new Position(1, 0, 0));
         positions1.add(new Position(1, 1, 0));
 
         Piece square = new Piece(positions1);
+        square.setCenter(squareCenter);
         existingPieces.add(square);
 
         List positions2 = new ArrayList<Position>();
+        Position stickCenter = new Position(0, 1, 1);
         positions2.add(new Position(0, 0, 1));
-        positions2.add(new Position(0, 1, 1));
+        positions2.add(stickCenter);
         positions2.add(new Position(0, 2, 1));
         positions2.add(new Position(0, 3, 1));
 
         Piece stick = new Piece(positions2);
+        stick.setCenter(stickCenter );
         existingPieces.add(stick);
 
         List positions3 = new ArrayList<Position>();
+        Position rightLCenter = new Position(0, 1, 2);
         positions3.add(new Position(0, 0, 2));
-        positions3.add(new Position(0, 1, 2));
+        positions3.add(rightLCenter);
         positions3.add(new Position(0, 2, 2));
         positions3.add(new Position(1, 2, 2));
 
         Piece rightL = new Piece(positions3);
+        rightL.setCenter(rightLCenter);
         existingPieces.add(rightL);
 
         List positions4 = new ArrayList<Position>();
+        Position leftLCenter = new Position(1, 1, 3);
+
         positions4.add(new Position(1, 0, 3));
-        positions4.add(new Position(1, 1, 3));
+        positions4.add(leftLCenter);
         positions4.add(new Position(1, 2, 3));
         positions4.add(new Position(0, 2, 3));
 
         Piece leftL = new Piece(positions4);
+        leftL.setCenter(leftLCenter);
         existingPieces.add(leftL);
 
         List positions5 = new ArrayList<Position>();
+        Position rightZCenter = new Position(1, 0, 4);
         positions5.add(new Position(0, 1, 4));
         positions5.add(new Position(1, 1, 4));
-        positions5.add(new Position(1, 2, 4));
+        positions5.add(rightZCenter);
         positions5.add(new Position(2, 0, 4));
 
         Piece rightZ = new Piece(positions5);
+        rightZ.setCenter(rightZCenter);
         existingPieces.add(rightZ);
 
         List positions6 = new ArrayList<Position>();
@@ -101,7 +112,7 @@ public class TetrisModel extends Observable {
         int  n = rand.nextInt(6) + 1;
         System.out.println("n: "+n);
 
-        Piece piece  = new Piece(existingPieces.get(n).getShape());
+        Piece piece  = new Piece(existingPieces.get(4).getShape());
 
         System.out.println("Piece choisie : ");
         piece.Display();
@@ -155,33 +166,36 @@ public class TetrisModel extends Observable {
             count=0;
             for (int j = 0; j<sizeX; j++) {
                 if(!board.getGrid().getCellXY(new Position(j,i)).isEmpty()){
-
                     count++;
                 }
-
             }
             if (count == sizeX) {
                 indexLine = i;
-                System.out.println("line found");
-
-                System.out.println("Will remove "+sizeX+"positions");
 
                 /* Creating list of position to remove a whole line*/
                 List<Position> list = new ArrayList<Position>();
 
-
                 for (int a = 0; a<sizeX; a ++) {
-                    list.add(new Position(a, i)); //TODO : add default color
+                    list.add(new Position(a, i));
                 }
-
-
                 board.emptyMultipleCells(list, pieces.get(1));
-
+                gravity(indexLine);
             }
         }
-
     }
 
+    public void gravity(int index) {
+        for (Position position : pieces.get(1).getShape()) {
+            if (position.getY()<index) {
+                board.moveOneCell(position, Direction.Down);
+            }
+
+
+        }
+        setChanged();
+        notifyObservers();
+
+    }
     public void newPiece(){
 
     }

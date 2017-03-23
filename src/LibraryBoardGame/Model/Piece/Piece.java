@@ -2,6 +2,7 @@ package LibraryBoardGame.Model.Piece;
 import LibraryBoardGame.Model.Board.ModelBoard;
 import LibraryBoardGame.Model.Direction;
 
+import javax.crypto.spec.PSource;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -38,9 +39,6 @@ public class Piece {
         return ok;
     }
 
-    public Position getCenter() {
-        return center;
-    }
 
     public List<Position> getShape() {
         return shape;
@@ -116,4 +114,11 @@ public class Piece {
         System.out.println("end of removePosition ");
     }
 
+    public Position getCenter() {
+        return this.center;
+    }
+
+    public  void setCenter(Position center) {
+        this.center = center;
+    }
 }
