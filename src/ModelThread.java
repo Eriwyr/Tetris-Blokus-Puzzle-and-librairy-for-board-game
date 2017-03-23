@@ -24,32 +24,24 @@ public class ModelThread implements Runnable {
 
     @Override
     public void run(){
-        System.out.println("running");
-        System.out.println(" \" "+game+" \" ");
         if(!endgame) {
             switch (game) {
                 case "Tetris" :
-                    tetrisModel.getBoard().getGrid().Display();
+                    /* Uncomment the following to display grid every turn*/
+                    //tetrisModel.getBoard().getGrid().Display();
                     if (tetrisModel.isPieceFalling()) {
                         System.out.println("sizes : "+tetrisModel.getPieces().size()+ " "+pieceViews.size());
-
                         tetrisModel.fallingPiece();
                     }
                     else {
-                        System.out.println("no piece is falling");
-
                         tetrisModel.addingNewFallingPiece();
-
                         tetrisModel.removeLine();
-
                     }
-
                     break;
                 default:
                     break;
             }
         }
-        System.out.println("Simulation finished ");
     }
 }
 

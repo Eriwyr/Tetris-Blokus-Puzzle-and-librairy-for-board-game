@@ -8,6 +8,7 @@ import LibraryBoardGame.Model.Piece.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Random;
 
 /**
  * Created by maxencebernier on 12/03/2017.
@@ -28,88 +29,94 @@ public class TetrisModel extends Observable {
 
         existingPieces = new ArrayList<Piece>();
 
-        List positions = new ArrayList<Position>();
-        positions.add(new Position(0, 0));
-        positions.add(new Position(0, 1));
-        positions.add(new Position(1, 0));
-        positions.add(new Position(1, 1));
+        List positions1 = new ArrayList<Position>();
+        positions1.add(new Position(0, 0, 0));
+        positions1.add(new Position(0, 1, 0));
+        positions1.add(new Position(1, 0, 0));
+        positions1.add(new Position(1, 1, 0));
 
-        Piece square = new Piece(positions);
+        Piece square = new Piece(positions1);
         existingPieces.add(square);
 
+        List positions2 = new ArrayList<Position>();
+        positions2.add(new Position(0, 0, 1));
+        positions2.add(new Position(0, 1, 1));
+        positions2.add(new Position(0, 2, 1));
+        positions2.add(new Position(0, 3, 1));
 
-        positions.clear();
-        positions.add(new Position(0, 0));
-        positions.add(new Position(0, 1));
-        positions.add(new Position(0, 2));
-        positions.add(new Position(0, 3));
-
-        Piece stick = new Piece(positions);
+        Piece stick = new Piece(positions2);
         existingPieces.add(stick);
 
-        positions.clear();
-        positions.add(new Position(0, 0));
-        positions.add(new Position(0, 1));
-        positions.add(new Position(0, 2));
-        positions.add(new Position(1, 2));
+        List positions3 = new ArrayList<Position>();
+        positions3.add(new Position(0, 0, 2));
+        positions3.add(new Position(0, 1, 2));
+        positions3.add(new Position(0, 2, 2));
+        positions3.add(new Position(1, 2, 2));
 
-        Piece rightL = new Piece(positions);
+        Piece rightL = new Piece(positions3);
         existingPieces.add(rightL);
 
-        positions.clear();
-        positions.add(new Position(1, 0));
-        positions.add(new Position(1, 1));
-        positions.add(new Position(1, 2));
-        positions.add(new Position(0, 2));
+        List positions4 = new ArrayList<Position>();
+        positions4.add(new Position(1, 0, 3));
+        positions4.add(new Position(1, 1, 3));
+        positions4.add(new Position(1, 2, 3));
+        positions4.add(new Position(0, 2, 3));
 
-        Piece leftL = new Piece(positions);
+        Piece leftL = new Piece(positions4);
         existingPieces.add(leftL);
 
-        positions.clear();
-        positions.add(new Position(0, 1));
-        positions.add(new Position(1, 1));
-        positions.add(new Position(1, 2));
-        positions.add(new Position(2, 0));
+        List positions5 = new ArrayList<Position>();
+        positions5.add(new Position(0, 1, 4));
+        positions5.add(new Position(1, 1, 4));
+        positions5.add(new Position(1, 2, 4));
+        positions5.add(new Position(2, 0, 4));
 
-        Piece rightZ = new Piece(positions);
+        Piece rightZ = new Piece(positions5);
         existingPieces.add(rightZ);
 
-        positions.clear();
-        positions.add(new Position(0, 0));
-        positions.add(new Position(1, 0));
-        positions.add(new Position(1, 1));
-        positions.add(new Position(2, 1));
+        List positions6 = new ArrayList<Position>();
+        positions6.add(new Position(0, 0, 5));
+        positions6.add(new Position(1, 0, 5));
+        positions6.add(new Position(1, 1, 5));
+        positions6.add(new Position(2, 1, 5));
 
-        Piece leftZ = new Piece(positions);
+        Piece leftZ = new Piece(positions6);
         existingPieces.add(leftZ);
 
-        positions.clear();
-        positions.add(new Position(0, 1));
-        positions.add(new Position(1, 0));
-        positions.add(new Position(1, 1));
-        positions.add(new Position(2, 1));
+        List positions7 = new ArrayList<Position>();
+        positions7.add(new Position(0, 1, 6));
+        positions7.add(new Position(1, 0, 6));
+        positions7.add(new Position(1, 1, 6));
+        positions7.add(new Position(2, 1, 6));
 
-        Piece T = new Piece(positions);
+        Piece T = new Piece(positions7);
         existingPieces.add(T);
-
-
-
-
-
-
-
     }
 
     public void addingNewFallingPiece() {
-        Piece piece  = new Piece(existingPieces.get(1).getShape());
+        System.out.println("every ossible piece (size) : "+existingPieces.size());
+
+        Random rand = new Random();
+
+        int  n = rand.nextInt(6) + 1;
+        System.out.println("n: "+n);
+
+        Piece piece  = new Piece(existingPieces.get(n).getShape());
+
+        System.out.println("Piece choisie : ");
+        piece.Display();
 
        try {
            /*pieces.set(0, piece);*/
+           System.out.println("try to set following shape :");
+           piece.Display();
 
            pieces.get(0).setShape(piece.getShape());
 
        }catch (Exception e) {
-           System.out.println("catch TetriModel adding new falling piece ");
+
+           System.out.println("catch : piece added :");
+           piece.Display();
            pieces.add(0, new Piece(piece.getShape()));
        }
 
@@ -125,7 +132,7 @@ public class TetrisModel extends Observable {
                 pieces.add(1, new Piece(pieces.get(0).getShape()));
             } else {
                     for (Position position : pieces.get(0).getShape()){
-                        pieces.get(1).getShape().add(new Position(position.getX(), position.getY()));
+                        pieces.get(1).getShape().add(new Position(position.getX(), position.getY(), position.getIdCouleur()));
                     }
 
             }
@@ -164,32 +171,11 @@ public class TetrisModel extends Observable {
 
 
                 for (int a = 0; a<sizeX; a ++) {
-                    list.add(new Position(a, i));
-
-
-
-                }
-
-                /*Dysplay new list */
-                for (Position position : list) {
-                    System.out.print(position.getX()+" "+position.getY()+"; ");
+                    list.add(new Position(a, i)); //TODO : add default color
                 }
 
 
                 board.emptyMultipleCells(list, pieces.get(1));
-
-                /*
-                for (Position cell : pieces.get(1).getShape()) {
-                    if(cell.getY()>indexLine) {
-                        board.getGrid().setCellXY(new Position(cell.getX(), cell.getY()), true);
-                        pieces.get(1).getShape().remove(cell);
-                        cell.setY(cell.getY()+1);
-                        board.getGrid().setCellXY(new Position(cell.getX(), cell.getY()), false);
-                        pieces.get(1).getShape().add(cell);
-                    }
-
-
-                }*/
 
             }
         }

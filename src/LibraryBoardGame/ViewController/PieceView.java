@@ -13,7 +13,7 @@ import javafx.scene.shape.Rectangle;
 /**
  * Created by maxencebernier on 28/02/2017.
  */
-public class PieceView {
+public abstract class PieceView {
     //private Piece piece;
     // private Position center;
 
@@ -25,6 +25,7 @@ public class PieceView {
     }
 
     public PieceView(Piece piece) {
+
         shapeView = new ArrayList<Rectangle>();
         for (Position position : piece.getShape()) {
             Rectangle rectangle = new Rectangle(position.getX(), position.getY(), 30, 30) ;

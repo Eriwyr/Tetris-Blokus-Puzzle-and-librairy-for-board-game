@@ -50,7 +50,7 @@ public class Piece {
 
     public void Display() {
         for (Position position : shape) {
-            System.out.println(position.getX()+" "+position.getY());
+            System.out.println(position.getX()+" "+position.getY()+" (color : "+position.getIdCouleur()+")");
         }
         System.out.println();
     }
@@ -62,7 +62,7 @@ public class Piece {
             case Left:
                 System.out.println("LLLLEEEEFFFFTTTTT");
                 for (Position position : shape) {
-                    anticipatePosition.add(new Position(position.getX() - 1, position.getY()));
+                    anticipatePosition.add(new Position(position.getX() - 1, position.getY(), position.getIdCouleur()));
                 }
 
 
@@ -71,7 +71,7 @@ public class Piece {
             case Right:
                 for (Position position : shape) {
 
-                    anticipatePosition.add(new Position(position.getX() + 1, position.getY()));
+                    anticipatePosition.add(new Position(position.getX() + 1, position.getY(), position.getIdCouleur()));
                 }
 
                 break;
@@ -79,7 +79,7 @@ public class Piece {
             case Up:
                 for (Position position : shape) {
 
-                    anticipatePosition.add(new Position(position.getX(), position.getY() - 1));
+                    anticipatePosition.add(new Position(position.getX(), position.getY() - 1, position.getIdCouleur()));
                 }
 
                 break;
@@ -87,7 +87,7 @@ public class Piece {
             case Down:
                 for (Position position : shape) {
 
-                    anticipatePosition.add(new Position(position.getX(), position.getY() + 1));
+                    anticipatePosition.add(new Position(position.getX(), position.getY() + 1, position.getIdCouleur()));
                 }
 
                 break;
@@ -106,10 +106,6 @@ public class Piece {
         List<String> list = new ArrayList<>();
 
 
-// This is a clever way to create the iterator and call iterator.hasNext() like
-// you would do in a while-loop. It would be the same as doing:
-//     Iterator<String> iterator = list.iterator();
-//     while (iterator.hasNext()) {
         for (Iterator<Position> iterator = shape.iterator(); iterator.hasNext();) {
             Position cell = iterator.next();
             if (cell.getY() == position.getY() && cell.getX() == position.getX()) {
@@ -119,14 +115,6 @@ public class Piece {
             }
         }
 
-        /*
-        System.out.println("removing Position ");
-        for (Position cell : shape ){
-            if (cell.getY() == position.getY() && cell.getX() == position.getX()) {
-                shape.remove(cell);
-            }
-        }
-        */
         System.out.println("end of removePosition ");
     }
 
