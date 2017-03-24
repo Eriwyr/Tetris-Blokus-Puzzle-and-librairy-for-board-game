@@ -14,6 +14,9 @@ public class Piece {
     protected List<Position> shape;
     protected Position center;
 
+    public Piece(){
+        this.shape = new ArrayList<Position>();
+    }
     public Piece(List<Position> shape) {
         this.shape = shape;
         //this.center = center;
@@ -50,13 +53,11 @@ public class Piece {
         }
         System.out.println();
     }
-
     public List<Position> anticipationCalc(Direction direction){
         List<Position> anticipatePosition = new ArrayList<Position>();
 
         switch (direction) {
             case Left:
-                System.out.println("LLLLEEEEFFFFTTTTT");
                 for (Position position : shape) {
                     anticipatePosition.add(new Position(position.getX() - 1, position.getY(), position.getIdCouleur()));
                 }

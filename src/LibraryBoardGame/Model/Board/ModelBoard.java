@@ -45,7 +45,6 @@ public class ModelBoard extends Observable{
         pieces.add(piece2);
 
     }
-
     public int movePiece(Piece piece, Direction direction) {
         int returnValue =0;
         removePiece(piece);
@@ -76,10 +75,7 @@ public class ModelBoard extends Observable{
         }
 
         setChanged();
-      /*  System.out.println("Piece outing move : ");
-        piece.Display();
-        System.out.println("notifying from move piece");
-        */notifyObservers();
+        notifyObservers();
         addPieceOnBoard(piece);
 
         return returnValue;
@@ -186,49 +182,41 @@ public class ModelBoard extends Observable{
 
 
     public void rotatePiece(Piece piece, int rotation) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
-    /*    removePiece(piece);
-        int temp =0;
-        int removeCenterX;
-        int removeCenterY;
+        removePiece(piece);
+        List<Position> positions = new ArrayList<Position>();
+        int centerX = 0;
+        int centerY=0;
+        int pieceX=0;
+        int pieceY=0;
+        int newX=0;
+        int newY=0;
         if (rotation == 1) {
             for (Position position : piece.getShape()) {
-                System.out.println("old position :"+ position.getX()+ " "+ position.getY());
+                System.out.println("entering !  ! !!!!!!! ! !! ");
+
+                pieceX = position.getX();
+                pieceY = position.getY();
 
 
-              //  removeCenterX = position.getX() - piece.getCenter().getX();
-             //   removeCenterY = position.getY() - piece.getCenter().getY();
+                centerX = piece.getCenter().getX();
+                centerY = piece.getCenter().getY();
 
-                // extchange
+                newX = centerX + (pieceY-centerY);
+                newY = centerY - (pieceX-centerX);
 
-                //temp = removeCenterY;
-                temp =  position.getY() - piece.getCenter().getY();
-                removeCenterY = position.getX() - piece.getCenter().getX();;
-                removeCenterX = temp;
+                position.setX(newX);
+                position.setY(newY);
 
-                System.out.println("extchange : "+removeCenterX + " "+ removeCenterY );
-                //add centers
-                removeCenterX = removeCenterX+piece.getCenter().getX();
-
-                removeCenterY = removeCenterY+piece.getCenter().getY();
-                System.out.println("added center  : "+removeCenterX + " "+ removeCenterY );
-
-
-
-                position.setX(removeCenterX);
-                position.setY(removeCenterY);
-                System.out.println("new position :"+ position.getX()+ " "+ position.getY());
-
+                positions.add(position);
             }
 
         } else {
 
         }
 
-
-
-
+        piece.setShape(positions);
         addPieceOnBoard(piece);
-*/
+
     }
 
 

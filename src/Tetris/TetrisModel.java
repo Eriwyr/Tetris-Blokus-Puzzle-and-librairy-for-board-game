@@ -75,7 +75,9 @@ public class TetrisModel extends Observable {
 
         Piece leftL = new Piece(positions4);
         leftL.setCenter(leftLCenter);
-        existingPieces.add(leftL);
+      /*  System.out.println("leftLCenter : "+leftLCenter.getX() + leftLCenter.getY());
+        System.out.println("Center : "+leftL.getCenter().getX());
+        */existingPieces.add(leftL);
 
         List positions5 = new ArrayList<Position>();
         Position rightZCenter = new Position(1, 0, 4);
@@ -114,11 +116,12 @@ public class TetrisModel extends Observable {
 
         int  n = rand.nextInt(6) + 1;
         System.out.println("n: "+n);
+        /*remplace done*/
+        Piece piece  = new Piece(existingPieces.get(2).getShape(), existingPieces.get(n).getCenter());
+        //Piece piece  = new Piece(existingPieces.get(n).getShape());
 
-        Piece piece  = new Piece(existingPieces.get(n).getShape());
 
-
-       try {
+        try {
            /*pieces.set(0, piece);*/
 
            pieces.get(0).setShape(piece.getShape());
@@ -127,19 +130,27 @@ public class TetrisModel extends Observable {
 
            System.out.println("catch : piece added :");
            piece.Display();
-           pieces.add(0, new Piece(piece.getShape()));
-       }
+            /*remplace done*/
+
+            pieces.add(0, new Piece(piece.getShape(), piece.getCenter()));
+            //pieces.add(0, new Piece(piece.getShape()));
+
+        }
 
         board.AuthorizedAddPieceOnBoard(piece);
         setPieceFalling(true);
     }
 
      public void fallingPiece(){
+        // System.out.println("Center in falling piece : "+pieces.get(0).getCenter());
+         //System.out.println("Center in falling piece : "+pieces.get(0).getCenter().getX()+" "+pieces.get(0).getCenter().getY());
         if (board.movePiece(pieces.get(0), Direction.Down) == 1) {
             pieceFalling = false;
             if(pieces.size() == 1) {
                 System.out.println("adding a piece");
-                pieces.add(1, new Piece(pieces.get(0).getShape()));
+                /*remplace*/
+                pieces.add(1, new Piece(pieces.get(0).getShape(), pieces.get(0).getCenter()));
+                //pieces.add(1, new Piece(pieces.get(0).getShape()));
             } else {
                     for (Position position : pieces.get(0).getShape()){
                         pieces.get(1).getShape().add(new Position(position.getX(), position.getY(), position.getIdCouleur()));
