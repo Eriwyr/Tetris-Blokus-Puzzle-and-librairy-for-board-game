@@ -49,8 +49,8 @@ public class Grid {
     }
 
     public void Display() {
-        for( int i = 0; i <12; i++) {
-            for (int j = 0; j<6; j++) {
+        for( int i = 0; i <24; i++) {
+            for (int j = 0; j<12; j++) {
                 if (tabCell[j][i].isEmpty()) System.out.print(". ");
                 else System.out.print("x ");
             }

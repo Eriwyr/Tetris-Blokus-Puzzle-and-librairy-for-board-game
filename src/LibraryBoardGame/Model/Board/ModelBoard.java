@@ -23,7 +23,7 @@ public class ModelBoard extends Observable{
     }
 
     public ModelBoard() {
-        grid = new Grid(6, 12);
+        grid = new Grid(12, 24);
         pieces = new ArrayList<Piece>();
     }
 

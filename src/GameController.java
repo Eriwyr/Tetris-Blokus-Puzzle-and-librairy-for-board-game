@@ -67,12 +67,12 @@ public class GameController extends Application {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Tetris and Blokus");
         primaryStage.setWidth(1024);
-        primaryStage.setHeight(768);
+        primaryStage.setHeight(766);
         primaryStage.setResizable(false);
 
         BorderPane root = new BorderPane();
 
-        Scene scene_menu = new Scene(root, 1024, 768);
+        Scene scene_menu = new Scene(root, 1024, 766);
         scene_menu.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         root.setId("menu");
         root.applyCss();
@@ -135,20 +135,17 @@ public class GameController extends Application {
         for (int a = 0; a < tetrisModel.getBoard().getGrid().getSizeY(); a++) {
             for (int b = 0; b <  tetrisModel.getBoard().getGrid().getSizeX(); b++) {
                 Rectangle rectangle = new Rectangle(30, 30);
-                rectangle.setFill(Color.LIGHTBLUE);
-                rectangle.setStroke(Color.LIGHTBLUE);
+                rectangle.setId("gridTetris");
+                rectangle.applyCss();
                 gPane.add(rectangle, b, a);
             }
         }
-        Rectangle rect = new Rectangle(30, 30) ;
-        rect.setFill(Color.BLACK);
-        gPane.add(rect, 0, 0);
     }
 
 
     public Scene settingSceneTetris() {
         borderP = new BorderPane();
-
+        borderP.setId("tetris");
         // permet de placer les diffrents boutons dans une grille
         gPane = new GridPane();
 
@@ -164,10 +161,10 @@ public class GameController extends Application {
         /* borderP.setTop(toolbar);
         borderP.setBottom(statusbar);*/
         text = new Text();
-        text.setFont(new Font(20));
+        text.setId("point");
         text.setWrappingWidth(4000);
         text.setTextAlignment(TextAlignment.JUSTIFY);
-        text.setText("The quick brown fox jumps over the lazy dog");
+        text.setText("Start !");
 
         borderP.setCenter(gPane);
         borderP.setRight(text);
@@ -175,7 +172,7 @@ public class GameController extends Application {
         tetris_group.getChildren().add(borderP);
 
         Scene scene_tetris = new Scene(tetris_group, 1024, 768);
-
+        scene_tetris.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         return scene_tetris;
 
     }

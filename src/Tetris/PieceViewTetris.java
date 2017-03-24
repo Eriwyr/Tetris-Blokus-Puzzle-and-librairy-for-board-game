@@ -28,31 +28,39 @@ public class PieceViewTetris extends PieceView{
             Rectangle rectangle = new Rectangle(position.getX(), position.getY(), 30, 30) ;
             switch (position.getIdCouleur()) {
                 case 0 :
-                    //rectangle.setId
-                    rectangle.setFill(Color.DARKRED);
+                    rectangle.setId("rect1");
+
                     break;
                 case 1 :
-                    rectangle.setFill(Color.DEEPPINK);
+                    rectangle.setId("rect2");
+
                     break;
                 case 2 :
-                    rectangle.setFill(Color.BLUE);
+                    rectangle.setId("rect3");
+
                     break;
                 case 3 :
-                    rectangle.setFill(Color.CADETBLUE);
+                    rectangle.setId("rect4");
+
                     break;
                 case 4 :
-                    rectangle.setFill(Color.ROSYBROWN);
+                    rectangle.setId("rect5");
+
                     break;
                 case 5 :
-                    rectangle.setFill(Color.GREENYELLOW);
+                    rectangle.setId("rect6");
+
                     break;
                 case 6 :
-                    rectangle.setFill(Color.PEACHPUFF);
+                    rectangle.setId("rect7");
+
                     break;
                 case 100 :
+                    rectangle.setId("rect8");
                     rectangle.setFill(Color.TRANSPARENT);
                     break;
                 default:
+                    rectangle.setId("rect9");
                     rectangle.setFill(Color.BLACK);
                     break;
             }

@@ -4,6 +4,9 @@
 	/*-fx-background-color:red;*/
 }
 
+#tetris{
+    -fx-background-color: #2C3E50;
+}
 #tetrisBtn{
 	-fx-background-color: #EC644B;
 	-fx-pref-height: 100px;
@@ -23,4 +26,45 @@
     -fx-font-weight: bold;
     -fx-font-size: 25px;
 }
+
+#gridTetris{
+     -fx-fill:#2F3338;
+     -fx-stroke:#2F3338;
+ }
+
+#rect1{
+    -fx-fill:#EF4836;
+    -fx-stroke:#2F3338;
+}
+
+#rect2{
+    -fx-fill:#F5AB35;
+    -fx-stroke:#2F3338;
+}
+
+#rect3{
+    -fx-fill:#59ABE3;
+    -fx-stroke:#2F3338;
+}
+
+#rect4{
+    -fx-fill:#BE90D4;
+    -fx-stroke:#2F3338;
+}
+
+#rect5{
+    -fx-fill:#A0D468;
+    -fx-stroke:#2F3338;
+}
+
+#rect6{
+    -fx-fill:#48CFAD;
+    -fx-stroke:#2F3338;
+}
+
+#rect7{
+    -fx-fill:#F1A9A0;
+    -fx-stroke:#2F3338;
+}
+
 
