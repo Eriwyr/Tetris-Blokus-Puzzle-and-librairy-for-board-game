@@ -57,7 +57,6 @@ public class ModelBoard extends Observable{
                 }
             }
             catch(ArrayIndexOutOfBoundsException e){
-                System.out.println("Catch in ModelBoard movepiece");
                 available = false;
                 returnValue = 1;
             }
@@ -69,18 +68,19 @@ public class ModelBoard extends Observable{
 
         setChanged();
         notifyObservers();
-        addPieceOnBoard(piece);
+        addPieceOnBoardInOrder(piece, 0);
 
         return returnValue;
 
     }
     public void udateGrid(){
+        System.out.println("after calling size piece : "+pieces.size());
         for(int i =0; i<grid.getSizeY(); i++) {
             for (int j=0; j<grid.getSizeX(); j++ ) {
                 grid.setCellXY(new Position(j, i ), true);
             }
         }
-        System.out.println("size piece : "+pieces.size());
+
 
         for (Piece piece : pieces){
             System.out.println("size positions "+piece.getShape().size());
@@ -88,6 +88,8 @@ public class ModelBoard extends Observable{
                 System.out.println("setting to false "+position.getX()+" "+position.getY());
                 grid.setCellXY(position, false);
             }
+            System.out.println("in udate grid");
+            grid.Display();
         }
 
     }
@@ -140,8 +142,16 @@ public class ModelBoard extends Observable{
         for (Position position: piece.getShape()){
             grid.getCellXY(position).setEmpty(false);
         }
-        System.out.println("piece added through addPice");
         pieces.add(piece);
+
+
+    }
+
+    public void addPiece(Piece piece, int index){
+        for (Position position: piece.getShape()){
+            grid.getCellXY(position).setEmpty(false);
+        }
+        pieces.add(index, piece);
 
 
     }
@@ -154,6 +164,15 @@ public class ModelBoard extends Observable{
         setChanged();
         notifyObservers();
 
+    }
+
+    public  void addPieceOnBoardInOrder(Piece piece, int index) {
+        for (Position position :piece.getShape()) {
+            grid.setCellXY(position, false);
+        }
+        addPiece(piece, index);
+        setChanged();
+        notifyObservers();
     }
 
 
