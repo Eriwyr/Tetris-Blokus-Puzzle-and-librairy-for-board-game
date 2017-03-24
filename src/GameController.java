@@ -60,6 +60,7 @@ public class GameController extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        // Setting up view for the menu
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Tetris and Blokus");
         primaryStage.setWidth(1024);
@@ -72,8 +73,6 @@ public class GameController extends Application {
         scene_menu.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         root.setId("menu");
         root.applyCss();
-       // primaryStage.setBackground(new Background(myBI));
-
 
         VBox vbox = new VBox(100);
 
@@ -91,25 +90,24 @@ public class GameController extends Application {
 
         root.setCenter(vbox);
 
-
-        //primaryStage.setScene(new Scene(borderP, 1024, 768));
-
         primaryStage.setScene(scene_menu);
 
-
+        // Setting up actions for the buttons on the menu
         button_tetris.setOnAction(new EventHandler<ActionEvent>() {
+            // Clicking on this button launches Tetris game
             @Override public void handle(ActionEvent e) {
                 startSimulation("Tetris");
             }
         });
 
         button_blokus.setOnAction(new EventHandler<ActionEvent>() {
+            // Clicking on this button launches Blockus game
             @Override public void handle(ActionEvent e) {
                 startSimulation("Blockus");
             }
         });
 
-
+        // Showing the menu
         primaryStage.show();
 
 
@@ -117,6 +115,7 @@ public class GameController extends Application {
 
 
     public void initializeGrid(GridPane gPane){
+        //Emptying grid if there is anything on it
         try{
             Node node = gPane.getChildren().get(0);
             gPane.getChildren().clear();
@@ -127,6 +126,7 @@ public class GameController extends Application {
 
         }
 
+        // Initialing grid
         for (int a = 0; a < tetrisModel.getBoard().getGrid().getSizeY(); a++) {
             for (int b = 0; b <  tetrisModel.getBoard().getGrid().getSizeX(); b++) {
                 Rectangle rectangle = new Rectangle(30, 30);
@@ -239,7 +239,6 @@ public class GameController extends Application {
                 gPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
                     @Override
                     public void handle(KeyEvent event) {
-                        System.out.println("key press");
                         switch (event.getCode()) {
                             case LEFT: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Left);
                                 break;
