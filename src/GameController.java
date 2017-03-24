@@ -130,13 +130,19 @@ public class GameController extends Application {
 
 
         }
-        for (int a = 0; a < 6; a++) {
-            for (int b = 0; b < 12; b++) {
-                Rectangle rectangle = new Rectangle(a, b, 30, 30);
+        System.out.println("size Y : "+tetrisModel.getBoard().getGrid().getSizeY()+" sier X = "+tetrisModel.getBoard().getGrid().getSizeX());
+
+        for (int a = 0; a < tetrisModel.getBoard().getGrid().getSizeY(); a++) {
+            for (int b = 0; b <  tetrisModel.getBoard().getGrid().getSizeX(); b++) {
+                Rectangle rectangle = new Rectangle(30, 30);
                 rectangle.setFill(Color.LIGHTBLUE);
-                gPane.add(rectangle, a, b);
+                rectangle.setStroke(Color.LIGHTBLUE);
+                gPane.add(rectangle, b, a);
             }
         }
+        Rectangle rect = new Rectangle(30, 30) ;
+        rect.setFill(Color.BLACK);
+        gPane.add(rect, 0, 0);
     }
 
 
@@ -177,9 +183,10 @@ public class GameController extends Application {
     public void startSimulation(String gameName) {
         switch (gameName) {
             case "Tetris":
+                tetrisModel = new TetrisModel();
                 Scene scene_tetris = settingSceneTetris();
                 primaryStage.setScene(scene_tetris);
-                tetrisModel = new TetrisModel();
+
                 endgame = false;
                 PieceViewFactory factory = new PieceViewFactory();
                 pieceViews = new ArrayList<PieceView>();
@@ -196,7 +203,7 @@ public class GameController extends Application {
                         switch (gameName) {
                             case "Tetris":
 
-                                text.setText("tetris");
+                                text.setText(Integer.toString(tetrisModel.getPoints()));
                                 for (int i = 0; i < tetrisModel.getPieces().size(); i++) {
                                     try {
                                         PieceView pieceViewTry = pieceViews.get(i);
@@ -218,6 +225,7 @@ public class GameController extends Application {
 
                                                     for (PieceView pieceView : pieceViews) {
                                                        for (Rectangle rectangle : pieceView.getShapeView()) {
+                                                          // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
                                                            gPane.add(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
                                                        }
                                                    }

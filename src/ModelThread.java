@@ -25,12 +25,13 @@ public class ModelThread implements Runnable {
     @Override
     public void run(){
         if(!endgame) {
+            tetrisModel.getBoard().getGrid().Display();
+
             switch (game) {
                 case "Tetris" :
                     /* Uncomment the following to display grid every turn*/
                     //tetrisModel.getBoard().getGrid().Display();
                     if (tetrisModel.isPieceFalling()) {
-                        System.out.println("sizes : "+tetrisModel.getPieces().size()+ " "+pieceViews.size());
                         tetrisModel.fallingPiece();
                     }
                     else {

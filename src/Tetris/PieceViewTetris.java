@@ -21,9 +21,6 @@ public class PieceViewTetris extends PieceView{
 
 
     public PieceViewTetris(Piece piece) {
-        //super(piece);
-        System.out.println("piece we are trying to view : ");
-        piece.Display();
 
 
         shapeView = new ArrayList<Rectangle>();
@@ -31,6 +28,7 @@ public class PieceViewTetris extends PieceView{
             Rectangle rectangle = new Rectangle(position.getX(), position.getY(), 30, 30) ;
             switch (position.getIdCouleur()) {
                 case 0 :
+                    //rectangle.setId
                     rectangle.setFill(Color.DARKRED);
                     break;
                 case 1 :
@@ -58,15 +56,10 @@ public class PieceViewTetris extends PieceView{
                     rectangle.setFill(Color.BLACK);
                     break;
             }
-
+            rectangle.setStroke(Color.BLACK);
             shapeView.add(rectangle);
-
-
         }
-        // affichage.setText(m.getValue() + "");
-
     }
-
     public void Display() {
         System.out.println("right display ! ");
     }

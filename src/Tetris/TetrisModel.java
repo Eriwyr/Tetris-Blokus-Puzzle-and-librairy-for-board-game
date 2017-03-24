@@ -17,11 +17,14 @@ public class TetrisModel extends Observable {
     private ModelBoard board;
     private List<Piece> pieces;
     private int points;
+    private int level;
     private boolean pieceFalling;
     private List<Piece> existingPieces;
 
 
     public TetrisModel() {
+        this.level=1;
+        this.points = 0;
         this.board = new ModelBoard();
         this.pieces = new ArrayList<Piece>();
         this.points = 0;
@@ -112,15 +115,11 @@ public class TetrisModel extends Observable {
         int  n = rand.nextInt(6) + 1;
         System.out.println("n: "+n);
 
-        Piece piece  = new Piece(existingPieces.get(4).getShape());
+        Piece piece  = new Piece(existingPieces.get(n).getShape());
 
-        System.out.println("Piece choisie : ");
-        piece.Display();
 
        try {
            /*pieces.set(0, piece);*/
-           System.out.println("try to set following shape :");
-           piece.Display();
 
            pieces.get(0).setShape(piece.getShape());
 
@@ -157,8 +156,10 @@ public class TetrisModel extends Observable {
     }
 
     public void removeLine(){
+
         int sizeX = board.getGrid().getSizeX();
         int sizeY = board.getGrid().getSizeY();
+
         int count;
         int indexLine;
 
@@ -170,6 +171,7 @@ public class TetrisModel extends Observable {
                 }
             }
             if (count == sizeX) {
+                points += level*40;
                 indexLine = i;
 
                 /* Creating list of position to remove a whole line*/
@@ -185,13 +187,17 @@ public class TetrisModel extends Observable {
     }
 
     public void gravity(int index) {
+        System.out.println("in gravity : ");
+        int c = 0;
         for (Position position : pieces.get(1).getShape()) {
             if (position.getY()<index) {
+                c++;
                 board.moveOneCell(position, Direction.Down);
             }
 
 
         }
+        System.out.println("counter :"+c);
         setChanged();
         notifyObservers();
 
@@ -214,5 +220,13 @@ public class TetrisModel extends Observable {
 
     public void setPieceFalling(boolean pieceFalling) {
         this.pieceFalling = pieceFalling;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getPoints() {
+        return points;
     }
 }
