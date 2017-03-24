@@ -25,7 +25,7 @@ public class TetrisModel extends Observable {
     public TetrisModel() {
         this.level=1;
         this.points = 0;
-        this.board = new ModelBoard(4, 10);
+        this.board = new ModelBoard(20, 20);
        /* this.pieces = new ArrayList<Piece>();*/
         this.points = 0;
         this.pieceFalling = false;
@@ -125,7 +125,7 @@ public class TetrisModel extends Observable {
         Piece piece  = new Piece(existingPieces.get(2).getShape(), existingPieces.get(n).getCenter());
         //Piece piece  = new Piece(existingPieces.get(n).getShape());
 
-        Piece piece  = new Piece(existingPieces.get(2).getShape());
+      //  Piece piece  = new Piece(existingPieces.get(2).getShape());
 
         try {
            /*pieces.set(0, piece);*/
@@ -136,14 +136,12 @@ public class TetrisModel extends Observable {
 
            System.out.println("en en créant une nouvelle. ");
            piece.Display();
-           board.getPieces().add(0, new Piece(piece.getShape()));
+           board.getPieces().add(0, new Piece(piece.getShape(), piece.getCenter()));
        }
             /*remplace done*/
 
-            pieces.add(0, new Piece(piece.getShape(), piece.getCenter()));
-            //pieces.add(0, new Piece(piece.getShape()));
 
-        }
+
 
         board.AuthorizedAddPieceOnBoard(piece);
         setPieceFalling(true);
@@ -155,9 +153,9 @@ public class TetrisModel extends Observable {
             pieceFalling = false;
             if(board.getPieces().size() == 1) {
                 System.out.println("adding a piece");
-                board.getPieces().add(1, new Piece(board.getPieces().get(0).getShape()));
+                board.getPieces().add(1, new Piece(board.getPieces().get(0).getShape(), board.getPieces().get(0).getCenter()));
                 /*remplace*/
-                pieces.add(1, new Piece(pieces.get(0).getShape(), pieces.get(0).getCenter()));
+               // pieces.add(1, new Piece(pieces.get(0).getShape(), pieces.get(0).getCenter()));
                 //pieces.add(1, new Piece(pieces.get(0).getShape()));
             } else {
                     for (Position position : board.getPieces().get(0).getShape()){

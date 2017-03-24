@@ -300,7 +300,10 @@ public class GameController extends Application {
                         switch (event.getCode()) {
                             case LEFT: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Left);
                                 break;
-                            case RIGHT: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Right);
+                            case RIGHT:
+                                System.out.println("On essaye d'aller à droite");
+                                tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Right);
+
                                 break;
                             case DOWN: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Down);
                                 break;

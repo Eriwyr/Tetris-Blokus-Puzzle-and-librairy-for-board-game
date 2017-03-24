@@ -39,6 +39,7 @@ public class ModelBoard extends Observable{
 
     }
     public int movePiece(Piece piece, Direction direction) {
+        System.out.println("On est dans move : "+direction);
         int returnValue =0;
         removePiece(piece);
 
