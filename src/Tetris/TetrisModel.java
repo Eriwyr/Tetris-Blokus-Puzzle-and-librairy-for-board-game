@@ -89,33 +89,37 @@ public class TetrisModel extends Observable {
         existingPieces.add(rightZ);
 
         List positions6 = new ArrayList<Position>();
+        Position leftZCenter = new Position(1, 0, 5);
         positions6.add(new Position(0, 0, 5));
-        positions6.add(new Position(1, 0, 5));
+        positions6.add(leftZCenter);
         positions6.add(new Position(1, 1, 5));
         positions6.add(new Position(2, 1, 5));
 
         Piece leftZ = new Piece(positions6);
+        leftZ.setCenter(leftZCenter);
         existingPieces.add(leftZ);
 
         List positions7 = new ArrayList<Position>();
+        Position TCenter = new Position(1, 1, 6);
         positions7.add(new Position(0, 1, 6));
         positions7.add(new Position(1, 0, 6));
-        positions7.add(new Position(1, 1, 6));
+        positions7.add(TCenter);
         positions7.add(new Position(2, 1, 6));
 
         Piece T = new Piece(positions7);
+        T.setCenter(TCenter);
         existingPieces.add(T);
     }
 
     public void addingNewFallingPiece() {
-        System.out.println("every ossible piece (size) : "+existingPieces.size());
+        System.out.println("new add");
+        System.out.println("size of piece "+pieces.size() );
 
         Random rand = new Random();
-
-        int  n = rand.nextInt(6) + 1;
+        int  n = rand.nextInt(7) ;
         System.out.println("n: "+n);
 
-        Piece piece  = new Piece(existingPieces.get(n).getShape());
+        Piece piece  = new Piece(existingPieces.get(2).getShape());
 
 
        try {
@@ -181,6 +185,7 @@ public class TetrisModel extends Observable {
                     list.add(new Position(a, i));
                 }
                 board.emptyMultipleCells(list, pieces.get(1));
+                System.out.println("called gravity");
                 gravity(indexLine);
             }
         }
@@ -193,15 +198,18 @@ public class TetrisModel extends Observable {
             if (position.getY()<index) {
                 c++;
                 board.moveOneCell(position, Direction.Down);
+
             }
 
 
         }
+        board.udateGrid();
         System.out.println("counter :"+c);
         setChanged();
         notifyObservers();
 
     }
+
     public void newPiece(){
 
     }

@@ -23,7 +23,7 @@ public class ModelBoard extends Observable{
     }
 
     public ModelBoard() {
-        grid = new Grid(12, 24);
+        grid = new Grid(4, 10);
         pieces = new ArrayList<Piece>();
     }
 
@@ -35,14 +35,7 @@ public class ModelBoard extends Observable{
         this.grid = new Grid(x,y);
         pieces = new ArrayList<Piece>();
 
-        List<Position> shape2 = new ArrayList<Position>();
-        Piece piece2 = new Piece(shape2);
 
-        shape2.add(new Position(5, 5));
-        shape2.add(new Position(5, 6));
-        shape2.add(new Position(5, 7));
-
-        pieces.add(piece2);
 
     }
 
@@ -76,24 +69,56 @@ public class ModelBoard extends Observable{
         }
 
         setChanged();
-      /*  System.out.println("Piece outing move : ");
-        piece.Display();
-        System.out.println("notifying from move piece");
-        */notifyObservers();
+        notifyObservers();
         addPieceOnBoard(piece);
 
         return returnValue;
 
     }
+    public void udateGrid(){
+        for(int i =0; i<grid.getSizeY(); i++) {
+            for (int j=0; j<grid.getSizeX(); j++ ) {
+                grid.setCellXY(new Position(j, i ), true);
+            }
+        }
+        System.out.println("size piece : "+pieces.size());
+
+        for (Piece piece : pieces){
+            System.out.println("size positions "+piece.getShape().size());
+            for (Position position : piece.getShape()) {
+                System.out.println("setting to false "+position.getX()+" "+position.getY());
+                grid.setCellXY(position, false);
+            }
+        }
+
+    }
+
 
     public void moveOneCell(Position position, Direction direction) {
+
         Position anticipatedPosition = position.anticipatePosition(direction);
+        position.setX(anticipatedPosition.getX());
+        position.setY(anticipatedPosition.getY());
+
+
+   /*     Position positionAbove = position.anticipatePosition(Direction.Up);
+        System.out.println("For the position  "+position.getX()+" "+position.getY()+", the above is :"+positionAbove.getX()+" "+positionAbove.getY()+", and bellow is "+anticipatedPosition.getX()+" "+anticipatedPosition.getY());
      //   if(grid.getCellXY(anticipatedPosition).isEmpty()) {
-            grid.setCellXY(anticipatedPosition, true);
-            position.setX(anticipatedPosition.getX());
-            position.setY(anticipatedPosition.getY());
+
+        if (getGrid().getCellXY(positionAbove).isEmpty()) {
+            System.out.println("the position "+positionAbove.getX()+" "+positionAbove.getY()+" is empty " );
+            System.out.println("firt set "+position.getX()+" "+ position.getY()+ " to true");
+            grid.setCellXY(position, true);
+        } else {
+            System.out.println("first set "+position.getX()+" "+ position.getY()+ " to false");
             grid.setCellXY(position, false);
-      //  }
+        }
+
+        position.setX(anticipatedPosition.getX());
+        position.setY(anticipatedPosition.getY());
+            System.out.println("second set "+position.getX()+" "+ position.getY()+ " to false");
+            grid.setCellXY(position, false);
+      //  }*/
 
         setChanged();
         notifyObservers();
@@ -101,10 +126,11 @@ public class ModelBoard extends Observable{
 
 
     public void removePiece(Piece piece){
+
         for (Position position: piece.getShape()){
             grid.getCellXY(position).setEmpty(true);
         }
-
+        pieces.remove(piece);
 }
 
     public List<Piece> getPieces(){
@@ -112,6 +138,10 @@ public class ModelBoard extends Observable{
     }
 
     public void addPiece(Piece piece){
+        for (Position position: piece.getShape()){
+            grid.getCellXY(position).setEmpty(false);
+        }
+        System.out.println("piece added through addPice");
         pieces.add(piece);
 
 

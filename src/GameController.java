@@ -34,13 +34,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by maxencebernier on 22/03/2017.
@@ -130,7 +126,6 @@ public class GameController extends Application {
 
 
         }
-        System.out.println("size Y : "+tetrisModel.getBoard().getGrid().getSizeY()+" sier X = "+tetrisModel.getBoard().getGrid().getSizeX());
 
         for (int a = 0; a < tetrisModel.getBoard().getGrid().getSizeY(); a++) {
             for (int b = 0; b <  tetrisModel.getBoard().getGrid().getSizeX(); b++) {
@@ -220,12 +215,14 @@ public class GameController extends Application {
                                                         pieceViews.add(factory.getPieceViewTetris(piece));
                                                     }
 
+                                                    boop();
+                                                    /*
                                                     for (PieceView pieceView : pieceViews) {
                                                        for (Rectangle rectangle : pieceView.getShapeView()) {
                                                           // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
                                                            gPane.add(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
                                                        }
-                                                   }
+                                                   }*/
                                                 }
                                             });
                                         }
@@ -271,6 +268,16 @@ public class GameController extends Application {
 
         ScheduledExecutorService execute = Executors.newSingleThreadScheduledExecutor();
         execute.scheduleAtFixedRate(new  ModelThread(tetrisModel, endgame, gameName, pieceViews), 0, 600, TimeUnit.MILLISECONDS);
+    }
+
+
+    public synchronized void boop() {
+        for (PieceView pieceView : pieceViews) {
+            for (Rectangle rectangle : pieceView.getShapeView()) {
+                // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
+                gPane.add(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
+            }
+        }
     }
 }
 

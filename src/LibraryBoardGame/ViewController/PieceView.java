@@ -58,12 +58,7 @@ public abstract class PieceView {
         }
         */
 
-        public void addCellToPieceView (int x, int y ) {
-            Rectangle rectangle = new Rectangle(x, y, 30, 30) ;
-            rectangle.setFill(Color.RED);
 
-            shapeView.add(rectangle);
-        }
     }
 
 

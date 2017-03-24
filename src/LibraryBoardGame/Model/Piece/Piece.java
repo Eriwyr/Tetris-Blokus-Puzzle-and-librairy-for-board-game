@@ -56,7 +56,6 @@ public class Piece {
 
         switch (direction) {
             case Left:
-                System.out.println("LLLLEEEEFFFFTTTTT");
                 for (Position position : shape) {
                     anticipatePosition.add(new Position(position.getX() - 1, position.getY(), position.getIdCouleur()));
                 }
