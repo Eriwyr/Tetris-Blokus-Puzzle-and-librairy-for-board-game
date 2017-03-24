@@ -55,7 +55,9 @@ public class GameController extends Application {
     private Button button_blokus;
     private Stage primaryStage;
     private Group tetris_group;
+    private Group blokus_group;
     private Text text;
+    private Text textLevel;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -91,7 +93,18 @@ public class GameController extends Application {
 
         root.setCenter(vbox);
 
-
+        root.setFocusTraversable(true);
+        root.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()) {
+                    case ESCAPE: System.exit(0);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
         //primaryStage.setScene(new Scene(borderP, 1024, 768));
 
         primaryStage.setScene(scene_menu);
@@ -105,7 +118,7 @@ public class GameController extends Application {
 
         button_blokus.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                startSimulation("Blockus");
+                startSimulation("Blokus");
             }
         });
 
@@ -151,24 +164,65 @@ public class GameController extends Application {
 
         initializeGrid(gPane);
 
+        VBox vboxText = new VBox(100);
+
+        vboxText.setAlignment(Pos.CENTER);
+        vboxText.setId("vBoxText");
+        vboxText.applyCss();
         //ToolBar toolbar = new ToolBar();
         //HBox statusbar = new HBox();
         /* borderP.setTop(toolbar);
         borderP.setBottom(statusbar);*/
         text = new Text();
-        text.setId("point");
-        text.setWrappingWidth(4000);
-        text.setTextAlignment(TextAlignment.JUSTIFY);
-        text.setText("Start !");
+        text.setId("points");
+        text.setTextAlignment(TextAlignment.CENTER);
+        text.setText("Start ! ");
+        text.applyCss();
+
+
+        textLevel = new Text();
+        textLevel.setId("level");
+        textLevel.setTextAlignment(TextAlignment.CENTER);
+        textLevel.setText("Level : ");
+        textLevel.applyCss();
+
+        this.button_tetris = new Button("Menu");
+        this.button_tetris.setId("backToMenuTetris");
+        this.button_tetris.applyCss();
+
+        vboxText.getChildren().addAll(textLevel,text, button_tetris);
 
         borderP.setCenter(gPane);
-        borderP.setRight(text);
+        borderP.setRight(vboxText);
+
         tetris_group = new Group();
         tetris_group.getChildren().add(borderP);
 
         Scene scene_tetris = new Scene(tetris_group, 1024, 768);
         scene_tetris.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         return scene_tetris;
+
+    }
+
+    public Scene settingSceneBlokus() {
+        borderP = new BorderPane();
+        borderP.setId("blokus");
+        // permet de placer les diffrents boutons dans une grille
+        gPane = new GridPane();
+
+
+        // gPane.setGridLinesVisible(true);
+        /*  gPane.setHgap(6);
+        gPane.setVgap(6);*/
+
+        //initializeGrid(gPane);
+
+        blokus_group = new Group();
+        blokus_group.getChildren().add(borderP);
+
+        Scene scene_blokus = new Scene(blokus_group, 1024, 768);
+        scene_blokus.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+        return scene_blokus;
 
     }
 
@@ -195,7 +249,8 @@ public class GameController extends Application {
                         switch (gameName) {
                             case "Tetris":
 
-                                text.setText(Integer.toString(tetrisModel.getPoints()));
+                                text.setText(Integer.toString(tetrisModel.getPoints()) + "\n Score");
+                                textLevel.setText("Level : "+Integer.toString(tetrisModel.getLevel()));
                                 for (int i = 0; i < tetrisModel.getPieces().size(); i++) {
                                     try {
                                         PieceView pieceViewTry = pieceViews.get(i);
@@ -247,6 +302,9 @@ public class GameController extends Application {
                                 break;
                             case DOWN: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Down);
                                 break;
+                            case UP: tetrisModel.getBoard().rotatePiece(tetrisModel.getPieces().get(0), 1);
+                                break;
+                            case ESCAPE: System.exit(0);
                             default:
                                 break;
                         }
@@ -262,6 +320,14 @@ public class GameController extends Application {
                     }
                 });
                 break;
+
+            case "Blokus" :
+                Scene scene_blokus = settingSceneBlokus();
+                primaryStage.setScene(scene_blokus);
+
+                endgame = false;
+                break;
+
             default:
                 break;
         }
