@@ -78,6 +78,11 @@
      -fx-stroke:#2F3338;
  }
 
+gridBlokus{
+    -fx-fill:#2F3338;
+    -fx-stroke:white;
+}
+
 #rect1{
     -fx-fill:#EF4836;
     -fx-stroke:#2F3338;
