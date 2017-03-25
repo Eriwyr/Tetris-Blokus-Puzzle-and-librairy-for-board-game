@@ -130,8 +130,7 @@ public class GameController extends Application {
     }
 
 
-    public void initializeGrid(GridPane gPane){
-        //Emptying grid if there is anything on it
+    public void initializeGridTetris(GridPane gPane){
         try{
             Node node = gPane.getChildren().get(0);
             gPane.getChildren().clear();
@@ -153,6 +152,28 @@ public class GameController extends Application {
         }
     }
 
+    public void initializeGridBlokus(GridPane gPane){
+        try{
+            Node node = gPane.getChildren().get(0);
+            gPane.getChildren().clear();
+            gPane.getChildren().add(0,node);
+
+        } catch(Exception e) {
+
+
+        }
+
+        for (int a = 0; a <10; a++) {
+            for (int b = 0; b < 10; b++) {
+                Rectangle rectangle = new Rectangle(30, 30);
+                rectangle.setId("gridBlokus");
+                rectangle.applyCss();
+                gPane.add(rectangle, b, a);
+            }
+        }
+    }
+
+
 
     public Scene settingSceneTetris() {
         borderP = new BorderPane();
@@ -165,7 +186,7 @@ public class GameController extends Application {
         /*  gPane.setHgap(6);
         gPane.setVgap(6);*/
 
-        initializeGrid(gPane);
+        initializeGridTetris(gPane);
 
         VBox vboxText = new VBox(100);
 
@@ -189,11 +210,7 @@ public class GameController extends Application {
         textLevel.setText("Level : ");
         textLevel.applyCss();
 
-        this.button_tetris = new Button("Menu");
-        this.button_tetris.setId("backToMenuTetris");
-        this.button_tetris.applyCss();
-
-        vboxText.getChildren().addAll(textLevel,text, button_tetris);
+        vboxText.getChildren().addAll(textLevel,text);
 
         borderP.setCenter(gPane);
         borderP.setRight(vboxText);
@@ -218,7 +235,7 @@ public class GameController extends Application {
         /*  gPane.setHgap(6);
         gPane.setVgap(6);*/
 
-        //initializeGrid(gPane);
+        initializeGridBlokus(gPane);
 
         blokus_group = new Group();
         blokus_group.getChildren().add(borderP);
@@ -267,7 +284,7 @@ public class GameController extends Application {
                                                 @Override public void run() {
 
                                                     /*new version*/
-                                                    initializeGrid(gPane);
+                                                    initializeGridTetris(gPane);
                                                     pieceViews.clear();
                                                     for (Piece piece : tetrisModel.getPieces()) {
                                                         pieceViews.add(factory.getPieceViewTetris(piece));
@@ -298,6 +315,7 @@ public class GameController extends Application {
                     @Override
                     public void handle(KeyEvent event) {
                         switch (event.getCode()) {
+
                             case LEFT: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Left);
                                 break;
                             case RIGHT:
