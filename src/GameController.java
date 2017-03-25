@@ -249,7 +249,9 @@ public class GameController extends Application {
     public void startSimulation(String gameName) {
         switch (gameName) {
             case "Tetris":
+
                 tetrisModel = new TetrisModel();
+
                 Scene scene_tetris = settingSceneTetris();
                 primaryStage.setScene(scene_tetris);
 

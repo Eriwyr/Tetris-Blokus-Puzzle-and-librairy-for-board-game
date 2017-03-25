@@ -34,83 +34,27 @@ public class ModelBoard extends Observable{
     public ModelBoard(int x, int y){
         this.grid = new Grid(x,y);
         pieces = new ArrayList<Piece>();
-
-
-
     }
-    /*
-    public int movePiece(Piece piece, Direction direction) {
-        System.out.println("On est dans move : "+direction);
-        int returnValue =0;
-        removePiece(piece);
-
-       /* removePiece(piece);*/
-       /* boolean available = true;
-        List<Position> anticipatePos;
-
-        anticipatePos = piece.anticipationCalc(direction);
-
-        for (Position position: anticipatePos){
-            try {
-                if(!grid.getCellXY(position).isEmpty()){
-                    available = false;
-                    returnValue = 1;
-                    break;
-                }
-            }
-            catch(ArrayIndexOutOfBoundsException e){
-                available = false;
-                returnValue = 1;
-            }
-        }
-
-        if(available){
-            piece.setShape(anticipatePos);
-        }
-
-        setChanged();
-        notifyObservers();
-        addPieceOnBoardInOrder(piece, 0);
-
-        return returnValue;
-
-    }*/
-
-       public int movePiece(Piece piece, Direction direction) {
-
-           boolean available = true;
-           int returnValue = 0;
-           Piece anticipatedPiece = new Piece();
-           removePiece(piece);
-           anticipatedPiece.anticipationCalc(piece, direction);
-
-           for (Position position : anticipatedPiece.getShape()) {
-               try {
 
 
-                   if (!grid.getCellXY(position).isEmpty()) {
-                       available = false;
-                       returnValue = 1;
-                   }
-               } catch (Exception e) {
-                   available = false;
-                   returnValue =1;
-               }
 
+   public int movePiece(Piece piece, Direction direction) {
 
-           }
-           if (available) {
-               piece = anticipatedPiece;
-           }
+       int returnValue = 0;
+       Piece anticipatedPiece = new Piece();
+       removePiece(piece);
+       anticipatedPiece.anticipationCalc(piece, direction);
 
-           setChanged();
-           notifyObservers();
-           addPieceOnBoardInOrder(piece, 0);
-
-            return returnValue;
-
-
+       if (pieceIsAuthorized(anticipatedPiece)) {
+           piece = anticipatedPiece;
+           returnValue = 0;
+       } else {
+           returnValue =1;
        }
+
+       addPieceOnBoardInOrder(piece, 0);
+       return returnValue;
+   }
 
     public void setGrid(Grid grid) {
         this.grid = grid;
@@ -219,9 +163,9 @@ public class ModelBoard extends Observable{
     }
 
 
-    public void AuthorizedAddPieceOnBoard(Piece piece) {
+    public boolean AuthorizedAddPieceOnBoard(Piece piece) {
         for (Position position : piece.getShape()) {
-            if (grid.getCellXY(position).isEmpty()) return ;
+            if (grid.getCellXY(position).isEmpty()) return true ;
         }
 
         for (Position position :piece.getShape()) {
@@ -231,6 +175,30 @@ public class ModelBoard extends Observable{
         addPiece(piece);
         setChanged();
         notifyObservers();
+        return false;
+
+    }
+
+    public boolean AuthorizedAddPieceOnBoard(Piece piece, int index) {
+        System.out.println("On verifie l'autorasation ");
+        for (Position position : piece.getShape()) {
+            System.out.println("pour cette position :"+position.getX()+" "+position.getY());
+            if (!grid.getCellXY(position).isEmpty()){
+                System.out.println("la position est accupée, on s'arrête et on revoit false");
+                return false ;
+            }
+        }
+        System.out.println("Tout ets Ok ");
+
+        for (Position position :piece.getShape()) {
+
+            grid.setCellXY(position, false);
+        }
+        System.out.println("on ajoute la pièce au plateau ");
+        addPiece(piece, index);
+        setChanged();
+        notifyObservers();
+        return true;
 
     }
 
@@ -251,7 +219,6 @@ public class ModelBoard extends Observable{
 
 
 
-        System.out.println("notifying from emptyMultipleCells");
         setChanged();
         notifyObservers();
 
@@ -267,21 +234,16 @@ public class ModelBoard extends Observable{
             }
         }
 
-        System.out.println("notifying from empty");
         setChanged();
         notifyObservers();
 
     }
 
 
-
-
-
-
     public int rotatePiece(Piece piece, int rotation) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
 
         removePiece(piece);
-        boolean available = true;
+       // boolean available = true;
         int returnValue = 0;
 
 
@@ -290,79 +252,31 @@ public class ModelBoard extends Observable{
 
 
 
-        for (Position position : anticipatedPiece.getShape() ) {
 
-            try {
-
-
-                if (!grid.getCellXY(position).isEmpty()) {
-                    available = false;
-                    returnValue = 1;
-                }
-            } catch (Exception e) {
-                available = false;
-                returnValue =1;
-            }
-
-
-        }
-        if (available) {
+        if (pieceIsAuthorized(anticipatedPiece)) {
             piece = anticipatedPiece;
+            returnValue = 0;
+        } else {
+            returnValue = 1;
         }
 
-        setChanged();
-        notifyObservers();
         addPieceOnBoardInOrder(piece, 0);
 
         return returnValue;
-       /* List<Position> positions = new ArrayList<Position>();
-        int centerX = 0;
-        int centerY=0;
-        int pieceX=0;
-        int pieceY=0;
-        int newX=0;
-        int newY=0;*/
-
-        /*
-        if (rotation == 1) {
 
 
-            for (Position position : piece.getShape()) {
-                System.out.println();
-
-                pieceX = position.getX();
-                pieceY = position.getY();
-
-
-                centerX = piece.getCenter().getX();
-                centerY = piece.getCenter().getY();
-
-
-                int diffY = pieceY-centerY;
-                int diffX = pieceX-centerX;
-
-                newX = (centerX + diffY); //+centerX;
-                newY = (centerY - diffX); //+centerY;
-
-
-                position.setX(newX);
-                position.setY(newY);
-
-                positions.add(position);
-
-
-
-
+    }
+    public boolean pieceIsAuthorized(Piece piece) {
+        for (Position position : piece.getShape()) {
+            try {
+                if (!grid.getCellXY(position).isEmpty()) {
+                    return false;
+                }
+            } catch (Exception e) {
+                return false;
             }
-
-        } else {
-
-        }*/
-
-
-       /* piece.setShape(positions);
-        addPieceOnBoard(piece);*/
-
+        }
+        return true;
     }
 
 
