@@ -213,11 +213,7 @@ public class GameController extends Application {
         textLevel.setText("Level : ");
         textLevel.applyCss();
 
-        this.button_tetris = new Button("Menu");
-        this.button_tetris.setId("backToMenuTetris");
-        this.button_tetris.applyCss();
-
-        vboxText.getChildren().addAll(textLevel,text, button_tetris);
+        vboxText.getChildren().addAll(textLevel,text);
 
         borderP.setCenter(gPane);
         borderP.setRight(vboxText);
