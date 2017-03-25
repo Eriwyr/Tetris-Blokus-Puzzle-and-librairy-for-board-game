@@ -147,6 +147,54 @@ public class Piece {
 
     }
 
+
+
+    public void anticipationCalc(Piece oldPiece, int rotation) {
+
+
+        int centerX = 0;
+        int centerY=0;
+        int pieceX=0;
+        int pieceY=0;
+        int newX=0;
+        int newY=0;
+
+
+        centerX = oldPiece.getCenter().getX();
+        centerY = oldPiece.getCenter().getY();
+
+
+        for (Position position : oldPiece.getShape()) {
+            if (position.getX() == centerX && position.getY()==centerY) {
+                this.center = new Position(centerX, centerY, position.getIdCouleur());
+                shape.add(this.center);
+            } else {
+
+
+                pieceX = position.getX();
+                pieceY = position.getY();
+
+
+                int diffY = pieceY - centerY;
+                int diffX = pieceX - centerX;
+
+                newX = (centerX +(rotation* diffY)); //+centerX;
+                newY = (centerY -(rotation * diffX)); //+centerY;
+
+
+             /*   position.setX(newX);
+                position.setY(newY);*/
+
+
+                shape.add(new Position(newX, newY, position.getIdCouleur()));
+
+
+            }
+
+        }
+
+    }
+
     public void setShape(List<Position> shape) {
         this.shape = shape;
     }

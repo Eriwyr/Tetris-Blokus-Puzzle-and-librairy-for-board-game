@@ -24,7 +24,7 @@ public class TetrisModel extends Observable {
     public TetrisModel() {
         this.level=1;
         this.points = 0;
-        this.board = new ModelBoard(4, 15);
+        this.board = new ModelBoard(12, 20);
        /* this.pieces = new ArrayList<Piece>();*/
         this.points = 0;
         this.pieceFalling = false;
@@ -121,7 +121,7 @@ public class TetrisModel extends Observable {
         int  n = rand.nextInt(7) ;
         System.out.println("n: "+n);
         /*remplace done*/
-        Piece piece  = new Piece(existingPieces.get(2).getShape(), existingPieces.get(n).getCenter());
+        Piece piece  = new Piece(existingPieces.get(2).getShape(), existingPieces.get(2).getCenter());
         //Piece piece  = new Piece(existingPieces.get(n).getShape());
 
       //  Piece piece  = new Piece(existingPieces.get(2).getShape());
@@ -129,7 +129,8 @@ public class TetrisModel extends Observable {
         try {
            /*pieces.set(0, piece);*/
 
-           board.getPieces().get(0).setShape(piece.getShape());
+            board.getPieces().get(0).setShape(piece.getShape());
+            board.getPieces().get(0).setCenter(piece.getCenter());
            System.out.println("en remplaçant celle qu'il y avait.");
        }catch (Exception e) {
 

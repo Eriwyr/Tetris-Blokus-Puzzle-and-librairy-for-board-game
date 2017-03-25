@@ -276,18 +276,59 @@ public class ModelBoard extends Observable{
 
 
 
-    public void rotatePiece(Piece piece, int rotation) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
+
+
+    public int rotatePiece(Piece piece, int rotation) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
+
         removePiece(piece);
-        List<Position> positions = new ArrayList<Position>();
+        boolean available = true;
+        int returnValue = 0;
+
+
+        Piece anticipatedPiece = new Piece();
+        anticipatedPiece.anticipationCalc(piece, rotation);
+
+
+
+        for (Position position : anticipatedPiece.getShape() ) {
+
+            try {
+
+
+                if (!grid.getCellXY(position).isEmpty()) {
+                    available = false;
+                    returnValue = 1;
+                }
+            } catch (Exception e) {
+                available = false;
+                returnValue =1;
+            }
+
+
+        }
+        if (available) {
+            piece = anticipatedPiece;
+        }
+
+        setChanged();
+        notifyObservers();
+        addPieceOnBoardInOrder(piece, 0);
+
+        return returnValue;
+       /* List<Position> positions = new ArrayList<Position>();
         int centerX = 0;
         int centerY=0;
         int pieceX=0;
         int pieceY=0;
         int newX=0;
-        int newY=0;
+        int newY=0;*/
+
+        /*
         if (rotation == 1) {
+
+
             for (Position position : piece.getShape()) {
-                System.out.println("entering !  ! !!!!!!! ! !! ");
+                System.out.println();
 
                 pieceX = position.getX();
                 pieceY = position.getY();
@@ -296,21 +337,31 @@ public class ModelBoard extends Observable{
                 centerX = piece.getCenter().getX();
                 centerY = piece.getCenter().getY();
 
-                newX = centerX + (pieceY-centerY);
-                newY = centerY - (pieceX-centerX);
+
+                int diffY = pieceY-centerY;
+                int diffX = pieceX-centerX;
+
+                newX = (centerX + diffY); //+centerX;
+                newY = (centerY - diffX); //+centerY;
+
 
                 position.setX(newX);
                 position.setY(newY);
 
                 positions.add(position);
+
+
+
+
             }
 
         } else {
 
-        }
+        }*/
 
-        piece.setShape(positions);
-        addPieceOnBoard(piece);
+
+       /* piece.setShape(positions);
+        addPieceOnBoard(piece);*/
 
     }
 
