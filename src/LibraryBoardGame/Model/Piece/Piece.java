@@ -16,6 +16,7 @@ public class Piece {
 
     public Piece(){
         this.shape = new ArrayList<Position>();
+        this.center =  new Position(0, 0);
     }
     public Piece(List<Position> shape) {
         this.shape = shape;
@@ -53,6 +54,8 @@ public class Piece {
         }
         System.out.println();
     }
+
+    /*
     public List<Position> anticipationCalc(Direction direction){
         List<Position> anticipatePosition = new ArrayList<Position>();
 
@@ -91,6 +94,57 @@ public class Piece {
         }
 
         return anticipatePosition;
+    }*/
+
+    public void anticipationCalc(Piece oldPiece, Direction direction) {
+
+            switch(direction) {
+                case Up :
+                    for (Position position : oldPiece.getShape()) {
+                        if (position == oldPiece.getCenter()) {
+                            this.center = new Position(position.getX(), position.getY()-1, position.getIdCouleur());
+                            this.shape.add(this.center);
+                        } else {
+                            this.shape.add(new Position(position.getX(), position.getY()-1, position.getIdCouleur()));
+                        }
+                    }
+                    break;
+                case Down :
+
+                    for (Position position : oldPiece.getShape()) {
+                        if (position == oldPiece.getCenter()) {
+                            this.center = new Position(position.getX(), position.getY()+1, position.getIdCouleur());
+                            this.shape.add(this.center);
+                        } else {
+                            this.shape.add(new Position(position.getX(), position.getY()+1, position.getIdCouleur()));
+                        }
+                    }
+                    break;
+                case Left :
+
+                    for (Position position : oldPiece.getShape()) {
+                        if (position == oldPiece.getCenter()) {
+                            this.center = new Position(position.getX()-1, position.getY(), position.getIdCouleur());
+                            this.shape.add(this.center);
+                        } else {
+                            this.shape.add(new Position(position.getX()-1, position.getY(), position.getIdCouleur()));
+                        }
+                    }
+                    break;
+                case Right :
+
+                    for (Position position : oldPiece.getShape()) {
+                        if (position == oldPiece.getCenter()) {
+                            this.center = new Position(position.getX()+1, position.getY(), position.getIdCouleur());
+                            this.shape.add(this.center);
+                        } else {
+                            this.shape.add(new Position(position.getX()+1, position.getY(), position.getIdCouleur()));
+                        }
+                    }
+                    break;
+
+            }
+
     }
 
     public void setShape(List<Position> shape) {

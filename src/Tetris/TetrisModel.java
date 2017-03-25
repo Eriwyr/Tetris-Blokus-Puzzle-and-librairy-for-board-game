@@ -15,7 +15,6 @@ import java.util.Random;
  */
 public class TetrisModel extends Observable {
     private ModelBoard board;
-    /*private List<Piece> pieces;*/
     private int points;
     private int level;
     private boolean pieceFalling;
@@ -25,7 +24,7 @@ public class TetrisModel extends Observable {
     public TetrisModel() {
         this.level=1;
         this.points = 0;
-        this.board = new ModelBoard(20, 20);
+        this.board = new ModelBoard(10, 10);
        /* this.pieces = new ArrayList<Piece>();*/
         this.points = 0;
         this.pieceFalling = false;

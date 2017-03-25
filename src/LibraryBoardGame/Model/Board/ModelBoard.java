@@ -38,13 +38,14 @@ public class ModelBoard extends Observable{
 
 
     }
+    /*
     public int movePiece(Piece piece, Direction direction) {
         System.out.println("On est dans move : "+direction);
         int returnValue =0;
         removePiece(piece);
 
        /* removePiece(piece);*/
-        boolean available = true;
+       /* boolean available = true;
         List<Position> anticipatePos;
 
         anticipatePos = piece.anticipationCalc(direction);
@@ -73,7 +74,48 @@ public class ModelBoard extends Observable{
 
         return returnValue;
 
+    }*/
+
+       public int movePiece(Piece piece, Direction direction) {
+
+           boolean available = true;
+           int returnValue = 0;
+           Piece anticipatedPiece = new Piece();
+           removePiece(piece);
+           anticipatedPiece.anticipationCalc(piece, direction);
+
+           for (Position position : anticipatedPiece.getShape()) {
+               try {
+
+
+                   if (!grid.getCellXY(position).isEmpty()) {
+                       available = false;
+                       returnValue = 1;
+                   }
+               } catch (Exception e) {
+                   available = false;
+                   returnValue =1;
+               }
+
+
+           }
+           if (available) {
+               piece = anticipatedPiece;
+           }
+
+           setChanged();
+           notifyObservers();
+           addPieceOnBoardInOrder(piece, 0);
+
+            return returnValue;
+
+
+       }
+
+    public void setGrid(Grid grid) {
+        this.grid = grid;
     }
+
     public void udateGrid(){
         System.out.println("after calling size piece : "+pieces.size());
         for(int i =0; i<grid.getSizeY(); i++) {
