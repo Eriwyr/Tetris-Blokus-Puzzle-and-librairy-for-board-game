@@ -78,7 +78,7 @@
      -fx-stroke:#2F3338;
  }
 
-gridBlokus{
+#gridBlokus{
     -fx-fill:#2F3338;
     -fx-stroke:white;
 }
@@ -118,4 +118,47 @@ gridBlokus{
     -fx-stroke:#2F3338;
 }
 
+
+#rectPlayer1{
+    -fx-fill:#EF4836;
+    -fx-stroke:#2F3338;
+}
+
+#rectPlayer2{
+    -fx-fill:#F5AB35;
+    -fx-stroke:#2F3338;
+}
+
+#rectPlayer3{
+    -fx-fill:#59ABE3;
+    -fx-stroke:#2F3338;
+}
+
+#rectPlayer4{
+    -fx-fill:#BE90D4;
+    -fx-stroke:#2F3338;
+}
+
+#gPBlokus{
+    -fx-background-color: pink;
+    -fx-pref-width: 200px;
+}
+
+#gP1{
+    -fx-background-color: red;
+    -fx-pref-width: 400px;
+
+}
+
+#gP2{
+    -fx-background-color: blue;
+}
+
+#gP3{
+    -fx-background-color: black;
+}
+
+#gP4{
+    -fx-background-color: white;
+}
 

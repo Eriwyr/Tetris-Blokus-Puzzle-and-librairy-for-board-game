@@ -1,3 +1,5 @@
+import Blokus.BlokusModel;
+import LibraryBoardGame.Model.Board.Grid;
 import LibraryBoardGame.Model.Direction;
 import LibraryBoardGame.Model.Piece.Piece;
 import LibraryBoardGame.Model.Piece.Position;
@@ -28,6 +30,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import sun.java2d.loops.GeneralRenderer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,8 +47,16 @@ import java.util.concurrent.TimeUnit;
 public class GameController extends Application {
 
     private GridPane gPane;
+    private GridPane gPaneGridBlokus;
+    private GridPane gPanePlayer1;
+    private GridPane gPanePlayer2;
+    private GridPane gPanePlayer3;
+    private GridPane gPanePlayer4;
+
     private BorderPane borderP;
+    private BorderPane borderPBlokus;
     private TetrisModel tetrisModel;
+    private BlokusModel blokusModel;
     private List<PieceView> pieceViews;
     private Boolean endgame;
     /*private String game;*/
@@ -154,9 +165,9 @@ public class GameController extends Application {
 
     public void initializeGridBlokus(GridPane gPane){
         try{
-            Node node = gPane.getChildren().get(0);
-            gPane.getChildren().clear();
-            gPane.getChildren().add(0,node);
+            Node node = gPaneGridBlokus.getChildren().get(0);
+            gPaneGridBlokus.getChildren().clear();
+            gPaneGridBlokus.getChildren().add(0,node);
 
         } catch(Exception e) {
 
@@ -168,7 +179,7 @@ public class GameController extends Application {
                 Rectangle rectangle = new Rectangle(30, 30);
                 rectangle.setId("gridBlokus");
                 rectangle.applyCss();
-                gPane.add(rectangle, b, a);
+                gPaneGridBlokus.add(rectangle, b, a);
             }
         }
     }
@@ -225,20 +236,49 @@ public class GameController extends Application {
     }
 
     public Scene settingSceneBlokus() {
-        borderP = new BorderPane();
-        borderP.setId("blokus");
+        borderPBlokus = new BorderPane();
+        borderPBlokus.setId("blokus");
         // permet de placer les diffrents boutons dans une grille
-        gPane = new GridPane();
+        gPaneGridBlokus = new GridPane();
+        gPanePlayer1 = new GridPane();
+        gPanePlayer2 = new GridPane();
+        gPanePlayer3 = new GridPane();
+        gPanePlayer4 = new GridPane();
+
+        gPaneGridBlokus.setId("gPBlokus");
+        gPanePlayer1.setId("gP1");
+        gPanePlayer1.setId("gP2");
+        gPanePlayer1.setId("gP3");
+        gPanePlayer1.setId("gP4");
+
+        gPaneGridBlokus.applyCss();
+        gPanePlayer1.applyCss();
+        borderPBlokus.setCenter(gPaneGridBlokus);
+        //borderPBlokus.setLeft(gPanePlayer1);
+
+        //borderP.setLeft(gPanePlayer1);
+        //borderP.setLeft(gPanePlayer2);
+        //borderP.setRight(gPanePlayer3);
+        //borderP.setRight(gPanePlayer4);
+
+        textLevel = new Text();
+        textLevel.setId("TEST ");
+        textLevel.setTextAlignment(TextAlignment.CENTER);
+        textLevel.setText("TEST  : ");
+        textLevel.applyCss();
+
+        gPanePlayer1.getChildren().add(textLevel);
+
 
 
         // gPane.setGridLinesVisible(true);
         /*  gPane.setHgap(6);
         gPane.setVgap(6);*/
 
-        initializeGridBlokus(gPane);
+        initializeGridBlokus(gPaneGridBlokus);
 
         blokus_group = new Group();
-        blokus_group.getChildren().add(borderP);
+        blokus_group.getChildren().add(borderPBlokus);
 
         Scene scene_blokus = new Scene(blokus_group, 1024, 768);
         scene_blokus.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
@@ -304,6 +344,7 @@ public class GameController extends Application {
                                     }).start();
                                 }
                                 break;
+
                             default:
                                 break;
                         }
@@ -345,10 +386,78 @@ public class GameController extends Application {
                 break;
 
             case "Blokus" :
+                blokusModel = new BlokusModel();
                 Scene scene_blokus = settingSceneBlokus();
                 primaryStage.setScene(scene_blokus);
 
                 endgame = false;
+                PieceViewFactory factoryBlokus = new PieceViewFactory();
+                pieceViews = new ArrayList<PieceView>();
+
+                blokusModel.getBoard().addObserver(new Observer() {
+
+                    @Override
+                    public void update(Observable o, Object arg) {
+                        switch (gameName) {
+                            case "Blokus":
+
+                                //text.setText(Integer.toString(tetrisModel.getPoints()) + "\n Score");
+                                //extLevel.setText("Level : "+Integer.toString(tetrisModel.getLevel()));
+                                for (int i = 0; i < blokusModel.getExistingPieces().size(); i++) {
+                                    try {
+                                        PieceView pieceViewTry = pieceViews.get(i);
+                                    } catch (Exception e) {
+                                        pieceViews.add(i, factoryBlokus.getPieceViewBlokus(blokusModel.getExistingPieces().get(i)));
+                                    }
+
+                                    new Thread(new Runnable() {
+                                        @Override public void run() {
+                                            Platform.runLater(new Runnable() {
+                                                @Override public void run() {
+
+                                                    /*new version*/
+                                                    initializeGridBlokus(gPaneGridBlokus);
+                                                    pieceViews.clear();
+                                                    for (Piece piece : blokusModel.getExistingPieces()) {
+                                                        pieceViews.add(factoryBlokus.getPieceViewBlokus(piece));
+                                                    }
+
+                                                    boopBlokus();
+                                                    /*
+                                                    for (PieceView pieceView : pieceViews) {
+                                                       for (Rectangle rectangle : pieceView.getShapeView()) {
+                                                          // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
+                                                           gPane.add(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
+                                                       }
+                                                   }*/
+                                                }
+                                            });
+                                        }
+                                    }).start();
+                                }
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        gPaneGridBlokus.setFocusTraversable(true);
+                        gPaneGridBlokus.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                            @Override
+                            public void handle(KeyEvent event) {
+                                switch (event.getCode()) {
+
+                                    case RIGHT:
+                                        System.out.println("right pressed !!");
+                                        break;
+                                    case ESCAPE: System.exit(0);
+                                    default:
+                                        break;
+                                }
+                            }
+                        });
+                    }
+                });
                 break;
 
             default:
@@ -365,6 +474,15 @@ public class GameController extends Application {
             for (Rectangle rectangle : pieceView.getShapeView()) {
                 // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
                 gPane.add(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
+            }
+        }
+    }
+
+    public synchronized void boopBlokus() {
+        for (PieceView pieceView : pieceViews) {
+            for (Rectangle rectangle : pieceView.getShapeView()) {
+                // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
+                gPaneGridBlokus.add(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
             }
         }
     }

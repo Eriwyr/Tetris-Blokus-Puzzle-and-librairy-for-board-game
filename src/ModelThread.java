@@ -1,3 +1,4 @@
+import Blokus.BlokusModel;
 import LibraryBoardGame.Model.Board.ModelBoard;
 import LibraryBoardGame.Model.Piece.Piece;
 import LibraryBoardGame.ViewController.PieceView;
@@ -10,6 +11,7 @@ import java.util.List;
  */
 public class ModelThread implements Runnable {
     private TetrisModel tetrisModel;
+    private BlokusModel blokusModel;
     private Boolean endgame;
     private String game;
     private List<PieceView> pieceViews; /*Debug*/
@@ -18,6 +20,14 @@ public class ModelThread implements Runnable {
     public ModelThread(TetrisModel tetrisModel, Boolean endgame, String game, List<PieceView> pieceViews) {
         super();
         this.tetrisModel = tetrisModel;
+        this.endgame = endgame;
+        this.game = game;
+        this.pieceViews = pieceViews;
+    }
+
+    public ModelThread(BlokusModel blokusModel, Boolean endgame, String game, List<PieceView> pieceViews) {
+        super();
+        this.blokusModel = blokusModel;
         this.endgame = endgame;
         this.game = game;
         this.pieceViews = pieceViews;
@@ -58,6 +68,9 @@ public class ModelThread implements Runnable {
                         tetrisModel.removeLine();
                     }
                     break;
+
+                case "Blokus" :
+                    System.out.println("blokus");
                 default:
                     break;
             }

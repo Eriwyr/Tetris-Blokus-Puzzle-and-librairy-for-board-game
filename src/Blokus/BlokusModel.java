@@ -22,6 +22,8 @@ public class BlokusModel extends Observable{
 
         public BlokusModel(){
 
+            this.board = new ModelBoard(12, 20);
+
             player1 = new ArrayList<Piece>();
             player2 = new ArrayList<Piece>();
             player3 = new ArrayList<Piece>();
@@ -306,7 +308,27 @@ public class BlokusModel extends Observable{
 
         }
 
+    public ModelBoard getBoard() {
+        return board;
+    }
 
+    public List<Piece> getExistingPieces() {
+        return existingPieces;
+    }
 
+    public List<Piece> getPlayer1() {
+        return player1;
+    }
 
+    public List<Piece> getPlayer2() {
+        return player2;
+    }
+
+    public List<Piece> getPlayer3() {
+        return player3;
+    }
+
+    public List<Piece> getPlayer4() {
+        return player4;
+    }
 }
