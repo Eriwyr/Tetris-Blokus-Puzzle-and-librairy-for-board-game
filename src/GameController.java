@@ -84,7 +84,7 @@ public class GameController extends Application {
         primaryStage.setTitle("Tetris and Blokus");
         primaryStage.setWidth(1024);
         primaryStage.setHeight(766);
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
 
         BorderPane root = new BorderPane();
 
@@ -273,7 +273,7 @@ public class GameController extends Application {
         textLevel.setText("TEST  : ");
         textLevel.applyCss();
 
-     //   gPanePlayer1.getChildren().add(textLevel);
+        gPanePlayer2.getChildren().add(textLevel);
 
         //working
         //pieceViews.clear(); (no need)
@@ -282,8 +282,11 @@ public class GameController extends Application {
         for (Piece piece : blokusModel.getPlayer1()) {
             //factory.getPieceViewBlokus(piece);
             PieceView pieceView= factory.getPieceViewBlokus(piece);
+            System.out.println("couleur Display  :"+piece.getShape().get(0).getIdCouleur());
             for(Rectangle rectangle : pieceView.getShapeView()) {
                 rectangle.setX(rectangle.getX()+offset);
+                rectangle.applyCss();
+                System.out.println(rectangle.getId());
 
             }
             pieceViewsPlayers.add(pieceView);
@@ -291,7 +294,9 @@ public class GameController extends Application {
         }
         System.out.println("before refresh, combien de piece view "+pieceViewsPlayers.size());
         refreshPlayers();
-        borderPBlokus.setLeft(gPanePlayer1);
+        VBox vBoxLeft = new VBox(50);
+        vBoxLeft.getChildren().addAll(gPanePlayer1, gPanePlayer2);
+        borderPBlokus.setLeft(vBoxLeft);
         //boop();
 
 
@@ -342,6 +347,7 @@ public class GameController extends Application {
                                     } catch (Exception e) {
                                         pieceViews.add(i, factory.getPieceViewTetris(tetrisModel.getPieces().get(i)));
                                     }
+
 
                                     new Thread(new Runnable() {
                                         @Override public void run() {

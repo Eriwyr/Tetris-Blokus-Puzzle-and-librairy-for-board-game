@@ -91,13 +91,17 @@ public class BlokusModel extends Observable{
 
             List positions5 = new ArrayList<Position>();
             Position leftRCenter = new Position(0, 1, 2);
+            System.out.println("left cnter : "+leftRCenter.getX()+" "+leftRCenter.getY());
             positions5.add(new Position(0, 0, 2));
 
             positions5.add(leftRCenter);
             positions5.add(new Position(1, 1, 2));
             Piece leftR = new Piece(positions5);
-            rightL.setCenter(leftRCenter);
+            leftR.setCenter(leftRCenter);
+
+            System.out.println("left cnter : "+rightL.getCenter().getX()+" "+rightL.getCenter().getY());
             existingPieces.add(leftR);
+            System.out.println("left cnter : "+existingPieces.get(5).getCenter().getX()+" "+existingPieces.get(5).getCenter().getY());
 
 
             List positions6 = new ArrayList<Position>();
@@ -297,12 +301,24 @@ public class BlokusModel extends Observable{
             Piece last = new Piece(positions20);
             last.setCenter(lastCenter);
             existingPieces.add(last);
+            int c = 1;
 
-            for (Piece piece: existingPieces) {
+            System.out.println("Piece numbre 4");
+            System.out.println(existingPieces.get(4).getCenter().getX()+" "+existingPieces.get(4).getCenter().getY());
+            System.out.println("Piece numbre 5");
+
+            System.out.println(existingPieces.get(5).getCenter().getX()+" "+existingPieces.get(5).getCenter().getY());
+            System.out.println("Piece numbre 6");
+
+            System.out.println(existingPieces.get(6).getCenter().getX()+" "+existingPieces.get(6).getCenter().getY());
+             for (Piece piece: existingPieces) {
+                System.out.println("pice number : "+c);
                 player1.add(new Piece(piece.getShape(),piece.getCenter(), 0));
-                player2.add(new Piece(piece.getShape(),piece.getCenter(), 2));
-                player3.add(new Piece(piece.getShape(),piece.getCenter(), 3));
-                player4.add(new Piece(piece.getShape(),piece.getCenter(), 4));
+                System.out.println(piece.getShape().get(0).getIdCouleur());
+                player2.add(new Piece(piece.getShape(),piece.getCenter(), 1));
+                player3.add(new Piece(piece.getShape(),piece.getCenter(), 2));
+                player4.add(new Piece(piece.getShape(),piece.getCenter(), 3));
+                c++;
             }
 
 
@@ -317,6 +333,7 @@ public class BlokusModel extends Observable{
     }
 
     public List<Piece> getPlayer1() {
+        System.out.println("couleur PLayer : "+player1.get(0).getShape().get(0).getIdCouleur());
         return player1;
     }
 
