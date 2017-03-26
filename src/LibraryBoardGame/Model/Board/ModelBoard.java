@@ -154,12 +154,20 @@ public class ModelBoard extends Observable{
     }
 
     public  void addPieceOnBoardInOrder(Piece piece, int index) {
+        System.out.println("piece we are troyning de add ");
+        piece.Display();
+        int c =1;
         for (Position position :piece.getShape()) {
+            System.out.println("setting pisition "+c);
             grid.setCellXY(position, false);
+            c++;
         }
+        System.out.println("done with for ");
         addPiece(piece, index);
+        System.out.println("added");
         setChanged();
         notifyObservers();
+        System.out.println("notifyined ");
     }
 
 
@@ -228,7 +236,7 @@ public class ModelBoard extends Observable{
         for (Iterator<Position> iterator = piece.getShape().iterator(); iterator.hasNext();) {
             Position cell = iterator.next();
             if (cell.getY() == position.getY() && cell.getX() == position.getX()) {
-                System.out.println("removing Position : "+position.getX()+" "+position.getY());
+                //System.out.println("removing Position : "+position.getX()+" "+position.getY());
                 // Remove the current element from the iterator and the list.
                 iterator.remove();
             }

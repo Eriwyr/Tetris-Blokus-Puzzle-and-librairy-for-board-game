@@ -132,58 +132,18 @@ public class TetrisModel extends Observable {
             pieceFalling =true;
 
         } else if(board.getPieces().size() == 1) {
-            System.out.println("Il n'y a qu'une pièce sur le plateau. On la déplace");
 
-            System.out.println("liste des pieces 1: ");
-            for (Piece piece1 : board.getPieces()) {
-                piece1.Display();
-            }
-            System.out.println("grid 1");
-            board.getGrid().Display();
             Piece pieceTemporaire =new Piece(board.getPieces().get(0));
-            //
-            board.addPieceOnBoardInOrder(pieceTemporaire, 1);
-            //
 
-            System.out.println("liste des pieces 2: ");
-            for (Piece piece1 : board.getPieces()) {
-                piece1.Display();
-            }
-            System.out.println("grid 2");
-            board.getGrid().Display();
-
-            System.out.println("on libère la place");
             board.removePiece(board.getPieces().get(0));
 
 
-            System.out.println("liste des pieces 3: ");
-            for (Piece piece1 : board.getPieces()) {
-                piece1.Display();
-            }
-
-            System.out.println("grid 3");
-            board.getGrid().Display();
 
             //board.getPieces().add(1, new Piece(board.getPieces().get(0).getShape(), board.getPieces().get(0).getCenter()));
              if (!board.AuthorizedAddPieceOnBoard( piece, 0)) {
-                 System.out.println("on a mis game over true quand il y avait 1 piece");
-                 System.out.println("liste des pieces 4: ");
-                 for (Piece piece1 : board.getPieces()) {
-                     piece1.Display();
-                 }
-
-                 System.out.println("grid 4");
-                 board.getGrid().Display();
                  gameOver =true;
              } else {
-                 System.out.println("On a maintent "+board.getPieces().size()+" pièces sur le plateau");
-                 System.out.println("liste des pieces 4 : ");
-                 for (Piece piece1 : board.getPieces()) {
-                     piece1.Display();
-                 }
-                 System.out.println("grid 4");
-                 board.getGrid().Display();
-
+                 board.addPieceOnBoardInOrder(pieceTemporaire, 1);
                  pieceFalling =true;
              }
 
@@ -191,19 +151,29 @@ public class TetrisModel extends Observable {
         } else {
             System.out.println("On a deux pièces sur le plaeau");
             System.out.println("On ajoute la première à la dernière");
-                    for (Position position : board.getPieces().get(0).getShape()){
-                        board.getPieces().get(1).getShape().add(new Position(position.getX(), position.getY(), position.getIdCouleur()));
-                    }
-            board.removePiece(board.getPieces().get(1));
-            board.addPieceOnBoardInOrder(board.getPieces().get(1), 1);
 
-            System.out.println("on libère la place");
+            System.out.println("taille du for : "+board.getPieces().get(0).getShape().size());
+            Piece tempPiece = new Piece(board.getPieces().get(1));
+            board.removePiece(board.getPieces().get(1));
+            for (Position position : board.getPieces().get(0).getShape()){
+               tempPiece.getShape().add(new Position(position.getX(), position.getY(), position.getIdCouleur()));
+            }
+
+
+
+
+
+            System.out.println("well removed ");
             board.removePiece(board.getPieces().get(0));
+
+            System.out.println("well added");
+            System.out.println("on libère la place");
 
             if (!board.AuthorizedAddPieceOnBoard( piece, 0)) {
                 System.out.println("on a mis game over true quand il y avait "+board.getPieces().size()+" pieces");
                 gameOver =true;
             } else {
+                board.addPieceOnBoardInOrder(tempPiece, 1);
 
 
                 pieceFalling = true;
