@@ -398,11 +398,15 @@ public class BlokusModel extends Observable{
     public void selectNextPiece(Direction direction) {
         if (direction == Direction.Right && indexSelectedPiece < player1.size()) {
             currentPiece = new Piece(player1.get(indexSelectedPiece+1));
+            indexSelectedPiece++;
         } else {
-            if (direction == Direction.Right && indexSelectedPiece>0) {
+            if ( indexSelectedPiece>0) {
                 currentPiece = new Piece(player1.get(indexSelectedPiece-1));
+                indexSelectedPiece--;
             }
         }
+        setChanged();
+        notifyObservers();
     }
 
     public int lookForWinner() {
@@ -417,5 +421,9 @@ public class BlokusModel extends Observable{
         } else {
             return -1;
         }
+    }
+
+    public int getIndexSelectedPiece() {
+        return indexSelectedPiece;
     }
 }

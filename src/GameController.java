@@ -24,6 +24,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -459,6 +460,26 @@ public class GameController extends Application {
                 endgame = false;
                 PieceViewFactory factoryBlokus = new PieceViewFactory();
                 pieceViews = new ArrayList<PieceView>();
+
+                blokusModel.addObserver(new Observer() {
+                    @Override
+                    public void update(Observable o, Object arg) {
+                        pieceViewsPlayers.clear();
+
+                        int count = 0;
+                        for (Piece piece : tetrisModel.getPieces()) {
+                            if (count == blokusModel.getIndexSelectedPiece()) {
+                                pieceViews.add(factory.getPieceViewTetris(piece, Color.GREEN));
+                            } else {
+
+
+                                pieceViews.add(factory.getPieceViewTetris(piece));
+                            }
+                        }
+                        refreshPlayers();
+
+                    }
+                });
 
                 blokusModel.getBoard().addObserver(new Observer() {
 
