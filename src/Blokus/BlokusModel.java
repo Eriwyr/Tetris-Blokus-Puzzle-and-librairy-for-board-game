@@ -531,4 +531,31 @@ public class BlokusModel extends Observable{
         return board.getPieces();
 
     }
+
+    public int getRound() {
+        return round;
+    }
+
+    public boolean isPieceSelected() {
+        return pieceSelected;
+    }
+
+    public void removeOption() {
+     /*   switch (round % 4) {
+            case 0:
+                player1.Player1remove(blokusModel.getIndexSelectedPiece());
+                break;
+            case 1:
+                blokusModel.getPlayer1().remove(blokusModel.getIndexSelectedPiece());
+                break;
+            case 2:
+                blokusModel.getPlayer1().remove(blokusModel.getIndexSelectedPiece());
+                break;
+            case 3:
+                blokusModel.getPlayer1().remove(blokusModel.getIndexSelectedPiece());
+                break;
+
+
+        }*/
+    }
 }

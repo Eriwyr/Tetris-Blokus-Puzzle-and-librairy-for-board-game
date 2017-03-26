@@ -60,8 +60,10 @@ public class ModelThread extends Observable implements Runnable {
                    // if (blokusModel.lookForWinner() != -1) {
                         if (blokusModel.isAuthorizePlacing(blokusModel.getPieces().get(0), blokusModel.getPieces().get(0).getCenter().getIdCouleur())){
                             System.out.println("authorisé ");
+                           // blokusModel.removeOption();
 
-                           // blokusModel.nextRound();
+
+                            blokusModel.nextRound();
                         } else {
                             System.out.println("pas autorisé ");
                         }
@@ -74,5 +76,7 @@ public class ModelThread extends Observable implements Runnable {
             }
         }
     }
+
+
 }
 
