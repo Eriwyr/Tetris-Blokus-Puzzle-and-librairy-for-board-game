@@ -140,7 +140,6 @@ public class ModelBoard extends Observable{
         }
         pieces.add(index, piece);
 
-
     }
 
     public void addPieceOnBoard(Piece piece) {
@@ -225,8 +224,6 @@ public class ModelBoard extends Observable{
             }
         }
 
-
-
         setChanged();
         notifyObservers();
 
@@ -251,15 +248,10 @@ public class ModelBoard extends Observable{
     public int rotatePiece(Piece piece, int rotation) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
 
         removePiece(piece);
-       // boolean available = true;
         int returnValue = 0;
-
 
         Piece anticipatedPiece = new Piece();
         anticipatedPiece.anticipationCalc(piece, rotation);
-
-
-
 
         if (pieceIsAuthorized(anticipatedPiece)) {
             piece = anticipatedPiece;
@@ -267,13 +259,10 @@ public class ModelBoard extends Observable{
         } else {
             returnValue = 1;
         }
-
         addPieceOnBoardInOrder(piece, 0);
-
         return returnValue;
-
-
     }
+
     public boolean pieceIsAuthorized(Piece piece) {
         for (Position position : piece.getShape()) {
             try {
@@ -285,6 +274,23 @@ public class ModelBoard extends Observable{
             }
         }
         return true;
+    }
+
+    public void replacePieceOnBoard(Piece newPiece, int index) {
+        //On enlève l'ancienne
+        for (Position position: pieces.get(index).getShape()){
+            grid.getCellXY(position).setEmpty(true);
+        }
+
+        for (Position position :newPiece.getShape()) {
+            grid.setCellXY(position, false);
+        }
+        //addPiece(piece, index);
+        pieces.set(index, newPiece);
+        setChanged();
+        notifyObservers();
+
+
     }
 
 

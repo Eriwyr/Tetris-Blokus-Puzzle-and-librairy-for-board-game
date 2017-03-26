@@ -114,6 +114,9 @@ public class TetrisModel extends Observable {
         existingPieces.add(T);
 
     }
+    /*old*/
+
+    /*new */
 
     public void addingNewFallingPiece() {
 
@@ -173,8 +176,8 @@ public class TetrisModel extends Observable {
                 System.out.println("on a mis game over true quand il y avait "+board.getPieces().size()+" pieces");
                 gameOver =true;
             } else {
-                board.addPieceOnBoardInOrder(tempPiece, 1);
 
+                board.addPieceOnBoardInOrder(tempPiece, 1);
 
                 pieceFalling = true;
             }
