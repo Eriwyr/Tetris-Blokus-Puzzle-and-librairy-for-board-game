@@ -25,10 +25,28 @@ public class ModelBoard extends Observable{
 
 
     public void movePieceWithoutChecking(Piece piece, Direction direction) {
+        boolean ok = true;
+        pieces.remove(piece);
 
-        removePiece(piece);
-        piece.anticipationCalc(piece, direction);
-        addPieceOnBoard(piece);
+        Piece anticipatedPiece = new Piece();
+        anticipatedPiece.anticipationCalc(piece, direction);
+        for(Position position : anticipatedPiece.getShape()) {
+            try{
+                grid.getCellXY(position); 
+            } catch (Exception e) {
+                ok = false;
+            }
+        }
+        if(ok) piece = anticipatedPiece;
+
+        pieces.add(0, piece);
+
+        udateGrid();
+
+        setChanged();
+        notifyObservers();
+
+
     }
 
     public int movePieceWithAuthorization(Piece piece, Direction direction) {

@@ -46,4 +46,17 @@ public class PieceViewBlokus extends PieceView {
             shapeView.add(rectangle);
         }
     }
+
+
+    public PieceViewBlokus(Piece piece, Color color) {
+
+
+        shapeView = new ArrayList<Rectangle>();
+        for (Position position : piece.getShape()) {
+            Rectangle rectangle = new Rectangle(position.getX(), position.getY(), 10, 10) ;
+            rectangle.setFill(color);
+            rectangle.setStroke(Color.BLACK);
+            shapeView.add(rectangle);
+        }
+    }
 }

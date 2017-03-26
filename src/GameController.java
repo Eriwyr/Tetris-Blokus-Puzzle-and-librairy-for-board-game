@@ -1,4 +1,5 @@
 import Blokus.BlokusModel;
+import Blokus.PieceViewBlokus;
 import LibraryBoardGame.Model.Board.Grid;
 import LibraryBoardGame.Model.Direction;
 import LibraryBoardGame.Model.Piece.Piece;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -171,6 +173,29 @@ public class GameController extends Application {
         }
     }
 
+
+    public void initializeGridPlayers(GridPane gPane){
+        try{
+            Node node = gPane.getChildren().get(0);
+            gPane.getChildren().clear();
+            gPane.getChildren().add(0,node);
+
+        } catch(Exception e) {
+
+
+        }
+
+        // Initialing grid
+        for (int a = 0; a <50 ; a++) {
+            for (int b = 0; b < 50; b++) {
+                Rectangle rectangle = new Rectangle(10, 10);
+                rectangle.setId("gridTetris");
+                rectangle.applyCss();
+                gPane.add(rectangle, b, a);
+            }
+        }
+    }
+
     public void initializeGridBlokus(GridPane gPane){
         try{
             Node node = gPaneGridBlokus.getChildren().get(0);
@@ -293,7 +318,7 @@ public class GameController extends Application {
         int offset  =0;
         for (Piece piece : blokusModel.getPlayer1()) {
             //factory.getPieceViewBlokus(piece);
-            PieceView pieceView= factory.getPieceViewBlokus(piece);
+            PieceView pieceView = factory.getPieceViewBlokus(piece);
             System.out.println("couleur Display  :"+piece.getShape().get(0).getIdCouleur());
             for(Rectangle rectangle : pieceView.getShapeView()) {
                 rectangle.setX(rectangle.getX()+offset);
@@ -323,6 +348,7 @@ public class GameController extends Application {
         blokus_group.getChildren().add(borderPBlokus);
 
         Scene scene_blokus = new Scene(blokus_group, 1024, 768);
+        //scene_blokus.setOnKeyPressed(gPaneGridBlokus);
         scene_blokus.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         return scene_blokus;
 
@@ -451,13 +477,14 @@ public class GameController extends Application {
                         }
                     }
                 });
+                ScheduledExecutorService execute = Executors.newSingleThreadScheduledExecutor();
+                execute.scheduleAtFixedRate(new  ModelThread(tetrisModel, endgame, gameName, pieceViews), 0, 600, TimeUnit.MILLISECONDS);
 
                 break;
 
             case "Blokus" :
 
                 pieceViewsPlayers = new ArrayList<PieceView>();
-
                 blokusModel = new BlokusModel();
                 Scene scene_blokus = settingSceneBlokus();
                 primaryStage.setScene(scene_blokus);
@@ -469,17 +496,21 @@ public class GameController extends Application {
                 blokusModel.addObserver(new Observer() {
                     @Override
                     public void update(Observable o, Object arg) {
+                        System.out.println("udaote");
+                        initializeGridPlayers(gPanePlayer1);
                         pieceViewsPlayers.clear();
 
                         int count = 0;
-                        for (Piece piece : tetrisModel.getPieces()) {
+                        for (Piece piece : blokusModel.getPlayer1()) {
                             if (count == blokusModel.getIndexSelectedPiece()) {
-                                pieceViews.add(factory.getPieceViewTetris(piece, Color.GREEN));
+                                System.out.println("truvé indice selevtionné");
+                                pieceViewsPlayers.add(factory.getPieceViewBlokus(piece, Color.GREEN));
                             } else {
 
 
-                                pieceViews.add(factory.getPieceViewTetris(piece));
+                                pieceViewsPlayers.add(factory.getPieceViewBlokus(piece));
                             }
+                            count++;
                         }
                         refreshPlayers();
 
@@ -510,7 +541,7 @@ public class GameController extends Application {
                                                     /*new version*/
                                                     initializeGridBlokus(gPaneGridBlokus);
                                                     pieceViews.clear();
-                                                    for (Piece piece : blokusModel.getExistingPieces()) {
+                                                    for (Piece piece : blokusModel.getPieces()) {
                                                         pieceViews.add(factoryBlokus.getPieceViewBlokus(piece));
                                                     }
 
@@ -533,56 +564,102 @@ public class GameController extends Application {
                                 break;
                         }
 
-                        gPaneGridBlokus.setFocusTraversable(true);
-                        gPaneGridBlokus.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                            @Override
-                            public void handle(KeyEvent event) {
-                                switch (event.getCode()) {
 
-                                    case RIGHT:
-                                        System.out.println("right pressed !!");
-                                        break;
-                                    case ESCAPE: System.exit(0);
-                                    default:
-                                        break;
-                                }
-                            }
-                        });
                     }
                 });
 
 
-            borderPBlokus.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                @Override
-                public void handle(KeyEvent event) {
-                    switch (event.getCode()) {
 
-                        case Q:
-                            blokusModel.selectNextPiece(Direction.Right);
-                           // tetrisModel.movePiece(Direction.Left);
-                            break;
-                        case S:
-                            blokusModel.selectNextPiece(Direction.Left);
-                            //tetrisModel.movePiece(Direction.Right);
-                            break;
 
-                        case ESCAPE: System.exit(0);
-                        default:
-                            break;
+                borderPBlokus.setFocusTraversable(true);
+                borderPBlokus.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+
+                        switch (event.getCode()) {
+
+                            case S:
+                                System.out.println("S");
+                                blokusModel.selectNextPiece(Direction.Left);
+                                break;
+                            case D:
+                                System.out.println("D");
+                                blokusModel.selectNextPiece(Direction.Right);
+                                break;
+                            case R:
+                                System.out.println("D");
+                                blokusModel.selectNextPiece(Direction.Right);
+                                break;
+
+                            case SPACE:
+
+                                break;
+                            case LEFT:
+                                System.out.println("left");
+                                blokusModel.movePiece(Direction.Left);
+                                break;
+                            case UP:
+                                System.out.println("UP");
+                                blokusModel.movePiece(Direction.Up);
+                                break;
+                            case DOWN:
+                                System.out.println("doxn");
+                                blokusModel.movePiece(Direction.Down);
+                                break;
+                            case RIGHT:
+                                System.out.println("right");
+                                blokusModel.movePiece(Direction.Right);
+
+                                break;
+                            case ENTER:
+                                System.out.println("Enter");
+
+
+                                Executor executor = Executors.newSingleThreadExecutor();
+                                executor.execute(new  ModelThread(blokusModel, endgame, gameName, pieceViews));
+                                    break;
+                            case ESCAPE: System.exit(0);
+                                break;
+                            default:
+                                break;
+
+
+                        }
+                        blokusModel.getBoard().getGrid().Display();
+                        System.out.println();
                     }
-                }
-            });
+                });
 
+                /*gPaneGridBlokus.setFocusTraversable(true);
+                gPaneGridBlokus.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        System.out.println("keyy pressed 1");
+                        switch (event.getCode()) {
 
+                            case RIGHT:
 
+                                System.out.println("right pressed !!");
+                                break;
+
+                            case LEFT:
+
+                                System.out.println("left pressed !!");
+                                break;
+                            case ESCAPE: System.exit(0);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });*/
                 break;
 
             default:
                 break;
         }
 
-        ScheduledExecutorService execute = Executors.newSingleThreadScheduledExecutor();
-        execute.scheduleAtFixedRate(new  ModelThread(tetrisModel, endgame, gameName, pieceViews), 0, 600, TimeUnit.MILLISECONDS);
+
     }
 
 
@@ -610,13 +687,24 @@ public class GameController extends Application {
       //  gPanePlayer1.setVgap(10);
 
         //only one player for now
+        int offset = 0;
+        System.out.println("size : "+pieceViewsPlayers.size());
         for (PieceView pieceView : pieceViewsPlayers) {
             for (Rectangle rectangle : pieceView.getShapeView()) {
                 // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
-                gPanePlayer1.add(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
+                gPanePlayer1.add(rectangle, (int) rectangle.getX()+offset, (int) rectangle.getY());
             }
+            offset +=3;
         }
     }
+
+    public void placePiece(Piece piece) {
+        /*
+        PieceView pieceView = new PieceViewBlokus(piece);
+        for (Rectangle rectangle : pieceView.getShapeView()) {
+            gPaneGridBlokus.add(rectangle, (int)rectangle.getX()+3, (int)rectangle.getY()+3);
+        }*/
+     }
 }
 
 

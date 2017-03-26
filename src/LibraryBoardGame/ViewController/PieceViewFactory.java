@@ -17,13 +17,17 @@ public class PieceViewFactory {
     public PieceView getPieceViewTetris(Piece piece) {
         return new PieceViewTetris(piece);
     }
-    public PieceView getPieceViewTetris(Piece piece, Color color) {
+    /*public PieceView getPieceViewTetris(Piece piece, Color color) {
         return new PieceViewTetris(piece, color);
-    }
+    }*/
+
+
 
     public PieceView getPieceViewBlokus(Piece piece) {
-        System.out.println(" COuleur factory :" + piece.getShape().get(0).getIdCouleur());
         return new PieceViewBlokus(piece);
+
+    } public PieceView getPieceViewBlokus(Piece piece, Color color) {
+        return new PieceViewBlokus(piece, color);
     }
 
 

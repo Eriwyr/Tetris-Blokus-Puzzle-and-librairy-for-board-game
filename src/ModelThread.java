@@ -56,6 +56,7 @@ public class ModelThread extends Observable implements Runnable {
                     break;
 
                 case "Blokus" :
+                    System.out.println("dans thread");
                     blokusModel.nextRound();
                     if (blokusModel.lookForWinner() != -1) {
 

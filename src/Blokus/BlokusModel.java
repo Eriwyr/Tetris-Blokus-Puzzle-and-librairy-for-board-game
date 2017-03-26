@@ -20,12 +20,14 @@ public class BlokusModel extends Observable{
     private List<Piece> player2;
     private List<Piece> player3;
     private List<Piece> player4;
-    private Piece currentPiece;
+    /*private Piece currentPiece;*/
     private int indexSelectedPiece;
     private int round;
 
         public BlokusModel(){
-            currentPiece = new Piece();
+            /*currentPiece = new Piece();*/
+            indexSelectedPiece= 0;
+
             this.board = new ModelBoard(12, 20);
 
             player1 = new ArrayList<Piece>();
@@ -337,7 +339,6 @@ public class BlokusModel extends Observable{
     }
 
     public List<Piece> getPlayer1() {
-        System.out.println("couleur PLayer : "+player1.get(0).getShape().get(0).getIdCouleur());
         return player1;
     }
 
@@ -413,17 +414,43 @@ public class BlokusModel extends Observable{
     }
 
     public void selectNextPiece(Direction direction) {
-        if (direction == Direction.Right && indexSelectedPiece < player1.size()) {
-            currentPiece = new Piece(player1.get(indexSelectedPiece+1));
-            indexSelectedPiece++;
-        } else {
-            if ( indexSelectedPiece>0) {
-                currentPiece = new Piece(player1.get(indexSelectedPiece-1));
-                indexSelectedPiece--;
-            }
+        try{
+            System.out.println("removing current piece");
+            board.removePiece(board.getPieces().get(0));
+        }catch (Exception e) {
+            System.out.println("il n'y en avait pas ");
         }
-        setChanged();
+        System.out.println("index avant if = "+indexSelectedPiece);
+        if (direction == Direction.Right && indexSelectedPiece < player1.size()-1) {
+            System.out.println("Nouevlle referene à current dans selct next piece if ");
+           /* try{
+                board.getPieces().set(0, player1.get(indexSelectedPiece+1));
+            }catch (Exception e) {
+                board.getPieces().add(0, player1.get(indexSelectedPiece+1));
+            }*/
+            board.addPieceOnBoardInOrder(new Piece(player1.get(indexSelectedPiece+1)), 0);
+
+            indexSelectedPiece++;
+
+
+        } else if (direction == Direction.Left && indexSelectedPiece>0) {
+            System.out.println("Nouevlle referene à current dans selct next piece else ");
+
+            /*try{
+                board.getPieces().set(0, player1.get(indexSelectedPiece-1));
+            }catch (Exception e) {
+                board.getPieces().add(0, player1.get(indexSelectedPiece-1));
+            }*/
+            board.addPieceOnBoardInOrder(new Piece(player1.get(indexSelectedPiece-1)), 0);
+                indexSelectedPiece--;
+
+
+        }
+         setChanged();
         notifyObservers();
+
+      /*  board.addPieceOnBoard(board.getPieces().get(0));*/
+
     }
 
     public int lookForWinner() {
@@ -442,5 +469,20 @@ public class BlokusModel extends Observable{
 
     public int getIndexSelectedPiece() {
         return indexSelectedPiece;
+    }
+
+   /* public Piece getCurrentPiece() {
+        return currentPiece;
+    }*/
+
+    public void movePiece(Direction direction) {
+        board.movePieceWithoutChecking(board.getPieces().get(0), direction);
+
+      //  currentPiece = new Piece(board.anticipationCalc(currentPiece, Direction.Down));
+    }
+
+    public List<Piece> getPieces() {
+        return board.getPieces();
+
     }
 }
