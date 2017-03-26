@@ -56,7 +56,12 @@ public class ModelThread extends Observable implements Runnable {
                     break;
 
                 case "Blokus" :
-                    System.out.println("blokus");
+                    blokusModel.nextRound();
+                    if (blokusModel.lookForWinner() != -1) {
+
+                    }
+
+
                 default:
                     break;
             }

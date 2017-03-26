@@ -524,6 +524,31 @@ public class GameController extends Application {
                         });
                     }
                 });
+
+
+            borderPBlokus.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent event) {
+                    switch (event.getCode()) {
+
+                        case Q:
+                            blokusModel.selectNextPiece(Direction.Right);
+                           // tetrisModel.movePiece(Direction.Left);
+                            break;
+                        case S:
+                            blokusModel.selectNextPiece(Direction.Left);
+                            //tetrisModel.movePiece(Direction.Right);
+                            break;
+
+                        case ESCAPE: System.exit(0);
+                        default:
+                            break;
+                    }
+                }
+            });
+
+
+
                 break;
 
             default:

@@ -1,6 +1,7 @@
 package Blokus;
 
 import LibraryBoardGame.Model.Board.ModelBoard;
+import LibraryBoardGame.Model.Direction;
 import LibraryBoardGame.Model.Piece.Piece;
 import LibraryBoardGame.Model.Piece.Position;
 
@@ -13,15 +14,18 @@ import java.util.Observable;
  * Created by Eriwyr on 25/03/2017.
  */
 public class BlokusModel extends Observable{
-        private ModelBoard board;
-        private List<Piece> existingPieces;
-        private List<Piece> player1;
-        private List<Piece> player2;
-        private List<Piece> player3;
-        private List<Piece> player4;
+    private ModelBoard board;
+    private List<Piece> existingPieces;
+    private List<Piece> player1;
+    private List<Piece> player2;
+    private List<Piece> player3;
+    private List<Piece> player4;
+    private Piece currentPiece;
+    private int indexSelectedPiece;
+    private int round;
 
         public BlokusModel(){
-
+            currentPiece = new Piece();
             this.board = new ModelBoard(12, 20);
 
             player1 = new ArrayList<Piece>();
@@ -330,5 +334,88 @@ public class BlokusModel extends Observable{
 
     public List<Piece> getPlayer4() {
         return player4;
+    }
+
+
+    Boolean isAuthorizePlacing(Piece piece, int idColorPlayer) {
+        int nbPiecesDiagonales = 0;
+
+        for(Position position : piece.getShape()) {
+            // Si cette case est "au-dessus" d'une pièce déjà présente, on ne peut pas la mettre.
+            // On boucle sur toutes les pièces et on regarde si l'une d'entre elles se trouvent à la place
+            // de position. Dans ce cas, on return false
+            for (Piece p : board.getPieces()) {
+                for (Position pPosition : p.getShape()) {
+                    if (pPosition.getX() == position.getX() && pPosition.getY() == position.getY())
+                        return false;
+
+                    // On regarde aux 4 coins + 4 diagonales de la cellule actuelle
+                    for (int i = -1; i < 1; i++) {
+                        for (int y = -1; y < 1; y++) {
+                            int posToCheckX = position.getX() + i;
+                            int posToCheckY = position.getY() + y;
+
+                            // la position à vérifier doit être tq 0 < pos < tailleGrille - pour des raisons évidentes de sécurité
+                            // aussi: on ne veut pas check le cas où i = y = 0, car cela reviendrait à regarder la case actuelle,
+                            // vu que position.getX() + 0 = position.getX() et position.getY() + 0 = position.getY()
+                            if (posToCheckX > 0 && posToCheckY > 0
+                                    && posToCheckX < board.getGrid().getSizeX() && posToCheckY < board.getGrid().getSizeY()
+                                    && i != 0 && y != 0) {
+                                // Si on est dans les diagolanes => si abs(i) = 1 et abs(y) = 1
+                                if (Math.abs(i) == 1 && Math.abs(y) == 1) {
+                                    // On regarde s'il existe une pièce dans cette diagonale
+                                    for (Piece pBoard : board.getPieces())
+                                        for (Position pBoardPostion : p.getShape())
+                                            if (pBoardPostion.getX() == posToCheckX && pBoardPostion.getY() == posToCheckY)
+                                                // il y a une pièce dans cette diagonale. Est-ce que c'est une des notres ?
+                                                if (pBoardPostion.getIdCouleur() == idColorPlayer)
+                                                    // Elle est à nous. On incrémente
+                                                    nbPiecesDiagonales++;
+                                } else { // On est pas dans les colones = on est dans les lignes
+                                    // On cherche s'il y a une pièce à la position [posToCheckX][posToCheckY]
+                                    for (Piece pBoard : board.getPieces())
+                                        for (Position pBoardPostion : p.getShape())
+                                            if (pBoardPostion.getX() == posToCheckX && pBoardPostion.getY() == posToCheckY)
+                                                // Il y en a une.
+                                                if (pBoardPostion.getIdCouleur() == idColorPlayer)
+                                                    return false;
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return nbPiecesDiagonales != 0;
+    }
+    public void nextRound(){
+        round = (round+1)%4;
+    }
+
+    public void selectNextPiece(Direction direction) {
+        if (direction == Direction.Right && indexSelectedPiece < player1.size()) {
+            currentPiece = new Piece(player1.get(indexSelectedPiece+1));
+        } else {
+            if (direction == Direction.Right && indexSelectedPiece>0) {
+                currentPiece = new Piece(player1.get(indexSelectedPiece-1));
+            }
+        }
+    }
+
+    public int lookForWinner() {
+        if (player1.size() ==0) {
+            return 1;
+        } else if (player1.size() ==0) {
+            return 2;
+        } else if (player1.size() ==0) {
+            return 3;
+        } else if (player1.size() ==0) {
+            return 4;
+        } else {
+            return -1;
+        }
     }
 }
