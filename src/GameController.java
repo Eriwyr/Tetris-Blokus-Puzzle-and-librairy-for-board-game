@@ -445,7 +445,7 @@ public class GameController extends Application {
                         }
                     }
                 });
-                
+
                 break;
 
             case "Blokus" :

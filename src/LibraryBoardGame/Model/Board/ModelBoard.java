@@ -18,14 +18,18 @@ public class ModelBoard extends Observable{
     private List<Piece> pieces;
 
 
-
-
-
     public ModelBoard(int x, int y){
         this.grid = new Grid(x,y);
         pieces = new ArrayList<Piece>();
     }
 
+
+    public void movePieceWithoutChecking(Piece piece, Direction direction) {
+
+        removePiece(piece);
+        piece.anticipationCalc(piece, direction);
+        addPieceOnBoard(piece);
+    }
 
     public int movePieceWithAuthorization(Piece piece, Direction direction) {
 
@@ -130,7 +134,7 @@ public class ModelBoard extends Observable{
 
     }
 
-    public boolean AuthorizedAddPieceOnBoard(Piece piece, int index) {
+    public boolean AuthorizedAddPieceOnBoardInOrder(Piece piece, int index) {
         for (Position position : piece.getShape()) {
             if (!grid.getCellXY(position).isEmpty()){
                 return false ;
@@ -184,7 +188,7 @@ public class ModelBoard extends Observable{
     }
 
 
-    public int rotatePieceSafeOrder(Piece piece, int rotation, int index) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
+    public int rotatePieceSafeOrderWithAuthorization(Piece piece, int rotation, int index) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
 
         removePiece(piece);
         int returnValue = 0;
@@ -199,6 +203,32 @@ public class ModelBoard extends Observable{
             returnValue = 1;
         }
         addPieceOnBoardInOrder(piece, index);
+        return returnValue;
+    }
+
+    public void rotatePiece(Piece piece, int rotation) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
+
+        removePiece(piece);
+        piece.anticipationCalc(piece, rotation);
+        addPieceOnBoard(piece);
+    }
+
+
+    public int rotatePieceWhithAuthorization(Piece piece, int rotation) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
+
+        removePiece(piece);
+        int returnValue = 0;
+
+        Piece anticipatedPiece = new Piece();
+        anticipatedPiece.anticipationCalc(piece, rotation);
+
+        if (pieceIsAuthorized(anticipatedPiece)) {
+            piece = anticipatedPiece;
+            returnValue = 0;
+        } else {
+            returnValue = 1;
+        }
+        addPiece(piece);
         return returnValue;
     }
 

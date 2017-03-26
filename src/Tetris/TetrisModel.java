@@ -141,7 +141,7 @@ public class TetrisModel extends Observable {
 
 
             //board.getPieces().add(1, new Piece(board.getPieces().get(0).getShape(), board.getPieces().get(0).getCenter()));
-             if (!board.AuthorizedAddPieceOnBoard( piece, 0)) {
+             if (!board.AuthorizedAddPieceOnBoardInOrder( piece, 0)) {
                  gameOver =true;
 
                  setChanged();
@@ -165,7 +165,7 @@ public class TetrisModel extends Observable {
 
             board.getPieces().remove( board.getPieces().get(0));
 
-            if (!board.AuthorizedAddPieceOnBoard( piece, 0)) {
+            if (!board.AuthorizedAddPieceOnBoardInOrder( piece, 0)) {
                 gameOver =true;
 
                 setChanged();
@@ -269,7 +269,7 @@ public class TetrisModel extends Observable {
 
     }
     public void rotatePiece(int rotation){
-        board.rotatePieceSafeOrder(board.getPieces().get(0), rotation, 0);
+        board.rotatePieceSafeOrderWithAuthorization(board.getPieces().get(0), rotation, 0);
     }
 
     public void removeLine(){
