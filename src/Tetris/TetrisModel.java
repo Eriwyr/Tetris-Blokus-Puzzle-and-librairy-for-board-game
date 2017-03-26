@@ -129,9 +129,7 @@ public class TetrisModel extends Observable {
         Piece piece  = new Piece(existingPieces.get(2).getShape(), existingPieces.get(2).getCenter());
 
         if (board.getPieces().size() == 0) {
-            System.out.println("On a acune pièce dans le model, on peut l'ajouter sans soucis");
             board.addPieceOnBoardInOrder(piece, 0);
-            System.out.println("On a maintent "+board.getPieces().size()+" pièces sur le plateau");
             pieceFalling =true;
 
         } else if(board.getPieces().size() == 1) {
@@ -145,6 +143,9 @@ public class TetrisModel extends Observable {
             //board.getPieces().add(1, new Piece(board.getPieces().get(0).getShape(), board.getPieces().get(0).getCenter()));
              if (!board.AuthorizedAddPieceOnBoard( piece, 0)) {
                  gameOver =true;
+
+                 setChanged();
+                 notifyObservers();
              } else {
                  board.addPieceOnBoardInOrder(pieceTemporaire, 1);
                  pieceFalling =true;
@@ -152,11 +153,35 @@ public class TetrisModel extends Observable {
 
 
         } else {
-            System.out.println("On a deux pièces sur le plaeau");
-            System.out.println("On ajoute la première à la dernière");
 
-            System.out.println("taille du for : "+board.getPieces().get(0).getShape().size());
+
+            for (Position position : board.getPieces().get(0).getShape()){
+                board.getPieces().get(1).getShape().add(new Position(position.getX(), position.getY(), position.getIdCouleur()));
+            }
+            Piece newContructedPiece = new Piece( board.getPieces().get(1));
+
+            board.removePiece( board.getPieces().get(1));
+            board.addPieceOnBoardInOrder(newContructedPiece, 1);
+
+            board.getPieces().remove( board.getPieces().get(0));
+
+            if (!board.AuthorizedAddPieceOnBoard( piece, 0)) {
+                gameOver =true;
+
+                setChanged();
+                notifyObservers();
+            } else {
+
+          //      board.addPieceOnBoardInOrder(tempPiece, 1);
+
+                pieceFalling = true;
+            }
+
+
+            /*
+
             Piece tempPiece = new Piece(board.getPieces().get(1));
+
             board.removePiece(board.getPieces().get(1));
             for (Position position : board.getPieces().get(0).getShape()){
                tempPiece.getShape().add(new Position(position.getX(), position.getY(), position.getIdCouleur()));
@@ -180,7 +205,8 @@ public class TetrisModel extends Observable {
                 board.addPieceOnBoardInOrder(tempPiece, 1);
 
                 pieceFalling = true;
-            }
+            }*/
+
 
         }
 
@@ -216,7 +242,6 @@ public class TetrisModel extends Observable {
     }
 
      public void fallingPiece(){
-         System.out.println("We are moving the first piece ");
         if (board.movePiece(board.getPieces().get(0), Direction.Down) == 1) {
 
 
@@ -243,7 +268,6 @@ public class TetrisModel extends Observable {
     }
 
     public void removeLine(){
-        System.out.println("on verifie la disparition d'un d'une ligne ");
 
         int sizeX = board.getGrid().getSizeX();
         int sizeY = board.getGrid().getSizeY();
@@ -328,4 +352,6 @@ public class TetrisModel extends Observable {
     public boolean isGameOver() {
         return gameOver;
     }
+
+
 }

@@ -58,6 +58,7 @@ public class GameController extends Application {
     private Group blokus_group;
     private Text text;
     private Text textLevel;
+    private Text gameOverText;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -210,7 +211,17 @@ public class GameController extends Application {
         textLevel.setText("Level : ");
         textLevel.applyCss();
 
-        vboxText.getChildren().addAll(textLevel,text);
+
+
+
+
+        gameOverText = new Text();
+        gameOverText.setId("gameOverMessage");
+        gameOverText.setTextAlignment(TextAlignment.CENTER);
+        gameOverText.setText("");
+        gameOverText.applyCss();
+
+        vboxText.getChildren().addAll(textLevel,text, gameOverText);
 
         borderP.setCenter(gPane);
         borderP.setRight(vboxText);
@@ -264,6 +275,34 @@ public class GameController extends Application {
                 // Piece piece = new Piece()
 
 
+
+
+                tetrisModel.addObserver(new Observer() {
+                    @Override
+                    public void update(Observable o, Object arg) {
+                        System.out.println("new notifing ");
+
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                           if( tetrisModel.isGameOver()) {
+                                               System.out.println("setting text to game over ");
+                                               gameOverText.setText("Game Over ! ");
+
+                                           }
+                                    }
+                                });
+                            }
+                        }).start();
+
+                    }
+                });
+
                 tetrisModel.getBoard().addObserver(new Observer() {
 
                     @Override
@@ -271,28 +310,31 @@ public class GameController extends Application {
                         switch (gameName) {
                             case "Tetris":
 
-                                text.setText(Integer.toString(tetrisModel.getPoints()) + "\n Score");
-                                textLevel.setText("Level : "+Integer.toString(tetrisModel.getLevel()));
-                                for (int i = 0; i < tetrisModel.getPieces().size(); i++) {
-                                    try {
-                                        PieceView pieceViewTry = pieceViews.get(i);
-                                    } catch (Exception e) {
-                                        pieceViews.add(i, factory.getPieceViewTetris(tetrisModel.getPieces().get(i)));
-                                    }
 
-                                    new Thread(new Runnable() {
-                                        @Override public void run() {
-                                            Platform.runLater(new Runnable() {
-                                                @Override public void run() {
+                                    text.setText(Integer.toString(tetrisModel.getPoints()) + "\n Score");
+                                    textLevel.setText("Level : " + Integer.toString(tetrisModel.getLevel()));
+                                    for (int i = 0; i < tetrisModel.getPieces().size(); i++) {
+                                        try {
+                                            PieceView pieceViewTry = pieceViews.get(i);
+                                        } catch (Exception e) {
+                                            pieceViews.add(i, factory.getPieceViewTetris(tetrisModel.getPieces().get(i)));
+                                        }
+
+                                        new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Platform.runLater(new Runnable() {
+                                                    @Override
+                                                    public void run() {
 
                                                     /*new version*/
-                                                    initializeGridTetris(gPane);
-                                                    pieceViews.clear();
-                                                    for (Piece piece : tetrisModel.getPieces()) {
-                                                        pieceViews.add(factory.getPieceViewTetris(piece));
-                                                    }
+                                                        initializeGridTetris(gPane);
+                                                        pieceViews.clear();
+                                                        for (Piece piece : tetrisModel.getPieces()) {
+                                                            pieceViews.add(factory.getPieceViewTetris(piece));
+                                                        }
 
-                                                    boop();
+                                                        boop();
                                                     /*
                                                     for (PieceView pieceView : pieceViews) {
                                                        for (Rectangle rectangle : pieceView.getShapeView()) {
@@ -300,11 +342,12 @@ public class GameController extends Application {
                                                            gPane.add(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
                                                        }
                                                    }*/
-                                                }
-                                            });
-                                        }
-                                    }).start();
-                                }
+                                                    }
+                                                });
+                                            }
+                                        }).start();
+                                    }
+
                                 break;
                             default:
                                 break;

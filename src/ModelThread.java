@@ -4,11 +4,12 @@ import LibraryBoardGame.ViewController.PieceView;
 import Tetris.TetrisModel;
 
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created by maxencebernier on 18/03/2017.
  */
-public class ModelThread implements Runnable {
+public class ModelThread extends Observable implements Runnable {
     private TetrisModel tetrisModel;
     private Boolean endgame;
     private String game;
@@ -64,6 +65,7 @@ public class ModelThread implements Runnable {
                             tetrisModel.removeLine();
                         }
                     } else {
+
                         System.out.println("! game is over !");
                     }
                     break;

@@ -38,45 +38,39 @@ public class ModelBoard extends Observable{
 
 
 
-   public int movePiece(Piece piece, Direction direction) {
+    public int movePiece(Piece piece, Direction direction) {
 
-       int returnValue = 0;
-       Piece anticipatedPiece = new Piece();
-       removePiece(piece);
-       anticipatedPiece.anticipationCalc(piece, direction);
+        int returnValue = 0;
+        Piece anticipatedPiece = new Piece();
+        removePiece(piece);
+        anticipatedPiece.anticipationCalc(piece, direction);
 
-       if (pieceIsAuthorized(anticipatedPiece)) {
-           piece = anticipatedPiece;
-           returnValue = 0;
-       } else {
-           returnValue =1;
-       }
+        if (pieceIsAuthorized(anticipatedPiece)) {
+            piece = anticipatedPiece;
+            returnValue = 0;
+        } else {
+            returnValue =1;
+        }
 
-       addPieceOnBoardInOrder(piece, 0);
-       return returnValue;
-   }
+        addPieceOnBoardInOrder(piece, 0);
+        return returnValue;
+    }
 
     public void setGrid(Grid grid) {
         this.grid = grid;
     }
 
     public void udateGrid(){
-        System.out.println("after calling size piece : "+pieces.size());
         for(int i =0; i<grid.getSizeY(); i++) {
             for (int j=0; j<grid.getSizeX(); j++ ) {
                 grid.setCellXY(new Position(j, i ), true);
             }
         }
 
-
         for (Piece piece : pieces){
-            System.out.println("size positions "+piece.getShape().size());
             for (Position position : piece.getShape()) {
-                System.out.println("setting to false "+position.getX()+" "+position.getY());
                 grid.setCellXY(position, false);
             }
-            System.out.println("in udate grid");
-            grid.Display();
         }
 
     }
@@ -89,24 +83,6 @@ public class ModelBoard extends Observable{
         position.setY(anticipatedPosition.getY());
 
 
-   /*     Position positionAbove = position.anticipatePosition(Direction.Up);
-        System.out.println("For the position  "+position.getX()+" "+position.getY()+", the above is :"+positionAbove.getX()+" "+positionAbove.getY()+", and bellow is "+anticipatedPosition.getX()+" "+anticipatedPosition.getY());
-     //   if(grid.getCellXY(anticipatedPosition).isEmpty()) {
-
-        if (getGrid().getCellXY(positionAbove).isEmpty()) {
-            System.out.println("the position "+positionAbove.getX()+" "+positionAbove.getY()+" is empty " );
-            System.out.println("firt set "+position.getX()+" "+ position.getY()+ " to true");
-            grid.setCellXY(position, true);
-        } else {
-            System.out.println("first set "+position.getX()+" "+ position.getY()+ " to false");
-            grid.setCellXY(position, false);
-        }
-
-        position.setX(anticipatedPosition.getX());
-        position.setY(anticipatedPosition.getY());
-            System.out.println("second set "+position.getX()+" "+ position.getY()+ " to false");
-            grid.setCellXY(position, false);
-      //  }*/
 
         setChanged();
         notifyObservers();
@@ -153,20 +129,12 @@ public class ModelBoard extends Observable{
     }
 
     public  void addPieceOnBoardInOrder(Piece piece, int index) {
-        System.out.println("piece we are troyning de add ");
-        piece.Display();
-        int c =1;
         for (Position position :piece.getShape()) {
-            System.out.println("setting pisition "+c);
             grid.setCellXY(position, false);
-            c++;
         }
-        System.out.println("done with for ");
         addPiece(piece, index);
-        System.out.println("added");
         setChanged();
         notifyObservers();
-        System.out.println("notifyined ");
     }
 
 
@@ -187,21 +155,16 @@ public class ModelBoard extends Observable{
     }
 
     public boolean AuthorizedAddPieceOnBoard(Piece piece, int index) {
-        System.out.println("On verifie l'autorasation ");
         for (Position position : piece.getShape()) {
-            System.out.println("pour cette position :"+position.getX()+" "+position.getY());
             if (!grid.getCellXY(position).isEmpty()){
-                System.out.println("la position est accupée, on s'arrête et on revoit false");
                 return false ;
             }
         }
-        System.out.println("Tout ets Ok ");
 
         for (Position position :piece.getShape()) {
 
             grid.setCellXY(position, false);
         }
-        System.out.println("on ajoute la pièce au plateau ");
         addPiece(piece, index);
         setChanged();
         notifyObservers();
