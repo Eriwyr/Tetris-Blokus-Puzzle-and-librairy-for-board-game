@@ -71,4 +71,7 @@ public class Position {
     public void setIdCouleur(int idCouleur) {
         this.idCouleur = idCouleur;
     }
+    public void Display() {
+        System.out.println(x+" "+y);
+    }
 }

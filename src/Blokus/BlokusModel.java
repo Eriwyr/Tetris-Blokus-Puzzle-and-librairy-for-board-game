@@ -362,88 +362,109 @@ public class BlokusModel extends Observable{
             for (Position position : piece.getShape()) {
 
                 if (position.getX() == 0 && position.getY() == 0) {
-                    System.out.println("Ok on est au coin 0 0");
                     return true;
                 }
                 else if (position.getX() == 0 && position.getY() == board.getGrid().getSizeY()-1) {
-
-                    System.out.println("Ok on est au coin 0 Y");
                     return true;
                 }
                 else if (position.getX() == board.getGrid().getSizeX()-1 && position.getY() == 0){
-
-                    System.out.println("Ok on est au coin X 0");
                     return true;
                 }
                 else if (position.getX() == board.getGrid().getSizeX()-1 && position.getY() == board.getGrid().getSizeY()-1){
-                            System.out.println("Ok on est au coin X Y");
                     return true;
                 }
-
             }
-
-            System.out.println("on est pas dans un coin ! ");
             return false;
         }
 
         int nbPiecesDiagonales = 0;
 
         for(Position position : piece.getShape()) {
+            System.out.println("Pieces sur le plateau ");
+            for (Piece piece1 : board.getPieces()) {
+                piece1.Display();
+            }
+            System.out.println("position à examiner");
+            position.Display();
             // Si cette case est "au-dessus" d'une pièce déjà présente, on ne peut pas la mettre.
             // On boucle sur toutes les pièces et on regarde si l'une d'entre elles se trouvent à la place
             // de position. Dans ce cas, on return false
 
-            for(int interationPiecesOnBoard = 1; interationPiecesOnBoard< board.getPieces().size(); interationPiecesOnBoard++){
-
-
-            //for (Piece p : board.getPieces()) {
-                Piece p  = board.getPieces().get(interationPiecesOnBoard);
+            for (int interationPiecesOnBoard = 1; interationPiecesOnBoard < board.getPieces().size(); interationPiecesOnBoard++) {
+                //for (Piece p : board.getPieces()) {
+                Piece p = board.getPieces().get(interationPiecesOnBoard);
                 for (Position pPosition : p.getShape()) {
-                    if (pPosition.getX() == position.getX() && pPosition.getY() == position.getY())
+                    if (pPosition.getX() == position.getX() && pPosition.getY() == position.getY()) {
                         return false;
+                    }
+                }
+            }
 
-                    // On regarde aux 4 coins + 4 diagonales de la cellule actuelle
-                    for (int i = -1; i < 1; i++) {
-                        for (int y = -1; y < 1; y++) {
-                            int posToCheckX = position.getX() + i;
-                            int posToCheckY = position.getY() + y;
 
-                            // la position à vérifier doit être tq 0 < pos < tailleGrille - pour des raisons évidentes de sécurité
-                            // aussi: on ne veut pas check le cas où i = y = 0, car cela reviendrait à regarder la case actuelle,
-                            // vu que position.getX() + 0 = position.getX() et position.getY() + 0 = position.getY()
-                            if (posToCheckX > 0 && posToCheckY > 0
-                                    && posToCheckX < board.getGrid().getSizeX() && posToCheckY < board.getGrid().getSizeY()
-                                    && i != 0 && y != 0) {
-                                // Si on est dans les diagolanes => si abs(i) = 1 et abs(y) = 1
-                                if (Math.abs(i) == 1 && Math.abs(y) == 1) {
-                                    // On regarde s'il existe une pièce dans cette diagonale
-                                    for (Piece pBoard : board.getPieces())
-                                        for (Position pBoardPostion : p.getShape())
-                                            if (pBoardPostion.getX() == posToCheckX && pBoardPostion.getY() == posToCheckY)
-                                                // il y a une pièce dans cette diagonale. Est-ce que c'est une des notres ?
-                                                if (pBoardPostion.getIdCouleur() == idColorPlayer)
-                                                    System.out.println("Elle est à nous. On incrémente");
-                                                    nbPiecesDiagonales++;
-                                } else { // On est pas dans les colones = on est dans les lignes
-                                    // On cherche s'il y a une pièce à la position [posToCheckX][posToCheckY]
-                                    for (Piece pBoard : board.getPieces())
-                                        for (Position pBoardPostion : p.getShape())
-                                            if (pBoardPostion.getX() == posToCheckX && pBoardPostion.getY() == posToCheckY)
-                                                // Il y en a une.
-                                                if (pBoardPostion.getIdCouleur() == idColorPlayer)
-                                                    System.out.println("On a une face à nous à coté");
-                                                    return false;
+            // On regarde aux 4 coins + 4 diagonales de la cellule actuelle
+            for (int i = -1; i < 1; i++) {
+                for (int y = -1; y < 1; y++) {
+                    int posToCheckX = position.getX() + i;
+                    int posToCheckY = position.getY() + y;
+                    System.out.println("posToCheckX : " + posToCheckX + " posToCheckY " + posToCheckY);
+                    // la position à vérifier doit être tq 0 < pos < tailleGrille - pour des raisons évidentes de sécurité
+                    // aussi: on ne veut pas check le cas où i = y = 0, car cela reviendrait à regarder la case actuelle,
+                    // vu que position.getX() + 0 = position.getX() et position.getY() + 0 = position.getY()
+                    if (posToCheckX > 0 && posToCheckY > 0
+                            && posToCheckX < board.getGrid().getSizeX() && posToCheckY < board.getGrid().getSizeY()
+
+                          &&( i != 0 || y != 0)) {
+                        System.out.println("entre 1er if");
+                        // Si on est dans les diagolanes => si abs(i) = 1 et abs(y) = 1
+                        if (Math.abs(i) == 1 && Math.abs(y) == 1) {
+                            System.out.println("entre 2eme if");
+                            // On regarde s'il existe une pièce dans cette diagonale
+                            int c = 0;
+                            for(int b = 1; b<board.getPieces().size(); b++) {
+                                Piece pBoard = board.getPieces().get(b);
+                                System.out.println("conteur : " + c);
+                                c++;
+
+                                for (Position pBoardPostion : pBoard.getShape()) {
+
+
+                                    if (pBoardPostion.getX() == posToCheckX && pBoardPostion.getY() == posToCheckY) {
+                                        System.out.println("on a trouvé la position");
+
+                                        // il y a une pièce dans cette diagonale. Est-ce que c'est une des notres ?
+                                        if (pBoardPostion.getIdCouleur() == idColorPlayer) {
+                                            System.out.println("Elle est à nous. On incrémente");
+                                            nbPiecesDiagonales++;
+                                        }
+                                    }
                                 }
+                            }
+                        } else { // On est pas dans les colones = on est dans les lignes
+                            // On cherche s'il y a une pièce à la position [posToCheckX][posToCheckY]
+                                for(int a = 1; a<board.getPieces().size(); a++) {
+                                    Piece pBoard  = board.getPieces().get(a);
 
+                                for (Position pBoardPostion : pBoard.getShape()) {
+
+
+                                    if (pBoardPostion.getX() == posToCheckX && pBoardPostion.getY() == posToCheckY) {
+
+
+                                        // Il y en a une.
+                                        if (pBoardPostion.getIdCouleur() == idColorPlayer) {
+                                            System.out.println("On a une face à nous à coté");
+                                            return false;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
+                    System.out.println("on ne rentre pas");
                 }
-
             }
         }
-
-
+        System.out.println("on retourne le nombre de diagonale");
         return nbPiecesDiagonales != 0;
     }
     public void nextRound(){

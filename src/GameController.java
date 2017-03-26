@@ -207,9 +207,9 @@ public class GameController extends Application {
 
         }
 
-        for (int a = 0; a <10; a++) {
-            for (int b = 0; b < 10; b++) {
-                Rectangle rectangle = new Rectangle(30, 30);
+        for (int a = 0; a <20; a++) {
+            for (int b = 0; b < 12; b++) {
+                Rectangle rectangle = new Rectangle(10, 10);
                 rectangle.setId("gridBlokus");
                 rectangle.applyCss();
                 gPaneGridBlokus.add(rectangle, b, a);
@@ -315,7 +315,7 @@ public class GameController extends Application {
         //working
         //pieceViews.clear(); (no need)
         System.out.println("nombre de pièce chez le joueure 1 : "+blokusModel.getPlayer1().size());
-        int offset  =0;
+      /*  int offset  =0;
         for (Piece piece : blokusModel.getPlayer1()) {
             //factory.getPieceViewBlokus(piece);
             PieceView pieceView = factory.getPieceViewBlokus(piece);
@@ -328,7 +328,8 @@ public class GameController extends Application {
             }
             pieceViewsPlayers.add(pieceView);
             offset += 6;
-        }
+        }*/
+
         System.out.println("before refresh, combien de piece view "+pieceViewsPlayers.size());
         refreshPlayers();
         VBox vBoxLeft = new VBox(50);
@@ -504,7 +505,7 @@ public class GameController extends Application {
                                     @Override public void run() {
                                         System.out.println("udaote");
                                         initializeGridPlayers(gPanePlayer1);
-                                        pieceViewsPlayers.clear();
+                                       /* pieceViewsPlayers.clear();
 
                                         int count = 0;
                                         for (Piece piece : blokusModel.getPlayer1()) {
@@ -517,7 +518,7 @@ public class GameController extends Application {
                                                 pieceViewsPlayers.add(factory.getPieceViewBlokus(piece));
                                             }
                                             count++;
-                                        }
+                                        }*/
                                         refreshPlayers();
 
                                     }
@@ -629,7 +630,7 @@ public class GameController extends Application {
 
 
                         }
-                        blokusModel.getBoard().getGrid().Display();
+                        //blokusModel.getBoard().getGrid().Display();
                         System.out.println();
                     }
                 });
@@ -687,18 +688,49 @@ public class GameController extends Application {
 
     public synchronized void refreshPlayers() {
 
-      //  gPanePlayer1.setHgap(10); //horizontal gap in pixels => that's what you are asking for
+         pieceViewsPlayers.clear();
+
+        int count = 0;
+        for (Piece piece : blokusModel.getPlayer1()) {
+            if (count == blokusModel.getIndexSelectedPiece()) {
+                System.out.println("truvé indice selevtionné");
+                pieceViewsPlayers.add(factory.getPieceViewBlokus(piece, Color.GREEN));
+            } else {
+
+
+                pieceViewsPlayers.add(factory.getPieceViewBlokus(piece));
+            }
+            count++;
+        }
+
+ /*int offset  =0;
+        for (Piece piece : blokusModel.getPlayer1()) {
+            //factory.getPieceViewBlokus(piece);
+            PieceView pieceView = factory.getPieceViewBlokus(piece);
+            System.out.println("couleur Display  :"+piece.getShape().get(0).getIdCouleur());*/
+            for(Rectangle rectangle : pieceView.getShapeView()) {
+                rectangle.setX(rectangle.getX()+offset);
+                rectangle.applyCss();
+                System.out.println(rectangle.getId());
+
+            }
+            pieceViewsPlayers.add(pieceView);
+            offset += 6;
+        }
+
+
+        //  gPanePlayer1.setHgap(10); //horizontal gap in pixels => that's what you are asking for
       //  gPanePlayer1.setVgap(10);
 
         //only one player for now
-        int offset = 0;
+        int offset1 = 0;
         System.out.println("size : "+pieceViewsPlayers.size());
         for (PieceView pieceView : pieceViewsPlayers) {
             for (Rectangle rectangle : pieceView.getShapeView()) {
                 // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
-                gPanePlayer1.add(rectangle, (int) rectangle.getX()+offset, (int) rectangle.getY());
+                gPanePlayer1.add(rectangle, (int) rectangle.getX()+offset1, (int) rectangle.getY());
             }
-            offset +=3;
+            offset1 +=3;
         }
     }
 

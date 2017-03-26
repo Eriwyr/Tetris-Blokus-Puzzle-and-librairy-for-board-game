@@ -44,7 +44,7 @@ public class ModelThread extends Observable implements Runnable {
 
 
                         /* Uncomment the following to display grid every turn*/
-                        tetrisModel.getBoard().getGrid().Display();
+                       // tetrisModel.getBoard().getGrid().Display();
                         if (tetrisModel.isPieceFalling()) {
                             tetrisModel.fallingPiece();
                         } else {
