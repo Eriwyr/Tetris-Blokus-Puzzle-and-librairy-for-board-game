@@ -26,7 +26,7 @@ public class TetrisModel extends Observable {
         this.gameOver = false;
         this.level=1;
         this.points = 0;
-        this.board = new ModelBoard(10, 10);
+        this.board = new ModelBoard(12, 20);
        /* this.pieces = new ArrayList<Piece>();*/
         this.points = 0;
         this.pieceFalling = false;
@@ -126,7 +126,7 @@ public class TetrisModel extends Observable {
 
         Random rand = new Random();
         int  n = rand.nextInt(7) ;
-        Piece piece  = new Piece(existingPieces.get(2).getShape(), existingPieces.get(2).getCenter());
+        Piece piece  = new Piece(existingPieces.get(n).getShape(), existingPieces.get(n).getCenter());
 
         if (board.getPieces().size() == 0) {
             board.addPieceOnBoardInOrder(piece, 0);
