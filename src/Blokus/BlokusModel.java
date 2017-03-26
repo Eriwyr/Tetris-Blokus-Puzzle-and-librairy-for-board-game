@@ -541,21 +541,25 @@ public class BlokusModel extends Observable{
     }
 
     public void removeOption() {
-     /*   switch (round % 4) {
+       switch (round % 4) {
             case 0:
-                player1.Player1remove(blokusModel.getIndexSelectedPiece());
+                player1.remove(indexSelectedPiece);
                 break;
             case 1:
-                blokusModel.getPlayer1().remove(blokusModel.getIndexSelectedPiece());
+                player1.remove(indexSelectedPiece);
                 break;
             case 2:
-                blokusModel.getPlayer1().remove(blokusModel.getIndexSelectedPiece());
+                player1.remove(indexSelectedPiece);
                 break;
             case 3:
-                blokusModel.getPlayer1().remove(blokusModel.getIndexSelectedPiece());
+                player1.remove(indexSelectedPiece);
+                break;
+            default:
+                System.out.println("hum ... ");
                 break;
 
-
-        }*/
+        }
+        setChanged();
+        notifyObservers();
     }
 }

@@ -496,23 +496,35 @@ public class GameController extends Application {
                 blokusModel.addObserver(new Observer() {
                     @Override
                     public void update(Observable o, Object arg) {
-                        System.out.println("udaote");
-                        initializeGridPlayers(gPanePlayer1);
-                        pieceViewsPlayers.clear();
-
-                        int count = 0;
-                        for (Piece piece : blokusModel.getPlayer1()) {
-                            if (count == blokusModel.getIndexSelectedPiece()) {
-                                System.out.println("truvé indice selevtionné");
-                                pieceViewsPlayers.add(factory.getPieceViewBlokus(piece, Color.GREEN));
-                            } else {
 
 
-                                pieceViewsPlayers.add(factory.getPieceViewBlokus(piece));
+                        new Thread(new Runnable() {
+                            @Override public void run() {
+                                Platform.runLater(new Runnable() {
+                                    @Override public void run() {
+                                        System.out.println("udaote");
+                                        initializeGridPlayers(gPanePlayer1);
+                                        pieceViewsPlayers.clear();
+
+                                        int count = 0;
+                                        for (Piece piece : blokusModel.getPlayer1()) {
+                                            if (count == blokusModel.getIndexSelectedPiece()) {
+                                                System.out.println("truvé indice selevtionné");
+                                                pieceViewsPlayers.add(factory.getPieceViewBlokus(piece, Color.GREEN));
+                                            } else {
+
+
+                                                pieceViewsPlayers.add(factory.getPieceViewBlokus(piece));
+                                            }
+                                            count++;
+                                        }
+                                        refreshPlayers();
+
+                                    }
+                                });
                             }
-                            count++;
-                        }
-                        refreshPlayers();
+                        }).start();
+
 
                     }
                 });
