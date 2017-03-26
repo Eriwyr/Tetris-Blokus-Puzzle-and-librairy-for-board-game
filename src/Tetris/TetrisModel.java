@@ -18,10 +18,12 @@ public class TetrisModel extends Observable {
     private int points;
     private int level;
     private boolean pieceFalling;
+    private boolean gameOver;
     private List<Piece> existingPieces;
 
 
     public TetrisModel() {
+        this.gameOver = false;
         this.level=1;
         this.points = 0;
         this.board = new ModelBoard(12, 20);
@@ -110,59 +112,152 @@ public class TetrisModel extends Observable {
         Piece T = new Piece(positions7);
         T.setCenter(TCenter);
         existingPieces.add(T);
+
     }
+    /*old*/
+
+    /*new */
 
     public void addingNewFallingPiece() {
 
         System.out.print("On ajoute une nouevelle pièce qui tombe ");
        // System.out.println("size of piece "+pieces.size() );
 
+
         Random rand = new Random();
         int  n = rand.nextInt(7) ;
-        System.out.println("n: "+n);
-        /*remplace done*/
-        Piece piece  = new Piece(existingPieces.get(2).getShape(), existingPieces.get(2).getCenter());
-        //Piece piece  = new Piece(existingPieces.get(n).getShape());
+        Piece piece  = new Piece(existingPieces.get(n).getShape(), existingPieces.get(n).getCenter());
 
-      //  Piece piece  = new Piece(existingPieces.get(2).getShape());
+        if (board.getPieces().size() == 0) {
+            board.addPieceOnBoardInOrder(piece, 0);
+            pieceFalling =true;
 
-        try {
+        } else if(board.getPieces().size() == 1) {
+
+            Piece pieceTemporaire =new Piece(board.getPieces().get(0));
+
+            board.removePiece(board.getPieces().get(0));
+
+
+
+            //board.getPieces().add(1, new Piece(board.getPieces().get(0).getShape(), board.getPieces().get(0).getCenter()));
+             if (!board.AuthorizedAddPieceOnBoard( piece, 0)) {
+                 gameOver =true;
+
+                 setChanged();
+                 notifyObservers();
+             } else {
+                 board.addPieceOnBoardInOrder(pieceTemporaire, 1);
+                 pieceFalling =true;
+             }
+
+
+        } else {
+
+
+            for (Position position : board.getPieces().get(0).getShape()){
+                board.getPieces().get(1).getShape().add(new Position(position.getX(), position.getY(), position.getIdCouleur()));
+            }
+            Piece newContructedPiece = new Piece( board.getPieces().get(1));
+
+            board.removePiece( board.getPieces().get(1));
+            board.addPieceOnBoardInOrder(newContructedPiece, 1);
+
+            board.getPieces().remove( board.getPieces().get(0));
+
+            if (!board.AuthorizedAddPieceOnBoard( piece, 0)) {
+                gameOver =true;
+
+                setChanged();
+                notifyObservers();
+            } else {
+
+          //      board.addPieceOnBoardInOrder(tempPiece, 1);
+
+                pieceFalling = true;
+            }
+
+
+            /*
+
+            Piece tempPiece = new Piece(board.getPieces().get(1));
+
+            board.removePiece(board.getPieces().get(1));
+            for (Position position : board.getPieces().get(0).getShape()){
+               tempPiece.getShape().add(new Position(position.getX(), position.getY(), position.getIdCouleur()));
+            }
+
+
+
+
+
+            System.out.println("well removed ");
+            board.removePiece(board.getPieces().get(0));
+
+            System.out.println("well added");
+            System.out.println("on libère la place");
+
+            if (!board.AuthorizedAddPieceOnBoard( piece, 0)) {
+                System.out.println("on a mis game over true quand il y avait "+board.getPieces().size()+" pieces");
+                gameOver =true;
+            } else {
+
+                board.addPieceOnBoardInOrder(tempPiece, 1);
+
+                pieceFalling = true;
+            }*/
+
+
+        }
+
+      /*  try {
            /*pieces.set(0, piece);*/
-
-            board.getPieces().get(0).setShape(piece.getShape());
-            board.getPieces().get(0).setCenter(piece.getCenter());
+//remove first
+          //  board.getPieces().get(0).setShape(piece.getShape());
+           // board.getPieces().get(0).setCenter(piece.getCenter());
+      /*      board.getPieces().remove(0);
            System.out.println("en remplaçant celle qu'il y avait.");
        }catch (Exception e) {
 
            System.out.println("en en créant une nouvelle. ");
            piece.Display();
-           board.getPieces().add(0, new Piece(piece.getShape(), piece.getCenter()));
+         //  board.getPieces().add(0, new Piece(piece.getShape(), piece.getCenter()));
+
        }
             /*remplace done*/
 
 
+      /*  if (board.AuthorizedAddPieceOnBoard(piece)) {
+            System.out.println("on a été autorizé ");
+            setPieceFalling(true);
+            System.out.println("Mainetant, une piece tombe");
+            board.addPieceOnBoardInOrder(piece, 0);
+            System.out.println("et on l'ajoute sur le plateau ");
+           // board.addPieceOnBoard(board.getPieces().get(0));
+        } else {
+            System.out.println("on set game over at true ");
+            gameOver = true;
+        }*/
 
-
-        board.AuthorizedAddPieceOnBoard(piece);
-        setPieceFalling(true);
     }
 
      public void fallingPiece(){
-         System.out.println("We are moving the first piece ");
         if (board.movePiece(board.getPieces().get(0), Direction.Down) == 1) {
+
+
             pieceFalling = false;
-            if(board.getPieces().size() == 1) {
+            /*if(board.getPieces().size() == 1) {
                 System.out.println("adding a piece");
                 board.getPieces().add(1, new Piece(board.getPieces().get(0).getShape(), board.getPieces().get(0).getCenter()));
                 /*remplace*/
                // pieces.add(1, new Piece(pieces.get(0).getShape(), pieces.get(0).getCenter()));
                 //pieces.add(1, new Piece(pieces.get(0).getShape()));
-            } else {
+            /*} else {
                     for (Position position : board.getPieces().get(0).getShape()){
                         board.getPieces().get(1).getShape().add(new Position(position.getX(), position.getY(), position.getIdCouleur()));
                     }
 
-            }
+            }*/
 
 
         }
@@ -173,7 +268,6 @@ public class TetrisModel extends Observable {
     }
 
     public void removeLine(){
-        System.out.println("on verifie la disparition d'un d'une ligne ");
 
         int sizeX = board.getGrid().getSizeX();
         int sizeY = board.getGrid().getSizeY();
@@ -254,4 +348,10 @@ public class TetrisModel extends Observable {
     public int getPoints() {
         return points;
     }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+
 }

@@ -24,6 +24,18 @@ public class Piece {
         //this.center = center;
     }
 
+    public Piece(Piece piece) {
+        this.shape = new ArrayList<Position>();
+        for (Position position : piece.getShape()) {
+            if (position.getX() == piece.getCenter().getX() && position.getY() == piece.getCenter().getY()) {
+                this.center = new Position(piece.getCenter().getX(), piece.getCenter().getY(), piece.getCenter().getIdCouleur());
+                this.shape.add(this.center);
+            } else {
+                this.shape.add(new Position(position.getX(), position.getY(), position.getIdCouleur()));
+            }
+        }
+    }
+
     public Piece(List<Position> shape, Position center) {
         this.shape = shape;
         this.center = center;
