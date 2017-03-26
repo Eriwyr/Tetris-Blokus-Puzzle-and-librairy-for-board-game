@@ -504,7 +504,7 @@ public class GameController extends Application {
                                 Platform.runLater(new Runnable() {
                                     @Override public void run() {
                                         System.out.println("udaote");
-                                        initializeGridPlayers(gPanePlayer1);
+                                       // initializeGridPlayers(gPanePlayer1);
                                        /* pieceViewsPlayers.clear();
 
                                         int count = 0;
@@ -687,36 +687,20 @@ public class GameController extends Application {
     }
 
     public synchronized void refreshPlayers() {
+        initializeGridPlayers(gPanePlayer1);
 
          pieceViewsPlayers.clear();
 
         int count = 0;
         for (Piece piece : blokusModel.getPlayer1()) {
             if (count == blokusModel.getIndexSelectedPiece()) {
-                System.out.println("truvé indice selevtionné");
                 pieceViewsPlayers.add(factory.getPieceViewBlokus(piece, Color.GREEN));
             } else {
-
-
                 pieceViewsPlayers.add(factory.getPieceViewBlokus(piece));
             }
             count++;
         }
 
- /*int offset  =0;
-        for (Piece piece : blokusModel.getPlayer1()) {
-            //factory.getPieceViewBlokus(piece);
-            PieceView pieceView = factory.getPieceViewBlokus(piece);
-            System.out.println("couleur Display  :"+piece.getShape().get(0).getIdCouleur());*/
-            for(Rectangle rectangle : pieceView.getShapeView()) {
-                rectangle.setX(rectangle.getX()+offset);
-                rectangle.applyCss();
-                System.out.println(rectangle.getId());
-
-            }
-            pieceViewsPlayers.add(pieceView);
-            offset += 6;
-        }
 
 
         //  gPanePlayer1.setHgap(10); //horizontal gap in pixels => that's what you are asking for
@@ -728,9 +712,9 @@ public class GameController extends Application {
         for (PieceView pieceView : pieceViewsPlayers) {
             for (Rectangle rectangle : pieceView.getShapeView()) {
                 // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
-                gPanePlayer1.add(rectangle, (int) rectangle.getX()+offset1, (int) rectangle.getY());
+                gPanePlayer1.add(rectangle, (int) rectangle.getX()+(offset1%10)*4, (int) rectangle.getY()+(offset1/10)*5);
             }
-            offset1 +=3;
+            offset1 +=1;
         }
     }
 
