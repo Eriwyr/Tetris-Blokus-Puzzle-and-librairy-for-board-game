@@ -299,10 +299,10 @@ public class BlokusModel extends Observable{
             existingPieces.add(last);
 
             for (Piece piece: existingPieces) {
-                player1.add(new Piece(piece.getShape(),piece.getCenter()));
-                player2.add(new Piece(piece.getShape(),piece.getCenter()));
-                player3.add(new Piece(piece.getShape(),piece.getCenter()));
-                player4.add(new Piece(piece.getShape(),piece.getCenter()));
+                player1.add(new Piece(piece.getShape(),piece.getCenter(), 0));
+                player2.add(new Piece(piece.getShape(),piece.getCenter(), 2));
+                player3.add(new Piece(piece.getShape(),piece.getCenter(), 3));
+                player4.add(new Piece(piece.getShape(),piece.getCenter(), 4));
             }
 
 

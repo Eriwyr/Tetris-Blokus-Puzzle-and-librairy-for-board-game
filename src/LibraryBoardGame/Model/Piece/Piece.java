@@ -1,6 +1,7 @@
 package LibraryBoardGame.Model.Piece;
 import LibraryBoardGame.Model.Board.ModelBoard;
 import LibraryBoardGame.Model.Direction;
+import javafx.geometry.Pos;
 
 import javax.crypto.spec.PSource;
 import java.util.ArrayList;
@@ -25,6 +26,15 @@ public class Piece {
 
     public Piece(List<Position> shape, Position center) {
         this.shape = shape;
+        this.center = center;
+    }
+
+
+    public Piece(List<Position> shape, Position center, int idColor) {
+        this.shape = shape;
+        for(Position position : this.shape) {
+            position.setIdCouleur(idColor);
+        }
         this.center = center;
     }
 

@@ -67,4 +67,8 @@ public class Position {
 
         }
     }
+
+    public void setIdCouleur(int idCouleur) {
+        this.idCouleur = idCouleur;
+    }
 }

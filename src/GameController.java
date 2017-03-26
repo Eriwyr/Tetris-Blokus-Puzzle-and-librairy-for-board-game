@@ -58,6 +58,8 @@ public class GameController extends Application {
     private TetrisModel tetrisModel;
     private BlokusModel blokusModel;
     private List<PieceView> pieceViews;
+    private List<PieceView> pieceViewsPlayers;
+
     private Boolean endgame;
     /*private String game;*/
     private Scene scene_menu;
@@ -69,9 +71,13 @@ public class GameController extends Application {
     private Group blokus_group;
     private Text text;
     private Text textLevel;
+    PieceViewFactory factory;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        factory = new PieceViewFactory();
+        pieceViews = new ArrayList<PieceView>();
+
 
         // Setting up view for the menu
         this.primaryStage = primaryStage;
@@ -267,7 +273,26 @@ public class GameController extends Application {
         textLevel.setText("TEST  : ");
         textLevel.applyCss();
 
-        gPanePlayer1.getChildren().add(textLevel);
+     //   gPanePlayer1.getChildren().add(textLevel);
+
+        //working
+        //pieceViews.clear(); (no need)
+        System.out.println("nombre de pièce chez le joueure 1 : "+blokusModel.getPlayer1().size());
+        int offset  =0;
+        for (Piece piece : blokusModel.getPlayer1()) {
+            //factory.getPieceViewBlokus(piece);
+            PieceView pieceView= factory.getPieceViewBlokus(piece);
+            for(Rectangle rectangle : pieceView.getShapeView()) {
+                rectangle.setX(rectangle.getX()+offset);
+
+            }
+            pieceViewsPlayers.add(pieceView);
+            offset += 6;
+        }
+        System.out.println("before refresh, combien de piece view "+pieceViewsPlayers.size());
+        refreshPlayers();
+        borderPBlokus.setLeft(gPanePlayer1);
+        //boop();
 
 
 
@@ -294,8 +319,8 @@ public class GameController extends Application {
                 primaryStage.setScene(scene_tetris);
 
                 endgame = false;
-                PieceViewFactory factory = new PieceViewFactory();
-                pieceViews = new ArrayList<PieceView>();
+
+
 
                 // PieceFactory pieceFactory = new PieceFactory();
                 // Piece piece = pieceFactory.getPiece("tetris");
@@ -386,6 +411,9 @@ public class GameController extends Application {
                 break;
 
             case "Blokus" :
+
+                pieceViewsPlayers = new ArrayList<PieceView>();
+
                 blokusModel = new BlokusModel();
                 Scene scene_blokus = settingSceneBlokus();
                 primaryStage.setScene(scene_blokus);
@@ -483,6 +511,20 @@ public class GameController extends Application {
             for (Rectangle rectangle : pieceView.getShapeView()) {
                 // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
                 gPaneGridBlokus.add(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
+            }
+        }
+    }
+
+    public synchronized void refreshPlayers() {
+
+      //  gPanePlayer1.setHgap(10); //horizontal gap in pixels => that's what you are asking for
+      //  gPanePlayer1.setVgap(10);
+
+        //only one player for now
+        for (PieceView pieceView : pieceViewsPlayers) {
+            for (Rectangle rectangle : pieceView.getShapeView()) {
+                // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
+                gPanePlayer1.add(rectangle, (int) rectangle.getX(), (int) rectangle.getY());
             }
         }
     }
