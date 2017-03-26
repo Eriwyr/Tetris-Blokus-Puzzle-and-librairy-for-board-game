@@ -427,16 +427,17 @@ public class GameController extends Application {
                     public void handle(KeyEvent event) {
                         switch (event.getCode()) {
 
-                            case LEFT: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Left);
+                            case LEFT:
+                                tetrisModel.movePiece(Direction.Left);
                                 break;
                             case RIGHT:
-                                System.out.println("On essaye d'aller à droite");
-                                tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Right);
-
+                                tetrisModel.movePiece(Direction.Right);
                                 break;
-                            case DOWN: tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Down);
+                            case DOWN:
+                                tetrisModel.movePiece(Direction.Down);
                                 break;
-                            case UP: tetrisModel.getBoard().rotatePiece(tetrisModel.getPieces().get(0), 1);
+                            case UP:
+                                tetrisModel.rotatePiece(1);
                                 break;
                             case ESCAPE: System.exit(0);
                             default:
@@ -444,15 +445,7 @@ public class GameController extends Application {
                         }
                     }
                 });
-
-                borderP.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-                    @Override
-                    public void handle(MouseEvent event) {
-                        //  model.addPiece(piece);
-                        //tetrisModel.getBoard().movePiece(tetrisModel.getPieces().get(0), Direction.Right);
-                    }
-                });
+                
                 break;
 
             case "Blokus" :

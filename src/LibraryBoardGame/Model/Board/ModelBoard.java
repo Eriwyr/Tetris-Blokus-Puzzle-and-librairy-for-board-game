@@ -17,19 +17,9 @@ public class ModelBoard extends Observable{
     private Grid grid;
     private List<Piece> pieces;
 
-    public ModelBoard(Grid grid, List<Piece> pieces) {
-        this.grid = grid;
-        this.pieces = pieces;
-    }
 
-    public ModelBoard() {
-        grid = new Grid(4, 10);
-        pieces = new ArrayList<Piece>();
-    }
 
-    public Grid getGrid() {
-        return grid;
-    }
+
 
     public ModelBoard(int x, int y){
         this.grid = new Grid(x,y);
@@ -37,8 +27,7 @@ public class ModelBoard extends Observable{
     }
 
 
-
-    public int movePiece(Piece piece, Direction direction) {
+    public int movePieceWithAuthorization(Piece piece, Direction direction) {
 
         int returnValue = 0;
         Piece anticipatedPiece = new Piece();
@@ -52,41 +41,30 @@ public class ModelBoard extends Observable{
             returnValue =1;
         }
 
-        addPieceOnBoardInOrder(piece, 0);
+        addPieceOnBoard(piece);
         return returnValue;
     }
 
-    public void setGrid(Grid grid) {
-        this.grid = grid;
-    }
+    public int movePieceWithAuthorizationSafeOrder(Piece piece, Direction direction, int index) {
 
-    public void udateGrid(){
-        for(int i =0; i<grid.getSizeY(); i++) {
-            for (int j=0; j<grid.getSizeX(); j++ ) {
-                grid.setCellXY(new Position(j, i ), true);
-            }
+        int returnValue = 0;
+        Piece anticipatedPiece = new Piece();
+        removePiece(piece);
+        anticipatedPiece.anticipationCalc(piece, direction);
+
+        if (pieceIsAuthorized(anticipatedPiece)) {
+            piece = anticipatedPiece;
+            returnValue = 0;
+        } else {
+            returnValue =1;
         }
 
-        for (Piece piece : pieces){
-            for (Position position : piece.getShape()) {
-                grid.setCellXY(position, false);
-            }
-        }
-
+        addPieceOnBoardInOrder(piece, index);
+        return returnValue;
     }
 
 
-    public void moveOneCell(Position position, Direction direction) {
 
-        Position anticipatedPosition = position.anticipatePosition(direction);
-        position.setX(anticipatedPosition.getX());
-        position.setY(anticipatedPosition.getY());
-
-
-
-        setChanged();
-        notifyObservers();
-    }
 
 
     public void removePiece(Piece piece){
@@ -97,9 +75,7 @@ public class ModelBoard extends Observable{
         pieces.remove(piece);
 }
 
-    public List<Piece> getPieces(){
-        return pieces;
-    }
+
 
     public void addPiece(Piece piece){
         for (Position position: piece.getShape()){
@@ -208,7 +184,7 @@ public class ModelBoard extends Observable{
     }
 
 
-    public int rotatePiece(Piece piece, int rotation) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
+    public int rotatePieceSafeOrder(Piece piece, int rotation, int index) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
 
         removePiece(piece);
         int returnValue = 0;
@@ -222,7 +198,7 @@ public class ModelBoard extends Observable{
         } else {
             returnValue = 1;
         }
-        addPieceOnBoardInOrder(piece, 0);
+        addPieceOnBoardInOrder(piece, index);
         return returnValue;
     }
 
@@ -239,21 +215,40 @@ public class ModelBoard extends Observable{
         return true;
     }
 
-    /*
-    public void replacePieceOnBoard(Piece newPiece, int index) {
-        //On enlève l'ancienne
-        for (Position position: pieces.get(index).getShape()){
-            grid.getCellXY(position).setEmpty(true);
+
+    public void udateGrid(){
+        for(int i =0; i<grid.getSizeY(); i++) {
+            for (int j=0; j<grid.getSizeX(); j++ ) {
+                grid.setCellXY(new Position(j, i ), true);
+            }
         }
 
-        for (Position position :newPiece.getShape()) {
-            grid.setCellXY(position, false);
+        for (Piece piece : pieces){
+            for (Position position : piece.getShape()) {
+                grid.setCellXY(position, false);
+            }
         }
-        //addPiece(piece, index);
-        pieces.set(index, newPiece);
+
+    }
+
+
+    public void moveOneCell(Position position, Direction direction) {
+
+        Position anticipatedPosition = position.anticipatePosition(direction);
+        position.setX(anticipatedPosition.getX());
+        position.setY(anticipatedPosition.getY());
+
+
+
         setChanged();
         notifyObservers();
-    }*/
+    }
 
 
+    public Grid getGrid() {
+        return grid;
+    }
+    public List<Piece> getPieces(){
+        return pieces;
+    }
 }

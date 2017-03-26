@@ -242,7 +242,7 @@ public class TetrisModel extends Observable {
     }
 
      public void fallingPiece(){
-        if (board.movePiece(board.getPieces().get(0), Direction.Down) == 1) {
+        if (board.movePieceWithAuthorizationSafeOrder(board.getPieces().get(0), Direction.Down, 0) == 1) {
 
 
             pieceFalling = false;
@@ -263,8 +263,13 @@ public class TetrisModel extends Observable {
         }
     }
 
+
+    public void movePiece(Direction direction) {
+        board.movePieceWithAuthorizationSafeOrder(board.getPieces().get(0), direction, 0);
+
+    }
     public void rotatePiece(int rotation){
-        board.rotatePiece(board.getPieces().get(1), rotation);
+        board.rotatePieceSafeOrder(board.getPieces().get(0), rotation, 0);
     }
 
     public void removeLine(){
