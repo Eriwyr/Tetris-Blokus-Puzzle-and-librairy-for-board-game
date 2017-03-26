@@ -276,6 +276,7 @@ public class ModelBoard extends Observable{
         return true;
     }
 
+    /*
     public void replacePieceOnBoard(Piece newPiece, int index) {
         //On enlève l'ancienne
         for (Position position: pieces.get(index).getShape()){
@@ -289,9 +290,7 @@ public class ModelBoard extends Observable{
         pieces.set(index, newPiece);
         setChanged();
         notifyObservers();
-
-
-    }
+    }*/
 
 
 }
