@@ -146,7 +146,8 @@
 
 #gP1{
     -fx-background-color: red;
-    -fx-pref-width: 400px;
+    -fx-max-width: 10px;
+
 
 }
 

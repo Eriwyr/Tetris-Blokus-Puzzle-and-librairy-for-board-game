@@ -43,11 +43,21 @@ public class Piece {
 
 
     public Piece(List<Position> shape, Position center, int idColor) {
-        this.shape = shape;
-        for(Position position : this.shape) {
-            position.setIdCouleur(idColor);
+        this.shape = new ArrayList<Position>();
+        for( Position position : shape) {
+            System.out.println(center.getX());
+            System.out.println(center.getY());
+            System.out.println(position.getX());
+            System.out.println(position.getY());
+            if (center.getX() == position.getX() && center.getY() == position.getY() ) {
+                this.center = new Position(position.getX(), position.getY(), idColor);
+                this.shape.add(this.center);
+            } else {
+                this.shape.add(new Position(position.getX(), position.getY(), idColor));
+            }
         }
-        this.center = center;
+
+
     }
 
     public void addBox(Position p){

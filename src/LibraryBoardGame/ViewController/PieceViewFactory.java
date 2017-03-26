@@ -22,6 +22,7 @@ public class PieceViewFactory {
     }
 
     public PieceView getPieceViewBlokus(Piece piece) {
+        System.out.println(" COuleur factory :" + piece.getShape().get(0).getIdCouleur());
         return new PieceViewBlokus(piece);
     }
 
