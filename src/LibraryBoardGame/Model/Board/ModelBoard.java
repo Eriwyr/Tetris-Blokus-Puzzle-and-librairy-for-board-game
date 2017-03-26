@@ -32,7 +32,7 @@ public class ModelBoard extends Observable{
         anticipatedPiece.anticipationCalc(piece, direction);
         for(Position position : anticipatedPiece.getShape()) {
             try{
-                grid.getCellXY(position); 
+                grid.getCellXY(position);
             } catch (Exception e) {
                 ok = false;
             }

@@ -410,12 +410,12 @@ public class GameController extends Application {
 
                                     text.setText(Integer.toString(tetrisModel.getPoints()) + "\n Score");
                                     textLevel.setText("Level : " + Integer.toString(tetrisModel.getLevel()));
-                                    for (int i = 0; i < tetrisModel.getPieces().size(); i++) {
+                                  /*  for (int i = 0; i < tetrisModel.getPieces().size(); i++) {
                                         try {
                                             PieceView pieceViewTry = pieceViews.get(i);
                                         } catch (Exception e) {
                                             pieceViews.add(i, factory.getPieceViewTetris(tetrisModel.getPieces().get(i)));
-                                        }
+                                        }*/
 
                                         new Thread(new Runnable() {
                                             @Override
@@ -443,7 +443,7 @@ public class GameController extends Application {
                                                 });
                                             }
                                         }).start();
-                                    }
+                                   // }
 
                                 break;
 
@@ -526,12 +526,8 @@ public class GameController extends Application {
 
                                 //text.setText(Integer.toString(tetrisModel.getPoints()) + "\n Score");
                                 //extLevel.setText("Level : "+Integer.toString(tetrisModel.getLevel()));
-                                for (int i = 0; i < blokusModel.getExistingPieces().size(); i++) {
-                                    try {
-                                        PieceView pieceViewTry = pieceViews.get(i);
-                                    } catch (Exception e) {
-                                        pieceViews.add(i, factoryBlokus.getPieceViewBlokus(blokusModel.getExistingPieces().get(i)));
-                                    }
+                                System.out.println("taille de aliste des piece existantes : "+blokusModel.getExistingPieces().size());
+
 
                                     new Thread(new Runnable() {
                                         @Override public void run() {
@@ -557,7 +553,6 @@ public class GameController extends Application {
                                             });
                                         }
                                     }).start();
-                                }
                                 break;
 
                             default:
@@ -591,9 +586,6 @@ public class GameController extends Application {
                                 blokusModel.selectNextPiece(Direction.Right);
                                 break;
 
-                            case SPACE:
-
-                                break;
                             case LEFT:
                                 System.out.println("left");
                                 blokusModel.movePiece(Direction.Left);

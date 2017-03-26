@@ -57,10 +57,16 @@ public class ModelThread extends Observable implements Runnable {
 
                 case "Blokus" :
                     System.out.println("dans thread");
-                    blokusModel.nextRound();
-                    if (blokusModel.lookForWinner() != -1) {
+                   // if (blokusModel.lookForWinner() != -1) {
+                        if (blokusModel.isAuthorizePlacing(blokusModel.getPieces().get(0), blokusModel.getPieces().get(0).getCenter().getIdCouleur())){
+                            System.out.println("authorisé ");
 
-                    }
+                           // blokusModel.nextRound();
+                        } else {
+                            System.out.println("pas autorisé ");
+                        }
+
+                    //}
 
 
                 default:
