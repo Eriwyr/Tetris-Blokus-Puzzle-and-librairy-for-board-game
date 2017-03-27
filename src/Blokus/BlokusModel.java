@@ -4,6 +4,7 @@ import LibraryBoardGame.Model.Board.ModelBoard;
 import LibraryBoardGame.Model.Direction;
 import LibraryBoardGame.Model.Piece.Piece;
 import LibraryBoardGame.Model.Piece.Position;
+import com.sun.tools.internal.ws.wsdl.document.soap.SOAPUse;
 
 import java.util.ArrayList;
 
@@ -346,6 +347,8 @@ public class BlokusModel extends Observable{
 
 
     public Boolean isAuthorizePlacing(Piece piece, int idColorPlayer) {
+        System.out.println("observing this picec ");
+        piece.Display();
         if(round <4) {
             for (Position position : piece.getShape()) {
                // for(Piece pieceBoard : board.getPieces()) {
@@ -447,6 +450,10 @@ public class BlokusModel extends Observable{
     }
 
     public void selectNextPiece(Direction direction) {
+        System.out.println("liste des pièces sur le plateau ");
+        for (Piece piece : board.getPieces()) {
+            piece.Display();
+        }
         pieceSelected = true;
         List<Piece> studyList = new ArrayList<>();
         System.out.println("rond :"+round);
@@ -471,20 +478,34 @@ public class BlokusModel extends Observable{
 
             }
         }
-        try{
-            board.removePiece(board.getPieces().get(0));
-        }catch (Exception e) {
-        }
 
         if (direction == Direction.Right && indexSelectedPiece < studyList.size()-1) {
+            try{
+                board.removePiece(board.getPieces().get(0));
+            }catch (Exception e) {
+            }
+
             board.addPieceOnBoardInOrder(new Piece(studyList.get(indexSelectedPiece+1)), 0);
             indexSelectedPiece++;
+            for (Piece piece : board.getPieces()) {
+                piece.Display();
+            }
 
 
         } else if (direction == Direction.Left && indexSelectedPiece>0) {
+            try{
+                board.removePiece(board.getPieces().get(0));
+            }catch (Exception e) {
+            }
+
 
             board.addPieceOnBoardInOrder(new Piece(studyList.get(indexSelectedPiece-1)), 0);
             indexSelectedPiece--;
+            System.out.println("left");
+            System.out.println("OUVELLE liste des pièces sur le plateau ");
+            for (Piece piece : board.getPieces()) {
+                piece.Display();
+            }
 
 
         }

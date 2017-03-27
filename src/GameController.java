@@ -593,37 +593,29 @@ public class GameController extends Application {
                         switch (event.getCode()) {
 
                             case S:
-                                System.out.println("S");
                                 blokusModel.selectNextPiece(Direction.Left);
                                 break;
                             case D:
-                                System.out.println("D");
                                 blokusModel.selectNextPiece(Direction.Right);
                                 break;
                             case R:
-                                System.out.println("D");
                                 blokusModel.selectNextPiece(Direction.Right);
                                 break;
 
                             case LEFT:
-                                System.out.println("left");
                                 blokusModel.movePiece(Direction.Left);
                                 break;
                             case UP:
-                                System.out.println("UP");
                                 blokusModel.movePiece(Direction.Up);
                                 break;
                             case DOWN:
-                                System.out.println("doxn");
                                 blokusModel.movePiece(Direction.Down);
                                 break;
                             case RIGHT:
-                                System.out.println("right");
                                 blokusModel.movePiece(Direction.Right);
 
                                 break;
                             case ENTER:
-                                System.out.println("Enter");
 
 
                                 Executor executor = Executors.newSingleThreadExecutor();
