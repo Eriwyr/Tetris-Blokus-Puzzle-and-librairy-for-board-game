@@ -191,7 +191,7 @@ public class GameController extends Application {
 
 
         }
-        for (int a = 0; a <55 ; a++) {
+        for (int a = 0; a <58 ; a++) {
             for (int b = 0; b < 41; b++) {
                 Rectangle rectangle = new Rectangle(15, 15);
                 rectangle.setId("player1_4");
@@ -212,8 +212,8 @@ public class GameController extends Application {
 
         }
 
-        for (int a = 0; a <54; a++) {
-            for (int b = 0; b < 43; b++) {
+        for (int a = 0; a <56; a++) {
+            for (int b = 0; b < 49; b++) {
                 Rectangle rectangle = new Rectangle(15, 15);
                 rectangle.setId("gridBlokus");
                 rectangle.applyCss();
@@ -357,6 +357,7 @@ public class GameController extends Application {
         scene_blokus = new Scene(blokus_group, 1366, 900);
         //scene_blokus.setOnKeyPressed(gPaneGridBlokus);
         scene_blokus.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+        scene_blokus.setFill(Color.BLACK);
         return scene_blokus;
 
     }
