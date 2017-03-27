@@ -26,7 +26,7 @@ public class TetrisModel extends Observable {
         this.gameOver = false;
         this.level=1;
         this.points = 0;
-        this.board = new ModelBoard(12, 20);
+        this.board = new ModelBoard(12, 23);
        /* this.pieces = new ArrayList<Piece>();*/
         this.points = 0;
         this.pieceFalling = false;

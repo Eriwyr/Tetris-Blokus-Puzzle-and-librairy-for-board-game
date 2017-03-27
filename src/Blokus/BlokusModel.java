@@ -31,7 +31,7 @@ public class BlokusModel extends Observable{
             indexSelectedPiece= 0;
             pieceSelected = true;
 
-            this.board = new ModelBoard(12, 20);
+            this.board = new ModelBoard(43, 54);
 
             player1 = new ArrayList<Piece>();
             player2 = new ArrayList<Piece>();

@@ -18,7 +18,7 @@ public class PieceViewBlokus extends PieceView {
     public PieceViewBlokus(Piece piece) {
         shapeView = new ArrayList<Rectangle>();
         for (Position position : piece.getShape()) {
-            Rectangle rectangle = new Rectangle(position.getX(), position.getY(), 8, 8);
+            Rectangle rectangle = new Rectangle(position.getX(), position.getY(), 15,15);
             switch (position.getIdCouleur()) {
                 case 0:
                     rectangle.setId("rectPlayer1");
@@ -29,7 +29,7 @@ public class PieceViewBlokus extends PieceView {
 
                     break;
                 case 2:
-                    rectangle.setId("rectPLayer3");
+                    rectangle.setId("rectPlayer3");
 
                     break;
                 case 3:
@@ -53,7 +53,7 @@ public class PieceViewBlokus extends PieceView {
 
         shapeView = new ArrayList<Rectangle>();
         for (Position position : piece.getShape()) {
-            Rectangle rectangle = new Rectangle(position.getX(), position.getY(), 10, 10) ;
+            Rectangle rectangle = new Rectangle(position.getX(), position.getY(), 15, 15) ;
             rectangle.setFill(color);
             rectangle.setStroke(Color.BLACK);
             shapeView.add(rectangle);

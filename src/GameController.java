@@ -67,10 +67,12 @@ public class GameController extends Application {
     private List<PieceView> pieceViewsPlayer4;
 
 
+    private HBox hbtext;
     private Boolean endgame;
     /*private String game;*/
     private Scene scene_menu;
    /* private Scene scene_tetris;*/
+   private Scene scene_blokus;
     private Button button_tetris;
     private Button button_blokus;
     private Stage primaryStage;
@@ -80,6 +82,7 @@ public class GameController extends Application {
     private Text textLevel;
     PieceViewFactory factory;
     private Text gameOverText;
+    private Text joueurText;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -188,14 +191,12 @@ public class GameController extends Application {
 
 
         }
-
-        // Initialing grid
-        for (int a = 0; a <60 ; a++) {
+        for (int a = 0; a <55 ; a++) {
             for (int b = 0; b < 41; b++) {
-                Rectangle rectangle = new Rectangle(10, 10);
-                rectangle.setId("gridTetris");
+                Rectangle rectangle = new Rectangle(15, 15);
+                rectangle.setId("player1_4");
                 rectangle.applyCss();
-                gPane.add(rectangle, b, a);
+                gPanePlayer1.add(rectangle, b, a);
             }
         }
     }
@@ -211,9 +212,9 @@ public class GameController extends Application {
 
         }
 
-        for (int a = 0; a <20; a++) {
-            for (int b = 0; b < 12; b++) {
-                Rectangle rectangle = new Rectangle(10, 10);
+        for (int a = 0; a <54; a++) {
+            for (int b = 0; b < 43; b++) {
+                Rectangle rectangle = new Rectangle(15, 15);
                 rectangle.setId("gridBlokus");
                 rectangle.applyCss();
                 gPaneGridBlokus.add(rectangle, b, a);
@@ -224,6 +225,8 @@ public class GameController extends Application {
 
 
     public Scene settingSceneTetris() {
+        primaryStage.setWidth(1024);
+        primaryStage.setHeight(750);
         borderP = new BorderPane();
         borderP.setId("tetris");
         // permet de placer les diffrents boutons dans une grille
@@ -283,6 +286,8 @@ public class GameController extends Application {
     }
 
     public Scene settingSceneBlokus() {
+        primaryStage.setWidth(1358);
+        primaryStage.setHeight(903);
         borderPBlokus = new BorderPane();
         borderPBlokus.setId("blokus");
         // permet de placer les diffrents boutons dans une grille
@@ -294,9 +299,7 @@ public class GameController extends Application {
 
         gPaneGridBlokus.setId("gPBlokus");
         gPanePlayer1.setId("gP1");
-        gPanePlayer1.setId("gP2");
-        gPanePlayer1.setId("gP3");
-        gPanePlayer1.setId("gP4");
+
 
         gPaneGridBlokus.applyCss();
         gPanePlayer1.applyCss();
@@ -314,7 +317,7 @@ public class GameController extends Application {
         textLevel.setText("TEST  : ");
         textLevel.applyCss();
 
-        gPanePlayer2.getChildren().add(textLevel);
+        //gPanePlayer2.getChildren().add(textLevel);
 
         //working
         //pieceViews.clear(); (no need)
@@ -351,11 +354,16 @@ public class GameController extends Application {
         blokus_group = new Group();
         blokus_group.getChildren().add(borderPBlokus);
 
-        Scene scene_blokus = new Scene(blokus_group, 1024, 768);
+        scene_blokus = new Scene(blokus_group, 1366, 900);
         //scene_blokus.setOnKeyPressed(gPaneGridBlokus);
         scene_blokus.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         return scene_blokus;
 
+    }
+
+    public void backToMenu(){
+
+        primaryStage.setScene(scene_menu);
     }
 
     public void startSimulation(String gameName) {
@@ -475,7 +483,7 @@ public class GameController extends Application {
                             case UP:
                                 tetrisModel.rotatePiece(1);
                                 break;
-                            case ESCAPE: System.exit(0);
+                            case ESCAPE: backToMenu();
                             default:
                                 break;
                         }
@@ -511,6 +519,7 @@ public class GameController extends Application {
                             @Override public void run() {
                                 Platform.runLater(new Runnable() {
                                     @Override public void run() {
+
                                         System.out.println("udaote");
                                        // initializeGridPlayers(gPanePlayer1);
                                        /* pieceViewsPlayers.clear();
@@ -544,7 +553,7 @@ public class GameController extends Application {
                     public void update(Observable o, Object arg) {
                         switch (gameName) {
                             case "Blokus":
-
+                                gPaneGridBlokus.getChildren().remove(textLevel);
                                 //text.setText(Integer.toString(tetrisModel.getPoints()) + "\n Score");
                                 //extLevel.setText("Level : "+Integer.toString(tetrisModel.getLevel()));
 
@@ -696,7 +705,6 @@ public class GameController extends Application {
         pieceViewsPlayer3.clear();
         pieceViewsPlayer4.clear();
 
-
         int count = 0;
         for (Piece piece : blokusModel.getPlayer1()) {
             if (count == blokusModel.getIndexSelectedPiece() && blokusModel.getRound()%4==0) {
@@ -749,7 +757,7 @@ public class GameController extends Application {
             offset1 +=1;
         }
         offset1 =0;
-        space+=15;
+        space+=13;
         for (PieceView pieceView : pieceViewsPlayer2) {
             for (Rectangle rectangle : pieceView.getShapeView()) {
                 // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
@@ -758,7 +766,7 @@ public class GameController extends Application {
             offset1 +=1;
         }
         offset1 = 0;
-        space +=15;
+        space +=13;
         for (PieceView pieceView : pieceViewsPlayer3) {
             for (Rectangle rectangle : pieceView.getShapeView()) {
                 // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
@@ -766,7 +774,7 @@ public class GameController extends Application {
             }
             offset1 +=1;
         }
-        space +=15;
+        space +=13;
         offset1 = 0;
         for (PieceView pieceView : pieceViewsPlayer4) {
             for (Rectangle rectangle : pieceView.getShapeView()) {

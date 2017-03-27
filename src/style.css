@@ -61,6 +61,10 @@
     -fx-font-size: 60px;
     -fx-fill: white;
 }
+#gameOverMessage{
+    -fx-font-size: 60px;
+    -fx-fill: white;
+}
 
 #vBoxText{
     -fx-padding: 0px 0px 0px 0px;
@@ -74,13 +78,19 @@
 }
 
 #gridTetris{
-     -fx-fill:#2F3338;
-     -fx-stroke:#2F3338;
- }
+    -fx-fill:#2F3338;
+    -fx-stroke:#2F3338;
+}
+
+#player1_4{
+    -fx-fill:#2F3338;
+    -fx-stroke:#2F3338;
+}
 
 #gridBlokus{
     -fx-fill:#2F3338;
-    -fx-stroke:white;
+    -fx-stroke:#4b5056;
+    -fx-stroke-width: 1px;
 }
 
 #rect1{
@@ -138,28 +148,3 @@
     -fx-fill:#BE90D4;
     -fx-stroke:#2F3338;
 }
-
-#gPBlokus{
-    -fx-background-color: pink;
-    -fx-pref-width: 200px;
-}
-
-#gP1{
-    -fx-background-color: red;
-    -fx-max-width: 10px;
-
-
-}
-
-#gP2{
-    -fx-background-color: blue;
-}
-
-#gP3{
-    -fx-background-color: black;
-}
-
-#gP4{
-    -fx-background-color: white;
-}
-
