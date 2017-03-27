@@ -318,6 +318,8 @@ public class BlokusModel extends Observable{
                 c++;
             }
 
+            board.addPieceOnBoardInOrder(player1.get(0), 0);
+
 
         }
 
@@ -579,5 +581,10 @@ public class BlokusModel extends Observable{
         }
         setChanged();
         notifyObservers();
+    }
+
+
+    public void rotatePiece() {
+        board.rotatePiece(board.getPieces().get(0), 1);
     }
 }

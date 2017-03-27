@@ -495,6 +495,7 @@ public class GameController extends Application {
 
                 blokusModel = new BlokusModel();
                 Scene scene_blokus = settingSceneBlokus();
+                initializeGridBlokus(gPaneGridBlokus);
                 primaryStage.setScene(scene_blokus);
 
                 endgame = false;
@@ -599,7 +600,7 @@ public class GameController extends Application {
                                 blokusModel.selectNextPiece(Direction.Right);
                                 break;
                             case R:
-                                blokusModel.selectNextPiece(Direction.Right);
+                                blokusModel.rotatePiece();
                                 break;
 
                             case LEFT:
@@ -775,6 +776,7 @@ public class GameController extends Application {
             offset1 +=1;
         }
     }
+
 
 
 }

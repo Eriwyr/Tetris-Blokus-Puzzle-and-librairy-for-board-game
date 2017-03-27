@@ -225,10 +225,26 @@ public class ModelBoard extends Observable{
     }
 
     public void rotatePiece(Piece piece, int rotation) { // rotation = 1 for clockwise rotation, -1 for anticlockwise
+        boolean ok = true;
+        pieces.remove(piece);
 
-        removePiece(piece);
-        piece.anticipationCalc(piece, rotation);
-        addPieceOnBoard(piece);
+        Piece anticipatedPiece = new Piece();
+        anticipatedPiece.anticipationCalc(piece, rotation);
+        for(Position position : anticipatedPiece.getShape()) {
+            try{
+                grid.getCellXY(position);
+            } catch (Exception e) {
+                ok = false;
+            }
+        }
+        if(ok) piece = anticipatedPiece;
+
+        pieces.add(0, piece);
+
+        udateGrid();
+
+        setChanged();
+        notifyObservers();
     }
 
 
