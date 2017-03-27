@@ -7,6 +7,11 @@
 #tetris{
     -fx-background-color: #2C3E50;
 }
+
+#preview {
+    -fx-fill: #2C3E50;
+
+}
 #tetrisBtn{
 	-fx-background-color: #EC644B;
 	-fx-pref-height: 100px;

@@ -55,6 +55,7 @@ public class GameController extends Application {
     private GridPane gPanePlayer2;
     private GridPane gPanePlayer3;
     private GridPane gPanePlayer4;
+    private GridPane gPanePreview;
 
     private BorderPane borderP;
     private BorderPane borderPBlokus;
@@ -65,6 +66,7 @@ public class GameController extends Application {
     private List<PieceView> pieceViewsPlayer2;
     private List<PieceView> pieceViewsPlayer3;
     private List<PieceView> pieceViewsPlayer4;
+    private PieceView pieceViewPreview;
 
 
     private HBox hbtext;
@@ -75,7 +77,7 @@ public class GameController extends Application {
    private Scene scene_blokus;
     private Button button_tetris;
     private Button button_blokus;
-    private Stage primaryStage;
+    static Stage primaryStage;
     private Group tetris_group;
     private Group blokus_group;
     private Text text;
@@ -83,6 +85,7 @@ public class GameController extends Application {
     PieceViewFactory factory;
     private Text gameOverText;
     private Text joueurText;
+    private ScheduledExecutorService execute;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -99,7 +102,7 @@ public class GameController extends Application {
 
         BorderPane root = new BorderPane();
 
-        Scene scene_menu = new Scene(root, 1024, 766);
+         scene_menu = new Scene(root, 1024, 766);
         scene_menu.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         root.setId("menu");
         root.applyCss();
@@ -157,6 +160,26 @@ public class GameController extends Application {
 
     }
 
+    public void initializeGridPreview(GridPane gPane){
+        try{
+            Node node = gPane.getChildren().get(0);
+            gPane.getChildren().clear();
+            gPane.getChildren().add(0,node);
+
+        } catch(Exception e) {
+
+
+        }
+
+        for (int a = 0; a < 4; a++) {
+            for (int b = 0; b < 10; b++) {
+                Rectangle rectangle = new Rectangle(30, 30);
+                rectangle.setId("preview");
+                rectangle.applyCss();
+                gPane.add(rectangle, b, a);
+            }
+        }
+    }
 
     public void initializeGridTetris(GridPane gPane){
         try{
@@ -231,6 +254,8 @@ public class GameController extends Application {
         borderP.setId("tetris");
         // permet de placer les diffrents boutons dans une grille
         gPane = new GridPane();
+        gPanePreview = new GridPane();
+        pieceViewPreview = new PieceViewTetris(new Piece());
 
 
         // gPane.setGridLinesVisible(true);
@@ -271,7 +296,7 @@ public class GameController extends Application {
         gameOverText.setText("");
         gameOverText.applyCss();
 
-        vboxText.getChildren().addAll(textLevel,text, gameOverText);
+        vboxText.getChildren().addAll(textLevel,gPanePreview, text, gameOverText);
 
         borderP.setCenter(gPane);
         borderP.setRight(vboxText);
@@ -365,6 +390,8 @@ public class GameController extends Application {
     public void backToMenu(){
 
         primaryStage.setScene(scene_menu);
+        primaryStage.setWidth(1024);
+        primaryStage.setHeight(766);
     }
 
     public void startSimulation(String gameName) {
@@ -403,6 +430,14 @@ public class GameController extends Application {
                                            if( tetrisModel.isGameOver()) {
                                                System.out.println("setting text to game over ");
                                                gameOverText.setText("Game Over ! ");
+
+                                           }else {
+                                               initializeGridPreview(gPanePreview);
+                                               pieceViewPreview = new PieceViewTetris(tetrisModel.getNextPiece());
+                                               for (Rectangle rectangle : pieceViewPreview.getShapeView()) {
+                                                   gPanePreview.add(rectangle ,(int) rectangle.getX()+10, (int) rectangle.getY());
+                                               }
+
 
                                            }
                                     }
@@ -484,13 +519,16 @@ public class GameController extends Application {
                             case UP:
                                 tetrisModel.rotatePiece(1);
                                 break;
-                            case ESCAPE: backToMenu();
+                            case ESCAPE:
+                               // beeperHandle.cancel(true);
+                                execute.shutdown();
+                                backToMenu();
                             default:
                                 break;
                         }
                     }
                 });
-                ScheduledExecutorService execute = Executors.newSingleThreadScheduledExecutor();
+                execute = Executors.newSingleThreadScheduledExecutor();
                 execute.scheduleAtFixedRate(new  ModelThread(tetrisModel, endgame, gameName, pieceViews), 0, 600, TimeUnit.MILLISECONDS);
 
                 break;
@@ -632,7 +670,10 @@ public class GameController extends Application {
                                 Executor executor = Executors.newSingleThreadExecutor();
                                 executor.execute(new  ModelThread(blokusModel, endgame, gameName, pieceViews));
                                     break;
-                            case ESCAPE: System.exit(0);
+                            case ESCAPE:
+                                backToMenu();
+                                //primaryStage.setScene(scene_menu);
+                               // System.exit(0);
                                 break;
                             default:
                                 break;

@@ -19,6 +19,7 @@ public class TetrisModel extends Observable {
     private int level;
     private boolean pieceFalling;
     private boolean gameOver;
+    private Piece nextPiece;
     private List<Piece> existingPieces;
 
 
@@ -126,10 +127,32 @@ public class TetrisModel extends Observable {
 
         Random rand = new Random();
         int  n = rand.nextInt(7) ;
-        Piece piece  = new Piece(existingPieces.get(n).getShape(), existingPieces.get(n).getCenter());
+        Piece newFallingPiece = new Piece();
+
+
+        try {
+            System.out.println("on essayer d'acceder à next piece");
+            newFallingPiece= new Piece(nextPiece);
+
+        } catch (Exception e) {
+            System.out.println("extite pas : random peice ");
+            newFallingPiece  = new Piece(existingPieces.get(n).getShape(), existingPieces.get(n).getCenter());
+            newFallingPiece.Display();
+            n = rand.nextInt(7) ;
+        }
+
+
+        nextPiece = new Piece(existingPieces.get(n).getShape(), existingPieces.get(n).getCenter());
+        System.out.println("nouelle next piec ");
+        nextPiece.Display();
+
+        setChanged();
+        notifyObservers();
+
+       // Piece piece  = new Piece(existingPieces.get(n).getShape(), existingPieces.get(n).getCenter());
 
         if (board.getPieces().size() == 0) {
-            board.addPieceOnBoardInOrder(piece, 0);
+            board.addPieceOnBoardInOrder(newFallingPiece, 0);
             pieceFalling =true;
 
         } else if(board.getPieces().size() == 1) {
@@ -141,7 +164,7 @@ public class TetrisModel extends Observable {
 
 
             //board.getPieces().add(1, new Piece(board.getPieces().get(0).getShape(), board.getPieces().get(0).getCenter()));
-             if (!board.AuthorizedAddPieceOnBoardInOrder( piece, 0)) {
+             if (!board.AuthorizedAddPieceOnBoardInOrder( newFallingPiece, 0)) {
                  gameOver =true;
 
                  setChanged();
@@ -165,7 +188,7 @@ public class TetrisModel extends Observable {
 
             board.getPieces().remove( board.getPieces().get(0));
 
-            if (!board.AuthorizedAddPieceOnBoardInOrder( piece, 0)) {
+            if (!board.AuthorizedAddPieceOnBoardInOrder( newFallingPiece, 0)) {
                 gameOver =true;
 
                 setChanged();
@@ -358,5 +381,7 @@ public class TetrisModel extends Observable {
         return gameOver;
     }
 
-
+    public Piece getNextPiece() {
+        return nextPiece;
+    }
 }
