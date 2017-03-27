@@ -348,6 +348,15 @@ public class BlokusModel extends Observable{
     public Boolean isAuthorizePlacing(Piece piece, int idColorPlayer) {
         if(round <4) {
             for (Position position : piece.getShape()) {
+               // for(Piece pieceBoard : board.getPieces()) {
+                for( int k = 1 ; k <board.getPieces().size(); k++) {
+                    Piece pieceBoard = board.getPieces().get(k);
+                    for (Position positionBoard : pieceBoard.getShape()) {
+                        if(positionBoard.getX() == position.getX() && positionBoard.getY() == position.getY()) {
+                            return false;
+                        }
+                    }
+                }
 
                 if (position.getX() == 0 && position.getY() == 0) return true;
 
@@ -362,10 +371,10 @@ public class BlokusModel extends Observable{
         }
         int nbPiecesDiagonales = 0;
         for(Position position : piece.getShape()) {
-            for (Piece piece1 : board.getPieces()) {
-                piece1.Display();
-            }
-            position.Display();
+        //    for (Piece piece1 : board.getPieces()) {
+             //   piece1.Display();
+          //  }
+            //position.Display();
             // Si cette case est "au-dessus" d'une pièce déjà présente, on ne peut pas la mettre.
             // On boucle sur toutes les pièces et on regarde si l'une d'entre elles se trouvent à la place
             // de position. Dans ce cas, on return false
@@ -451,13 +460,13 @@ public class BlokusModel extends Observable{
                     studyList = new ArrayList<Piece>(player1);
                     break;
                 case 1:
-                    studyList = new ArrayList<Piece>(player1);
+                    studyList = new ArrayList<Piece>(player2);
                     break;
                 case 2:
-                    studyList = new ArrayList<Piece>(player1);
+                    studyList = new ArrayList<Piece>(player3);
                     break;
                 case 3:
-                    studyList = new ArrayList<Piece>(player1);
+                    studyList = new ArrayList<Piece>(player4);
                     break;
 
             }
@@ -534,13 +543,13 @@ public class BlokusModel extends Observable{
                 player1.remove(indexSelectedPiece);
                 break;
             case 1:
-                player1.remove(indexSelectedPiece);
+                player2.remove(indexSelectedPiece);
                 break;
             case 2:
-                player1.remove(indexSelectedPiece);
+                player3.remove(indexSelectedPiece);
                 break;
             case 3:
-                player1.remove(indexSelectedPiece);
+                player4.remove(indexSelectedPiece);
                 break;
             default:
                 System.out.println("hum ... ");

@@ -71,6 +71,5 @@ public class PieceViewTetris extends PieceView{
 
 
     public void Display() {
-        System.out.println("right display ! ");
     }
 }

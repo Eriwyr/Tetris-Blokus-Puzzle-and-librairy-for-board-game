@@ -546,7 +546,6 @@ public class GameController extends Application {
 
                                 //text.setText(Integer.toString(tetrisModel.getPoints()) + "\n Score");
                                 //extLevel.setText("Level : "+Integer.toString(tetrisModel.getLevel()));
-                                System.out.println("taille de aliste des piece existantes : "+blokusModel.getExistingPieces().size());
 
 
                                     new Thread(new Runnable() {
@@ -714,25 +713,27 @@ public class GameController extends Application {
             }
             count++;
         }
-
+        count=0;
         for (Piece piece : blokusModel.getPlayer2()) {
-            if (count == blokusModel.getIndexSelectedPiece()&&blokusModel.getRound()%4==0) {
+            if (count == blokusModel.getIndexSelectedPiece()&&blokusModel.getRound()%4==1) {
                 pieceViewsPlayer2.add(factory.getPieceViewBlokus(piece, Color.GREEN));
             } else {
                 pieceViewsPlayer2.add(factory.getPieceViewBlokus(piece));
             }
             count++;
         }
+        count=0;
         for (Piece piece : blokusModel.getPlayer3()) {
-            if (count == blokusModel.getIndexSelectedPiece()&&blokusModel.getRound()%4==0) {
+            if (count == blokusModel.getIndexSelectedPiece()&&blokusModel.getRound()%4==2) {
                 pieceViewsPlayer3.add(factory.getPieceViewBlokus(piece, Color.GREEN));
             } else {
                 pieceViewsPlayer3.add(factory.getPieceViewBlokus(piece));
             }
             count++;
         }
+        count=0;
         for (Piece piece : blokusModel.getPlayer4()) {
-            if (count == blokusModel.getIndexSelectedPiece()&&blokusModel.getRound()%4==0) {
+            if (count == blokusModel.getIndexSelectedPiece()&&blokusModel.getRound()%4==3) {
                 pieceViewsPlayer4.add(factory.getPieceViewBlokus(piece, Color.GREEN));
             } else {
                 pieceViewsPlayer4.add(factory.getPieceViewBlokus(piece));
