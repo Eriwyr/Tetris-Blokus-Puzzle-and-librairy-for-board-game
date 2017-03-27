@@ -99,17 +99,12 @@ public class BlokusModel extends Observable{
 
             List positions5 = new ArrayList<Position>();
             Position leftRCenter = new Position(0, 1, 2);
-            System.out.println("left cnter : "+leftRCenter.getX()+" "+leftRCenter.getY());
             positions5.add(new Position(0, 0, 2));
-
             positions5.add(leftRCenter);
             positions5.add(new Position(1, 1, 2));
             Piece leftR = new Piece(positions5);
             leftR.setCenter(leftRCenter);
-
-            System.out.println("left cnter : "+rightL.getCenter().getX()+" "+rightL.getCenter().getY());
             existingPieces.add(leftR);
-            System.out.println("left cnter : "+existingPieces.get(5).getCenter().getX()+" "+existingPieces.get(5).getCenter().getY());
 
 
             List positions6 = new ArrayList<Position>();
@@ -212,6 +207,7 @@ public class BlokusModel extends Observable{
 
             Piece bigRightZ = new Piece(positions13);
             bigRightZ.setCenter(bigRightZCenter);
+            existingPieces.add(bigRightZ);
 
 
             List positions14 = new ArrayList<Position>();
@@ -311,18 +307,10 @@ public class BlokusModel extends Observable{
             existingPieces.add(last);
             int c = 1;
 
-            System.out.println("Piece numbre 4");
-            System.out.println(existingPieces.get(4).getCenter().getX()+" "+existingPieces.get(4).getCenter().getY());
-            System.out.println("Piece numbre 5");
 
-            System.out.println(existingPieces.get(5).getCenter().getX()+" "+existingPieces.get(5).getCenter().getY());
-            System.out.println("Piece numbre 6");
 
-            System.out.println(existingPieces.get(6).getCenter().getX()+" "+existingPieces.get(6).getCenter().getY());
              for (Piece piece: existingPieces) {
-                System.out.println("pice number : "+c);
                 player1.add(new Piece(piece.getShape(),piece.getCenter(), 0));
-                System.out.println(piece.getShape().get(0).getIdCouleur());
                 player2.add(new Piece(piece.getShape(),piece.getCenter(), 1));
                 player3.add(new Piece(piece.getShape(),piece.getCenter(), 2));
                 player4.add(new Piece(piece.getShape(),piece.getCenter(), 3));
@@ -358,21 +346,17 @@ public class BlokusModel extends Observable{
 
 
     public Boolean isAuthorizePlacing(Piece piece, int idColorPlayer) {
-        if(round == 0) {
+        if(round <4) {
             for (Position position : piece.getShape()) {
 
-                if (position.getX() == 0 && position.getY() == 0) {
-                    return true;
-                }
-                else if (position.getX() == 0 && position.getY() == board.getGrid().getSizeY()-1) {
-                    return true;
-                }
-                else if (position.getX() == board.getGrid().getSizeX()-1 && position.getY() == 0){
-                    return true;
-                }
-                else if (position.getX() == board.getGrid().getSizeX()-1 && position.getY() == board.getGrid().getSizeY()-1){
-                    return true;
-                }
+                if (position.getX() == 0 && position.getY() == 0) return true;
+
+                else if (position.getX() == 0 && position.getY() == board.getGrid().getSizeY()-1) return true;
+
+                else if (position.getX() == board.getGrid().getSizeX()-1 && position.getY() == 0) return true;
+
+                else if (position.getX() == board.getGrid().getSizeX()-1 && position.getY() == board.getGrid().getSizeY()-1) return true;
+
             }
             return false;
         }
@@ -455,43 +439,48 @@ public class BlokusModel extends Observable{
 
     public void selectNextPiece(Direction direction) {
         pieceSelected = true;
+        List<Piece> studyList = new ArrayList<>();
+        System.out.println("rond :"+round);
+        if (round == 0 ){
+            studyList = new ArrayList<Piece>(player1);
+        } else {
 
+
+            switch (round % 4) {
+                case 0:
+                    studyList = new ArrayList<Piece>(player1);
+                    break;
+                case 1:
+                    studyList = new ArrayList<Piece>(player1);
+                    break;
+                case 2:
+                    studyList = new ArrayList<Piece>(player1);
+                    break;
+                case 3:
+                    studyList = new ArrayList<Piece>(player1);
+                    break;
+
+            }
+        }
         try{
-            System.out.println("removing current piece");
             board.removePiece(board.getPieces().get(0));
         }catch (Exception e) {
-            System.out.println("il n'y en avait pas ");
         }
-        System.out.println("index avant if = "+indexSelectedPiece);
-        if (direction == Direction.Right && indexSelectedPiece < player1.size()-1) {
-            System.out.println("Nouevlle referene à current dans selct next piece if ");
-           /* try{
-                board.getPieces().set(0, player1.get(indexSelectedPiece+1));
-            }catch (Exception e) {
-                board.getPieces().add(0, player1.get(indexSelectedPiece+1));
-            }*/
-            board.addPieceOnBoardInOrder(new Piece(player1.get(indexSelectedPiece+1)), 0);
 
+        if (direction == Direction.Right && indexSelectedPiece < studyList.size()-1) {
+            board.addPieceOnBoardInOrder(new Piece(studyList.get(indexSelectedPiece+1)), 0);
             indexSelectedPiece++;
 
 
         } else if (direction == Direction.Left && indexSelectedPiece>0) {
-            System.out.println("Nouevlle referene à current dans selct next piece else ");
 
-            /*try{
-                board.getPieces().set(0, player1.get(indexSelectedPiece-1));
-            }catch (Exception e) {
-                board.getPieces().add(0, player1.get(indexSelectedPiece-1));
-            }*/
-            board.addPieceOnBoardInOrder(new Piece(player1.get(indexSelectedPiece-1)), 0);
-                indexSelectedPiece--;
+            board.addPieceOnBoardInOrder(new Piece(studyList.get(indexSelectedPiece-1)), 0);
+            indexSelectedPiece--;
 
 
         }
          setChanged();
         notifyObservers();
-
-      /*  board.addPieceOnBoard(board.getPieces().get(0));*/
 
     }
 

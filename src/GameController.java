@@ -61,7 +61,11 @@ public class GameController extends Application {
     private TetrisModel tetrisModel;
     private BlokusModel blokusModel;
     private List<PieceView> pieceViews;
-    private List<PieceView> pieceViewsPlayers;
+    private List<PieceView> pieceViewsPlayer1;
+    private List<PieceView> pieceViewsPlayer2;
+    private List<PieceView> pieceViewsPlayer3;
+    private List<PieceView> pieceViewsPlayer4;
+
 
     private Boolean endgame;
     /*private String game;*/
@@ -186,8 +190,8 @@ public class GameController extends Application {
         }
 
         // Initialing grid
-        for (int a = 0; a <50 ; a++) {
-            for (int b = 0; b < 50; b++) {
+        for (int a = 0; a <60 ; a++) {
+            for (int b = 0; b < 41; b++) {
                 Rectangle rectangle = new Rectangle(10, 10);
                 rectangle.setId("gridTetris");
                 rectangle.applyCss();
@@ -330,7 +334,6 @@ public class GameController extends Application {
             offset += 6;
         }*/
 
-        System.out.println("before refresh, combien de piece view "+pieceViewsPlayers.size());
         refreshPlayers();
         VBox vBoxLeft = new VBox(50);
         vBoxLeft.getChildren().addAll(gPanePlayer1, gPanePlayer2);
@@ -485,7 +488,11 @@ public class GameController extends Application {
 
             case "Blokus" :
 
-                pieceViewsPlayers = new ArrayList<PieceView>();
+                pieceViewsPlayer1 = new ArrayList<PieceView>();
+                pieceViewsPlayer2 = new ArrayList<PieceView>();
+                pieceViewsPlayer3 = new ArrayList<PieceView>();
+                pieceViewsPlayer4 = new ArrayList<PieceView>();
+
                 blokusModel = new BlokusModel();
                 Scene scene_blokus = settingSceneBlokus();
                 primaryStage.setScene(scene_blokus);
@@ -687,16 +694,48 @@ public class GameController extends Application {
     }
 
     public synchronized void refreshPlayers() {
+        int space = 2;
+
+        int padding_left = 1;
         initializeGridPlayers(gPanePlayer1);
 
-         pieceViewsPlayers.clear();
+        pieceViewsPlayer1.clear();
+        pieceViewsPlayer2.clear();
+        pieceViewsPlayer3.clear();
+        pieceViewsPlayer4.clear();
+
 
         int count = 0;
         for (Piece piece : blokusModel.getPlayer1()) {
-            if (count == blokusModel.getIndexSelectedPiece()) {
-                pieceViewsPlayers.add(factory.getPieceViewBlokus(piece, Color.GREEN));
+            if (count == blokusModel.getIndexSelectedPiece() && blokusModel.getRound()%4==0) {
+                pieceViewsPlayer1.add(factory.getPieceViewBlokus(piece, Color.GREEN));
             } else {
-                pieceViewsPlayers.add(factory.getPieceViewBlokus(piece));
+                pieceViewsPlayer1.add(factory.getPieceViewBlokus(piece));
+            }
+            count++;
+        }
+
+        for (Piece piece : blokusModel.getPlayer2()) {
+            if (count == blokusModel.getIndexSelectedPiece()&&blokusModel.getRound()%4==0) {
+                pieceViewsPlayer2.add(factory.getPieceViewBlokus(piece, Color.GREEN));
+            } else {
+                pieceViewsPlayer2.add(factory.getPieceViewBlokus(piece));
+            }
+            count++;
+        }
+        for (Piece piece : blokusModel.getPlayer3()) {
+            if (count == blokusModel.getIndexSelectedPiece()&&blokusModel.getRound()%4==0) {
+                pieceViewsPlayer3.add(factory.getPieceViewBlokus(piece, Color.GREEN));
+            } else {
+                pieceViewsPlayer3.add(factory.getPieceViewBlokus(piece));
+            }
+            count++;
+        }
+        for (Piece piece : blokusModel.getPlayer4()) {
+            if (count == blokusModel.getIndexSelectedPiece()&&blokusModel.getRound()%4==0) {
+                pieceViewsPlayer4.add(factory.getPieceViewBlokus(piece, Color.GREEN));
+            } else {
+                pieceViewsPlayer4.add(factory.getPieceViewBlokus(piece));
             }
             count++;
         }
@@ -708,23 +747,43 @@ public class GameController extends Application {
 
         //only one player for now
         int offset1 = 0;
-        System.out.println("size : "+pieceViewsPlayers.size());
-        for (PieceView pieceView : pieceViewsPlayers) {
+        for (PieceView pieceView : pieceViewsPlayer1) {
             for (Rectangle rectangle : pieceView.getShapeView()) {
                 // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
-                gPanePlayer1.add(rectangle, (int) rectangle.getX()+(offset1%10)*4, (int) rectangle.getY()+(offset1/10)*5);
+                gPanePlayer1.add(rectangle, (int) rectangle.getX()+(offset1%10)*4+padding_left, (int) rectangle.getY()+((offset1/10)*5)+space);
+            }
+            offset1 +=1;
+        }
+        offset1 =0;
+        space+=15;
+        for (PieceView pieceView : pieceViewsPlayer2) {
+            for (Rectangle rectangle : pieceView.getShapeView()) {
+                // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
+                gPanePlayer1.add(rectangle, (int) rectangle.getX()+(offset1%10)*4+padding_left, (int) rectangle.getY()+((offset1/10)*5)+space);
+            }
+            offset1 +=1;
+        }
+        offset1 = 0;
+        space +=15;
+        for (PieceView pieceView : pieceViewsPlayer3) {
+            for (Rectangle rectangle : pieceView.getShapeView()) {
+                // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
+                gPanePlayer1.add(rectangle, (int) rectangle.getX()+(offset1%10)*4+padding_left, (int) rectangle.getY()+((offset1/10)*5)+space);
+            }
+            offset1 +=1;
+        }
+        space +=15;
+        offset1 = 0;
+        for (PieceView pieceView : pieceViewsPlayer4) {
+            for (Rectangle rectangle : pieceView.getShapeView()) {
+                // System.out.println((int) rectangle.getX()+" "+ (int) rectangle.getY());
+                gPanePlayer1.add(rectangle, (int) rectangle.getX()+(offset1%10)*4+padding_left, (int) rectangle.getY()+((offset1/10)*5)+space);
             }
             offset1 +=1;
         }
     }
 
-    public void placePiece(Piece piece) {
-        /*
-        PieceView pieceView = new PieceViewBlokus(piece);
-        for (Rectangle rectangle : pieceView.getShapeView()) {
-            gPaneGridBlokus.add(rectangle, (int)rectangle.getX()+3, (int)rectangle.getY()+3);
-        }*/
-     }
+
 }
 
 

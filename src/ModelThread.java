@@ -59,7 +59,6 @@ public class ModelThread extends Observable implements Runnable {
                     System.out.println("dans thread");
                    // if (blokusModel.lookForWinner() != -1) {
                         if (blokusModel.isAuthorizePlacing(blokusModel.getPieces().get(0), blokusModel.getPieces().get(0).getCenter().getIdCouleur())){
-                            System.out.println("authorisé ");
                             blokusModel.removeOption();
 
 
