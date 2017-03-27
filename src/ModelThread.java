@@ -41,7 +41,7 @@ public class ModelThread extends Observable implements Runnable {
                 case "Tetris" :
 
                     if (!tetrisModel.isGameOver()) {
-
+                        
 
                         /* Uncomment the following to display grid every turn*/
                        // tetrisModel.getBoard().getGrid().Display();
