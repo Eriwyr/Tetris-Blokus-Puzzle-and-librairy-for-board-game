@@ -351,48 +351,37 @@ public class BlokusModel extends Observable{
     public Boolean isAuthorizePlacing(Piece piece, int idColorPlayer) {
         System.out.println("observing this picec ");
         piece.Display();
-        if(round <4) {
+
             for (Position position : piece.getShape()) {
                // for(Piece pieceBoard : board.getPieces()) {
                 for( int k = 1 ; k <board.getPieces().size(); k++) {
                     Piece pieceBoard = board.getPieces().get(k);
                     for (Position positionBoard : pieceBoard.getShape()) {
                         if(positionBoard.getX() == position.getX() && positionBoard.getY() == position.getY()) {
+                            System.out.println("position problem : ");
+                            position.Display();
                             return false;
                         }
                     }
                 }
-
-                if (position.getX() == 0 && position.getY() == 0) return true;
-
-                else if (position.getX() == 0 && position.getY() == board.getGrid().getSizeY()-1) return true;
-
-                else if (position.getX() == board.getGrid().getSizeX()-1 && position.getY() == 0) return true;
-
-                else if (position.getX() == board.getGrid().getSizeX()-1 && position.getY() == board.getGrid().getSizeY()-1) return true;
-
             }
-            return false;
-        }
+            if(round <4) {
+                System.out.println("bon round");
+                for(Position position : piece.getShape()) {
+                    if (position.getX() == 0 && position.getY() == 0) return true;
+
+                    else if (position.getX() == 0 && position.getY() == board.getGrid().getSizeY()-1) return true;
+
+                    else if (position.getX() == board.getGrid().getSizeX()-1 && position.getY() == 0) return true;
+
+                    else if (position.getX() == board.getGrid().getSizeX()-1 && position.getY() == board.getGrid().getSizeY()-1) return true;
+
+                }
+                return false;
+            }
         int nbPiecesDiagonales = 0;
         for(Position position : piece.getShape()) {
-        //    for (Piece piece1 : board.getPieces()) {
-             //   piece1.Display();
-          //  }
-            //position.Display();
-            // Si cette case est "au-dessus" d'une pièce déjà présente, on ne peut pas la mettre.
-            // On boucle sur toutes les pièces et on regarde si l'une d'entre elles se trouvent à la place
-            // de position. Dans ce cas, on return false
-
-            for (int interationPiecesOnBoard = 1; interationPiecesOnBoard < board.getPieces().size(); interationPiecesOnBoard++) {
-                //for (Piece p : board.getPieces()) {
-                Piece p = board.getPieces().get(interationPiecesOnBoard);
-                for (Position pPosition : p.getShape()) {
-                    if (pPosition.getX() == position.getX() && pPosition.getY() == position.getY()) {
-                        return false;
-                    }
-                }
-            }
+            position.Display();
             // On regarde aux 4 coins + 4 diagonales de la cellule actuelle
             for (int i = -1; i < 2; i++) {
                 for (int y = -1; y < 2; y++) {
@@ -401,7 +390,7 @@ public class BlokusModel extends Observable{
                     // la position à vérifier doit être tq 0 < pos < tailleGrille - pour des raisons évidentes de sécurité
                     // aussi: on ne veut pas check le cas où i = y = 0, car cela reviendrait à regarder la case actuelle,
                     // vu que position.getX() + 0 = position.getX() et position.getY() + 0 = position.getY()
-                    if (posToCheckX > 0 && posToCheckY > 0
+                    if (posToCheckX >= 0 && posToCheckY >= 0
                             && posToCheckX < board.getGrid().getSizeX() && posToCheckY < board.getGrid().getSizeY()
                             && (i != 0 || y != 0)) {
                         // Si on est dans les diagolanes => si abs(i) = 1 et abs(y) = 1
@@ -414,6 +403,7 @@ public class BlokusModel extends Observable{
 
                                 for (Position pBoardPostion : pBoard.getShape()) {
                                     if (pBoardPostion.getX() == posToCheckX && pBoardPostion.getY() == posToCheckY) {
+                                        pBoardPostion.Display();
                                         // il y a une pièce dans cette diagonale. Est-ce que c'est une des notres ?
                                         if (pBoardPostion.getIdCouleur() == idColorPlayer) {
                                             nbPiecesDiagonales++;
@@ -428,6 +418,7 @@ public class BlokusModel extends Observable{
 
                                 for (Position pBoardPostion : pBoard.getShape()) {
                                     if (pBoardPostion.getX() == posToCheckX && pBoardPostion.getY() == posToCheckY) {
+                                        pBoardPostion.Display();
                                         // Il y en a une.
                                         if (pBoardPostion.getIdCouleur() == idColorPlayer) {
                                             return false;
@@ -483,15 +474,17 @@ public class BlokusModel extends Observable{
 
         if (direction == Direction.Right && indexSelectedPiece < studyList.size()-1) {
             try{
+
                 board.removePiece(board.getPieces().get(0));
             }catch (Exception e) {
             }
-
-            board.addPieceOnBoardInOrder(new Piece(studyList.get(indexSelectedPiece+1)), 0);
-            indexSelectedPiece++;
-            for (Piece piece : board.getPieces()) {
-                piece.Display();
+            Piece newPiece = new Piece(studyList.get(indexSelectedPiece+1));
+            for (Position position : newPiece.getShape()) {
+                position.setX(position.getX()+20);
+                position.setY(position.getY()+25);
             }
+            board.addPieceOnBoardInOrder(newPiece, 0);
+            indexSelectedPiece++;
 
 
         } else if (direction == Direction.Left && indexSelectedPiece>0) {
@@ -499,12 +492,14 @@ public class BlokusModel extends Observable{
                 board.removePiece(board.getPieces().get(0));
             }catch (Exception e) {
             }
+            Piece newPiece = new Piece(studyList.get(indexSelectedPiece-1));
+            for (Position position : newPiece.getShape()) {
+                position.setX(position.getX()+20);
+                position.setY(position.getY()+25);
+            }
 
-
-            board.addPieceOnBoardInOrder(new Piece(studyList.get(indexSelectedPiece-1)), 0);
+            board.addPieceOnBoardInOrder(newPiece, 0);
             indexSelectedPiece--;
-            System.out.println("left");
-            System.out.println("OUVELLE liste des pièces sur le plateau ");
             for (Piece piece : board.getPieces()) {
                 piece.Display();
             }
