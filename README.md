@@ -3,11 +3,12 @@
 Controls :
 
 Tetris 
-  - Left - right arrows to move piece left to right 
-  - up to rotate 
-  - down to seep up the fall
+  - Left / right arrows to move the piece left or right 
+  - Up to rotate 
+  - Down to seep up the fall
   
-Blockus 
+Blokus 
   - d / s to choose a piece 
   - r to rotate
-  - enter to place a piece 
+  - Directional arrows to move the piece around on the board 
+  - Enter to place a piece 
